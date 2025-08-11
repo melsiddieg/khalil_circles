@@ -29,8 +29,8 @@ export const TAFILA_MAP: Record<string, Tafila> = {
   '0/': { unmerged: 'لن', merged: 'لن' },
   
   // Circle 5 (Consonant) tafila patterns
-  'c5:0/,0//': { unmerged: 'فَعُو لُن', merged: 'فَعُولُن' },
-  'c5:0//,0/': { unmerged: 'فَا عِلُن', merged: 'فَاعِلُن' },
+  'c5:0/,0//': { unmerged: 'فَا عِلُن', merged: 'فَاعِلُن' },
+  'c5:0//,0/': { unmerged: 'فَعُو لُن', merged: 'فَعُولُن' },
 };
 
 // Enhanced utility function to parse meters from their respective circles

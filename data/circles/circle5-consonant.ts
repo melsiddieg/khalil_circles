@@ -3,8 +3,8 @@ import { Circle, Meter, PoetryExample } from '../../types';
 // Circle 5: دائرة المتقارب (al-Da'ira al-Mutaqarib) - Consonant Circle
 // This circle contains meters with consonant-heavy, rapid rhythmic patterns
 
-// Circle 5 atomic sequence - pattern for فعولن repetition (0/ 0//)
-export const CIRCLE5_ATOMIC_SEQUENCE = ['0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//'];
+// Circle 5 atomic sequence - pattern for فعولن repetition (0// 0/ for RTL)
+export const CIRCLE5_ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/'];
 
 // Historical poetry examples for Circle 5 meters
 const MUTAQARIB_EXAMPLES: PoetryExample[] = [
