@@ -1,11 +1,10 @@
 import { Circle, Meter, PoetryExample } from '../../types';
 
-// Circle 5: دائرة المتقارب (al-Da'ira al-Mutaqarib) - Consonant Circle  
+// Circle 5: دائرة المتقارب (al-Da'ira al-Mutaqarib) - Consonant Circle
 // This circle contains meters with consonant-heavy, rapid rhythmic patterns
 
-// Circle 5 atomic sequence - should total 20 letters when expanded
-// Pattern: /0(2) /0(2) /0(2) /0(2) //0(3) //0(3) /0(2) /0(2) /0(2) = 20 letters
-export const CIRCLE5_ATOMIC_SEQUENCE = ['0/', '0/', '0/', '0/', '0//', '0//', '0/', '0/', '0/'];
+// Circle 5 atomic sequence - pattern for فعولن repetition (0/ 0//)
+export const CIRCLE5_ATOMIC_SEQUENCE = ['0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//'];
 
 // Historical poetry examples for Circle 5 meters
 const MUTAQARIB_EXAMPLES: PoetryExample[] = [
@@ -32,15 +31,6 @@ const MUTADARIK_EXAMPLES: PoetryExample[] = [
   }
 ];
 
-const SARI_EXAMPLES: PoetryExample[] = [
-  {
-    text: 'بَكَيتُ عَلى الشَبابِ بِدَمعَةٍ * فَلَم تُغنِ البُكا شَيئاً وَلَم تُرِد',
-    poet: 'أبو العتاهية',
-    translation: 'I wept for youth with a tear, but weeping availed nothing and brought nothing back',
-    era: 'Abbasid'
-  }
-];
-
 const CIRCLE5_METERS: Meter[] = [
   {
     id: 'al-mutaqarib',
@@ -59,34 +49,22 @@ const CIRCLE5_METERS: Meter[] = [
     name: 'البحر المتدارك',
     nameTransliteration: 'al-Bahr al-Mutadārik',
     circleId: 'circle5-consonant',
-    startOffset: 2,
+    startOffset: 1,
     parsingInstructions: [2, 2, 2, 2], // [فاعلن, فاعلن, فاعلن, فاعلن]
     patternTransliteration: 'fāʿilun fāʿilun fāʿilun fāʿilun',
     description: 'The "Compensating" meter, filling gaps left by other meters with its unique cadence.',
     historicalUsage: 'Relatively late addition to classical prosody, popular in folk songs and modern verse.',
     famousExamples: MUTADARIK_EXAMPLES
-  },
-  {
-    id: 'al-sari',
-    name: 'البحر السريع',
-    nameTransliteration: 'al-Bahr al-Sarīʿ',
-    circleId: 'circle5-consonant',
-    startOffset: 4,
-    parsingInstructions: [3, 2, 3, 2], // [مستفعلن, مستفعلن, مفعولات, مفعولات]
-    patternTransliteration: 'mustafʿilun mustafʿilun mafʿūlātu mafʿūlātu',
-    description: 'The "Swift" meter, moving with quick, decisive beats perfect for energetic themes.',
-    historicalUsage: 'Used for narrative poetry requiring speed and momentum, especially in historical accounts.',
-    famousExamples: SARI_EXAMPLES
-  },
+  }
 ];
 
 export const CIRCLE5_CONSONANT: Circle = {
   id: 'circle5-consonant',
-  name: 'دائرة المتقارب',
-  nameTransliteration: 'al-Da\'ira al-Mutadarika',
+  name: 'دائرة المتفق',
+  nameTransliteration: "al-Da'ira al-Muttafiq",
   description: 'The Consonant Circle - containing meters with rapid, consonant-heavy rhythmic patterns',
   atomicSequence: CIRCLE5_ATOMIC_SEQUENCE,
-  baseSequenceLength: 9,
+  baseSequenceLength: 10,
   meters: CIRCLE5_METERS,
   visualTheme: {
     primaryColor: '#EF4444', // Red
