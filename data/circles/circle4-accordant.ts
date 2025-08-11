@@ -5,7 +5,7 @@ import { Circle, Meter, PoetryExample } from '../../types';
 
 // Circle 4 atomic sequence - rotating pattern based on the circular diagram
 // The sequence represents the full rotation with stepping points for each meter
-export const CIRCLE4_ATOMIC_SEQUENCE = ['0//', '0/', '0/', '0//', '0/', '0/', '/0/', '0/', '0/'];
+export const CIRCLE4_ATOMIC_SEQUENCE = ['0/', '0//', '0//', '0/', '0/', '0//', '0/', '0//', '0/', '0/', '0//', '0/'];
 
 // Historical poetry examples for Circle 4 meters
 const MUNSARIH_EXAMPLES: PoetryExample[] = [
@@ -82,7 +82,7 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المنسرح',
     nameTransliteration: 'al-Bahr al-Munsarih',
     circleId: 'circle4-accordant',
-    startOffset: 0,
+    startOffset: 2,
     parsingInstructions: [3, 3, 3], // [مستفعلن, مفعولات, مستفعلن]
     patternTransliteration: 'mustafʿilun mafʿūlātu mustafʿilun',
     description: 'The "Flowing" meter, with an easy, unimpeded rhythm perfect for philosophical reflection.',
