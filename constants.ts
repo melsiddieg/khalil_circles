@@ -23,10 +23,12 @@ export const TAFILA_MAP: Record<string, Tafila> = {
   
   // Circle 4 (Accordant) tafila patterns  
   'c4:0/,0//,0//': { unmerged: 'مف عو لات', merged: 'مفعولات' },
-  'c4:0//,0/,0/': { unmerged: 'مف تع لن', merged: 'مفتعلن' },
+  'c4:0//,0/,0/': { unmerged: 'مس تف عل ن', merged: 'مستفعلن' },
+  'c4:0//,0/,0//': { unmerged: 'مس تف عل ن', merged: 'مستفعلن' },
+  'c4:0/,0/,0//': { unmerged: 'مف عو لات', merged: 'مفعولات' },
+  'c4:/0/,0/,0/': { unmerged: 'مف عو لات', merged: 'مفعولات' },
   'c4:0/,0//,0/': { unmerged: 'مفا عي ل', merged: 'مفاعيل' },
   'c4:0//,0/': { unmerged: 'مس تف ع', merged: 'مستفع' },
-  'c4:0//,0//,0/': { unmerged: 'مس تف عل ن', merged: 'مستفعلن' },
   '0/': { unmerged: 'لن', merged: 'لن' },
   
   // Circle 5 (Consonant) tafila patterns

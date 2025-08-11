@@ -93,8 +93,8 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
         className="absolute top-0 h-full transition-transform duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
         style={{
           width: `${repeatedSequence.length * unitWidth}px`,
-          transform: `translateX(${currentOffset * unitWidth}px)`,
-          right: `-${sequenceLength * unitWidth}px`,
+          transform: `translateX(-${currentOffset * unitWidth}px)`,
+          left: `-${sequenceLength * unitWidth}px`,
         }}
       >
         {repeatedSequence.map((unit, index) => (
@@ -102,7 +102,7 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
             key={index}
             className="absolute top-0 h-full flex items-center justify-center"
             style={{
-              right: `${index * unitWidth}px`,
+              left: `${index * unitWidth}px`,
               width: `${unitWidth}px`,
             }}
           >
@@ -129,7 +129,9 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
             return activePattern.map((tafila, tafilaIndex) => {
               const groupSize = activeMeter.parsingInstructions[tafilaIndex];
               const width = groupSize * unitWidth;
-              const rightPosition = cursorInPatternUnits * unitWidth;
+              
+              // Position boxes to align with the atomic sequence (left to right)
+              const leftPosition = cursorInPatternUnits * unitWidth;
               
               cursorInPatternUnits += groupSize;
 
@@ -142,7 +144,7 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
                       : ''
                   }`}
                   style={{
-                    right: `${rightPosition}px`,
+                    left: `${leftPosition}px`,
                     width: `${width}px`,
                     animationDelay: isReforming ? `${tafilaIndex * 150}ms` : '0ms',
                   }}
