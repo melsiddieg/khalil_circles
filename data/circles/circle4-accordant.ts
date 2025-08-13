@@ -135,9 +135,9 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المجتث',
     nameTransliteration: 'al-Bahr al-Mujtath',
     circleId: 'circle4-accordant',
-    startOffset: 10,
-    parsingInstructions: [3, 3, 3], // [مستفعلن, فاعلاتن, مستفعلن]
-    patternTransliteration: 'mustafʿilun fāʿilātun mustafʿilun',
+    startOffset: 7,
+    parsingInstructions: [3, 3, 3], // [مستفعلن, فاعلاتن, فاعلاتن]
+    patternTransliteration: 'mustafʿilun fāʿilātun fāʿilātun',
     description: 'The "Uprooted" meter, creating a sense of urgency and emotional intensity.',
     historicalUsage: 'Often used for prayers, religious verse, and emotionally charged poetry.',
     famousExamples: MUJTATH_EXAMPLES
