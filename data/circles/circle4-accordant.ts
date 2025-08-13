@@ -122,9 +122,9 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المقتضب',
     nameTransliteration: 'al-Bahr al-Muqtadab',
     circleId: 'circle4-accordant',
-    startOffset: 8,
-    parsingInstructions: [3, 3, 3], // [مفاعيلن, فاعلاتن, مفتعلن]
-    patternTransliteration: 'mafāʿīlun fāʿilātun muftaʿilun',
+    startOffset: 6,
+    parsingInstructions: [3, 3, 3], // [مفعولات, مستفعلن, مستفعلن]
+    patternTransliteration: 'mafʿūlātu mustafʿilun mustafʿilun',
     description: 'The "Abbreviated" meter, concise and powerful, often used in its shortened forms.',
     historicalUsage: 'Used for epigrams and brief, impactful verses requiring conciseness.',
     famousExamples: MUQTADAB_EXAMPLES
