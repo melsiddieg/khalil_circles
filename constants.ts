@@ -21,13 +21,11 @@ export const TAFILA_MAP: Record<string, Tafila> = {
   'c3:0//,0/,0/': { unmerged: 'مَـفا عِـي لُـن', merged: 'مفاعيلن' },
   'c3:0/,0//,0/': { unmerged: 'فا عِلا تُن', merged: 'فاعلاتن' },
   
-  // Circle 4 (Accordant) tafila patterns  
-  'c4:0/,0//,0//': { unmerged: 'مف عو لات', merged: 'مفعولات' },
-  'c4:0//,0/,0/': { unmerged: 'مف تع لن', merged: 'مفتعلن' },
-  'c4:0/,0//,0/': { unmerged: 'مفا عي ل', merged: 'مفاعيل' },
-  'c4:0//,0/': { unmerged: 'مس تف ع', merged: 'مستفع' },
-  'c4:0//,0//,0/': { unmerged: 'مس تف عل ن', merged: 'مستفعلن' },
-  '0/': { unmerged: 'لن', merged: 'لن' },
+  // Circle 4 (Accordant) / Circle 6 (Mushtabih) - CORRECTED
+  'c6:0/,0/,0//': { unmerged: 'مس تف علن', merged: 'مستفعلن' },
+  'c6:0/,0/,/0/': { unmerged: 'مف عو لات', merged: 'مفعولات' }, // watid mafroug at end
+  'c6:0//,0/,0/': { unmerged: 'فا علا تن', merged: 'فاعلاتن' },
+  'c6:/0/,0/,0/': { unmerged: 'مفا عي لن', merged: 'مفاعيلن' }, // For al-Mudari' - starts with watid mafroug
   
   // Circle 5 (Consonant) tafila patterns
   'c5:0/,0//': { unmerged: 'فَا عِلُن', merged: 'فَاعِلُن' },
@@ -75,7 +73,8 @@ export const parseMeterPattern = (meter: Meter, circle?: Circle): Tafila[] => {
   const circlePrefix = meter.circleId === 'circle1-mixed' ? '' : 
                       meter.circleId === 'circle2-pure' ? 'c2:' :
                       meter.circleId === 'circle3-contracted' ? 'c3:' :
-                      meter.circleId === 'circle4-accordant' ? 'c4:' :
+                      meter.circleId === 'circle4-accordant' ? 'c6:' : // Remap c4 to c6
+                      meter.circleId === 'circle6-mushtabih' ? 'c6:' : // Add c6
                       meter.circleId === 'circle5-consonant' ? 'c5:' : '';
 
   for (const groupSize of meter.parsingInstructions) {

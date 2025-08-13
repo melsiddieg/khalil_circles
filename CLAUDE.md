@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-The Interactive Arud Explorer is a React-based web application that visualizes Arabic poetry meters (Arud) based on Al-Khalil ibn Ahmad al-Farahidi's classical system. The app displays an interactive circular representation where users can rotate through different poetic meters to explore their patterns and structures.
+The Interactive Arud Explorer is a React-based web application that visualizes Arabic poetry meters (Arud) based on Al-Khalil ibn Ahmad al-Farahidi's classical system. The app displays an interactive multi-circle exploration interface where users can navigate between Al-Khalil's five prosodic circles, each containing different poetic meters with their unique patterns and structures. The app features a hub-based navigation system that allows switching between circles and exploring individual meters within each circle.
 
 ## Development Commands
 
@@ -34,35 +34,67 @@ The Interactive Arud Explorer is a React-based web application that visualizes A
 ## Architecture & Core Concepts
 
 ### Arud Theory Implementation
-The application is built around Al-Khalil's circular theory of Arabic prosody:
+The application is built around Al-Khalil's complete circular theory of Arabic prosody with five distinct circles:
 
-- **ATOMIC_SEQUENCE**: A repeating 10-unit pattern `['//0', '/0', '//0', '/0', '/0', '//0', '/0', '//0', '/0', '/0']` representing the fundamental syllabic units
-  - `'//0'`: watid majmū' (long-short-long)
-  - `'/0'`: sabab khafif (short-long)
+- **Five Prosodic Circles**: Each circle has its own atomic sequence and contains specific meters
+  - Circle 1 (Mixed): `['0//', '0/', '0//', '0/', '0/', '0//', '0/', '0//', '0/', '0/']`
+  - Circle 2 (Pure): Different atomic patterns for pure meters
+  - Circle 3 (Contracted): Specialized patterns for contracted meters
+  - Circle 4 (Accordant): Accordant meter patterns
+  - Circle 5 (Consonant): Consonant meter patterns
+- **Atomic Units**: Fundamental syllabic units with various patterns
+  - `'0//'`: watid majmū' (long-short-long)
+  - `'0/'`: sabab khafif (short-long)
+  - Additional specialized patterns per circle
 - **Poetic Feet (Tafila)**: Groups of atomic units that form complete metrical patterns
-- **Meters**: Different starting positions and parsing instructions that create distinct poetic meters
+- **Meters**: Different starting positions and parsing instructions that create distinct poetic meters within each circle
 
 ### Data Model Requirements
-- **Meter Objects**: Each must contain:
-  - `name`: Arabic name (e.g., 'البحر الطويل')
+- **Circle Objects**: Each must contain:
+  - `id`: Unique identifier (e.g., 'circle1-mixed')
+  - `name`: Arabic name (e.g., 'الدائرة المختلطة')
+  - `nameTransliteration`: English transliteration
   - `description`: Brief English description
-  - `startOffset`: Starting index on ATOMIC_SEQUENCE
+  - `atomicSequence`: Circle-specific atomic pattern array
+  - `baseSequenceLength`: Length of the atomic sequence
+  - `meters`: Array of meters belonging to this circle
+  - `visualTheme`: Color scheme and styling for the circle
+  - `order`: Display order (1-5)
+- **Meter Objects**: Each must contain:
+  - `id`: Unique identifier
+  - `name`: Arabic name (e.g., 'البحر الطويل')
+  - `nameTransliteration`: English transliteration
+  - `description`: Brief English description
+  - `circleId`: Reference to parent circle
+  - `startOffset`: Starting index on circle's atomic sequence
   - `parsingInstructions`: Array dictating atomic unit grouping (e.g., [2, 3, 2, 3])
   - `patternTransliteration`: English transliteration of full pattern
+  - `historicalUsage`: Classical usage patterns
+  - `famousExamples`: Array of historical poetry examples
 - **Accuracy**: All meters must be in complete, theoretical forms (not shortened majzū' versions)
 
 ### Key Data Structures
+- `Circle`: Represents one of Al-Khalil's five prosodic circles with complete metadata
+- `Meter`: Defines a complete meter with ID, name, circle reference, and historical examples
 - `Tafila`: Represents a single poetic foot with both unmerged and merged forms
-- `Meter`: Defines a complete meter with ID, name, description, start offset, parsing instructions, and transliteration
-- `TAFILA_MAP`: Maps atomic unit sequences to their Arabic names (e.g., '//0,/0' → 'فعولن')
+- `TafilaVariant`: Supports prosodic variations (Zihaf) with base form and variations
+- `PoetryExample`: Historical poetry examples with poet attribution and era
+- `CircleTheme`: Visual styling configuration for each circle
+- `AppState`: Navigation state for hub/circle view management
+- `TAFILA_MAP`: Maps atomic unit sequences to their Arabic names with circle-specific prefixes
 
 ### Component Architecture
-- **App.tsx**: Main component managing meter navigation state
+- **App.tsx**: Main component managing navigation between hub and circle views
+- **CircleHub.tsx**: Hub view displaying all five circles for selection
+- **CircleView.tsx**: Individual circle view with meter navigation
 - **ArudCircle.tsx**: The critical "roulette" component - implements smooth sliding animation
 - **MeterDisplay.tsx**: Shows meter details with fade-in animations
 - **Controls.tsx**: RTL-compliant navigation controls
-- **constants.ts**: Contains the atomic sequence, tafila mappings, and meter definitions
-- **types.ts**: TypeScript interfaces for core data structures
+- **InfoCard.tsx**: Displays application information and instructions
+- **Icons.tsx**: SVG icon components for UI elements
+- **constants.ts**: Contains atomic sequences, tafila mappings, and circle/meter data
+- **types.ts**: TypeScript interfaces for all data structures
+- **data/circles/**: Individual circle definition files and utilities
 
 ### Interactive Banner ("Roulette") Specifications
 **Critical Animation Requirements:**
@@ -78,7 +110,12 @@ The application is built around Al-Khalil's circular theory of Arabic prosody:
 - **Animation**: Tafila text fades in with delay after atomic group slides into place
 
 ### Parsing Algorithm
-The `parseMeterPattern()` function in constants.ts:71 is central to the app. It takes a meter's start offset and parsing instructions to extract the correct atomic units from the circular sequence and map them to their corresponding tafila.
+The `parseMeterPattern()` function in constants.ts:36 is central to the app. It takes a meter's start offset and parsing instructions to extract the correct atomic units from the circle's atomic sequence and map them to their corresponding tafila. The function supports:
+- Circle-specific atomic sequences and tafila mappings
+- Circle-prefixed keys for unique tafila identification (e.g., 'c2:', 'c3:', 'c5:', 'c6:')
+- Special handling for Circle 3 (contracted) with uniform tafila repetition
+- Fallback mechanisms for unmapped patterns
+- Legacy compatibility for backward compatibility
 
 ### Styling Approach
 - Uses Tailwind CSS for styling
@@ -91,25 +128,43 @@ The `parseMeterPattern()` function in constants.ts:71 is central to the app. It 
 
 ## Key Files for Modifications
 
+**Adding New Circles:**
+- Create new circle file in `data/circles/` following existing pattern
+- Update `data/circles/index.ts` to include the new circle
+- Add circle-specific atomic sequence and visual theme
+- Include complete meter definitions with historical examples
+
 **Adding New Meters:**
-- Modify `constants.ts:37` - Add new meter objects to `METERS` array
+- Modify the appropriate circle file in `data/circles/`
+- Add new meter objects to the circle's `meters` array
 - Ensure proper `startOffset` and `parsingInstructions` values
 - Include complete theoretical forms, not shortened versions
+- Add historical usage and poetry examples
 
 **Adding New Tafila:**
-- Update `TAFILA_MAP` in `constants.ts:9` with new atomic unit combinations
+- Update `TAFILA_MAP` in `constants.ts:8` with new atomic unit combinations
+- Use circle-specific prefixes (e.g., 'c2:', 'c3:') for unique patterns
+- Include both unmerged and merged forms
 
 **UI Changes:**
+- `CircleHub.tsx` for the main hub navigation interface
+- `CircleView.tsx` for individual circle displays
 - `ArudCircle.tsx` for the main "roulette" visualization (critical component)
 - `MeterDisplay.tsx` for meter information display with animations
 - `Controls.tsx` for RTL-compliant navigation
+- `InfoCard.tsx` for application information display
 - Tailwind classes are used throughout for responsive design
 
 ## Technical Notes
 
 - Built with Vite + React 19 + TypeScript
 - No external state management (uses React's built-in useState)
+- Hub-based navigation system for switching between circles
+- Circle-specific data organization in `data/circles/` directory
 - Uses SVG for the curved brace graphics (upward-pointing between layers)
 - Supports both Arabic and English text with proper RTL handling
-- The `unitWidth` constant (90px) in ArudCircle.tsx:12 controls the visual spacing of atomic units
+- Circle-specific visual themes and color schemes
+- The `unitWidth` constant (90px) in ArudCircle.tsx controls the visual spacing of atomic units
 - Animation timing and easing critical for smooth "roulette" effect
+- Legacy compatibility maintained for single-circle usage
+- Utility functions for circle/meter management: `getCircleById()`, `getMeterById()`, `getTotalMeterCount()`

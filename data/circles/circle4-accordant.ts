@@ -5,7 +5,8 @@ import { Circle, Meter, PoetryExample } from '../../types';
 
 // Circle 4 atomic sequence - rotating pattern based on the circular diagram
 // The sequence represents the full rotation with stepping points for each meter
-export const CIRCLE4_ATOMIC_SEQUENCE = ['0/', '0//', '0//', '0/', '0/', '0//', '0/', '0//', '0/', '0/', '0//', '0/'];
+// Fixed: '0/0/' -> '0/' (sabab khafif) and '0/0m' -> '/0/' (watid mafroug)
+export const CIRCLE4_ATOMIC_SEQUENCE = ['0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '/0/'];
 
 // Historical poetry examples for Circle 4 meters
 const MUNSARIH_EXAMPLES: PoetryExample[] = [
