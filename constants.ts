@@ -27,6 +27,8 @@ export const TAFILA_MAP: Record<string, Tafila> = {
   'c6:0//,0/,0/': { unmerged: 'فا علا تن', merged: 'فاعلاتن' },
   'c6:0/,/0/,0/': { unmerged: 'مس تف ع لن', merged: 'مستفع لن' }, // For al-Khafif - sabab + watid mafroug + sabab
   'c6:0/,0//,0/': { unmerged: 'فا علا تن', merged: 'فاعلاتن' }, // Alternative فاعلاتن pattern
+  'c6:/0/,0/,0/': { unmerged: 'فا ع لا تن', merged: 'فاع لاتن' }, // For al-Mudari - watid mafroug + sabab + sabab
+  'c6:0//,0/,0/': { unmerged: 'مفا عي لن', merged: 'مفاعيلن' }, // For al-Mudari context - watid majmu + sabab + sabab = مفاعيلن
   
   // Circle 5 (Consonant) tafila patterns
   'c5:0/,0//': { unmerged: 'فَا عِلُن', merged: 'فَاعِلُن' },

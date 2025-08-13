@@ -109,9 +109,9 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المضارع',
     nameTransliteration: 'al-Bahr al-Mudāriʿ',
     circleId: 'circle4-accordant',
-    startOffset: 6,
-    parsingInstructions: [3, 3, 3], // [مفاعيلن, فاعلاتن, مفاعيلن] 
-    patternTransliteration: 'mafāʿīlun fāʿilātun mafāʿīlun',
+    startOffset: 5,
+    parsingInstructions: [3, 3, 3], // [مفاعيلن, فاع لاتن, مفاعيلن] 
+    patternTransliteration: 'mafāʿīlun fāʿi lātun mafāʿīlun',
     description: 'The "Resembling" meter, creating subtle variations and nuanced rhythmic patterns.',
     historicalUsage: 'Less common but used for sophisticated, nuanced poetry requiring rhythmic variety.',
     famousExamples: MUDARI_EXAMPLES
