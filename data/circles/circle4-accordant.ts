@@ -83,7 +83,7 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المنسرح',
     nameTransliteration: 'al-Bahr al-Munsarih',
     circleId: 'circle4-accordant',
-    startOffset: 2,
+    startOffset: 3,
     parsingInstructions: [3, 3, 3], // [مستفعلن, مفعولات, مستفعلن]
     patternTransliteration: 'mustafʿilun mafʿūlātu mustafʿilun',
     description: 'The "Flowing" meter, with an easy, unimpeded rhythm perfect for philosophical reflection.',
@@ -97,8 +97,8 @@ const CIRCLE4_METERS: Meter[] = [
     nameTransliteration: 'al-Bahr al-Khafif',
     circleId: 'circle4-accordant',
     startOffset: 4,
-    parsingInstructions: [3, 3, 3], // [فاعلاتن, مستفعلن, فاعلاتن]
-    patternTransliteration: 'fāʿilātun mustafʿilun fāʿilātun',
+    parsingInstructions: [3, 3, 3], // [فاعلاتن, مستفع لن, فاعلاتن]
+    patternTransliteration: 'fāʿilātun mustafiʿ lun fāʿilātun',
     description: 'The "Light" meter, creating a swift, airy quality ideal for delicate subjects.',
     historicalUsage: 'Popular for love poetry and nature descriptions, favored by court poets.',
     famousExamples: KHAFIF_EXAMPLES
