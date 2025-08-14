@@ -62,7 +62,7 @@ export const CIRCLE5_CONSONANT: Circle = {
   id: 'circle5-consonant',
   name: 'دائرة المتفق',
   nameTransliteration: "al-Da'ira al-Muttafiq",
-  description: 'The Consonant Circle - containing meters with rapid, consonant-heavy rhythmic patterns',
+  description: 'دائرة المتفق - تحتوي على بحور سريعة ذات أنماط إيقاعية كثيفة الحروف الساكنة',
   atomicSequence: CIRCLE5_ATOMIC_SEQUENCE,
   baseSequenceLength: 10,
   meters: CIRCLE5_METERS,

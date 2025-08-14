@@ -78,7 +78,7 @@ export const CIRCLE1_MIXED: Circle = {
   id: 'circle1-mixed',
   name: 'دائرة المختلف',
   nameTransliteration: 'al-Da\'ira al-Mukhtalita',
-  description: 'The Mixed Circle - the first and foundational circle containing the most commonly used meters in Arabic poetry',
+  description: 'دائرة المختلف - الدائرة الأولى والأساسية تحتوي على أكثر البحور استخداماً في الشعر العربي',
   atomicSequence: CIRCLE1_ATOMIC_SEQUENCE,
   baseSequenceLength: 10,
   meters: CIRCLE1_METERS,

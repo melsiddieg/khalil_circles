@@ -90,7 +90,7 @@ export const CIRCLE3_CONTRACTED: Circle = {
   id: 'circle3-contracted',
   name: 'دائرة المجتلب',
   nameTransliteration: 'da\'irat al-Mujtathab',
-  description: 'Circle of the Appropriated - composed of seven-syllable repeated metrical feet (مفاعيلن، مستفعلن، فاعلاتن)',
+  description: 'دائرة المجتلب - تتكون من تفعيلات سباعية متكررة (مفاعيلن، مستفعلن، فاعلاتن)',
   atomicSequence: CIRCLE3_ATOMIC_SEQUENCE,
   baseSequenceLength: 9,
   meters: CIRCLE3_METERS,

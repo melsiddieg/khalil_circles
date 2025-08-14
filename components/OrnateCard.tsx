@@ -17,7 +17,7 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
           backgroundColor: circle.visualTheme.primaryColor
         }}
       >
-        {circle.order}
+        {['١', '٢', '٣', '٤', '٥'][circle.order - 1]}
       </div>
       
       {/* Ornate SVG Card */}
@@ -45,20 +45,17 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
               {circle.name}
             </h3>
             <div className="text-sm text-gray-400 font-inter">
-              {circle.meters.length} بحر
+              {['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'][circle.meters.length] || circle.meters.length} أبحر
             </div>
           </div>
         </div>
         
-        {/* Hover Tooltip */}
+        {/* Hover Tooltip - Arabic Only */}
         <div className="absolute inset-0 bg-gray-900/95 backdrop-blur-sm rounded-2xl
                         opacity-0 group-hover:opacity-100 transition-all duration-300
                         flex flex-col items-center justify-center p-6">
           <div className="text-center space-y-3 max-w-full">
-            <h4 className="text-lg font-inter text-gray-300 leading-tight">
-              {circle.nameTransliteration}
-            </h4>
-            <div className="text-sm text-gray-300 leading-tight px-2">
+            <div className="text-base text-gray-300 leading-tight px-2 font-amiri">
               {circle.description}
             </div>
             <div className="space-y-1">
@@ -68,12 +65,12 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
                 </div>
               ))}
               {circle.meters.length > 3 && (
-                <div className="text-sm text-gray-500 italic">
-                  +{circle.meters.length - 3} بحر آخر
+                <div className="text-sm text-gray-500 italic font-amiri">
+                  +{['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'][circle.meters.length - 3] || (circle.meters.length - 3)} أبحر أخرى
                 </div>
               )}
             </div>
-            <div className="mt-3 text-sm font-inter" style={{ color: circle.visualTheme.primaryColor }}>
+            <div className="mt-3 text-sm font-amiri" style={{ color: circle.visualTheme.primaryColor }}>
               انقر للاستكشاف ←
             </div>
           </div>

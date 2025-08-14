@@ -74,6 +74,16 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
           work in Arabic prosody, offering an interactive exploration of classical Arabic poetry meters.
         </p>
       </div>
+
+      {/* Author Trademark Footer */}
+      <div className="mt-6 text-center border-t border-gray-700/30 pt-6">
+        <p className="text-gray-400 text-sm font-amiri">
+          © تطوير وتصميم: <span className="text-amber-300 font-bold">محمد عمر الصديق</span>
+        </p>
+        <p className="text-gray-500 text-xs mt-1 font-inter">
+          Interactive Arud Explorer - Digital Heritage Preservation
+        </p>
+      </div>
     </div>
   );
 };

@@ -70,7 +70,7 @@ export const CIRCLE2_PURE: Circle = {
   id: 'circle2-pure',
   name: 'دائرة المؤتلف',
   nameTransliteration: 'al-Da\'ira al-Mujtaliба',
-  description: 'The Pure Circle - containing meters with harmonious, complete prosodic patterns',
+  description: 'دائرة المؤتلف - تحتوي على بحور متناغمة ذات أنماط عروضية مكتملة',
   atomicSequence: CIRCLE2_ATOMIC_SEQUENCE,
   baseSequenceLength: 9,
   meters: CIRCLE2_METERS,
