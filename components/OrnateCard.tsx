@@ -24,8 +24,19 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
       <div
         onClick={() => onCircleSelect(circle)}
         className="group cursor-pointer relative transition-all duration-500 ease-out
-                   hover:scale-105 hover:drop-shadow-2xl"
-        style={{ width: '300px', height: '400px' }}
+                   hover:scale-105"
+        style={{
+          width: '300px',
+          height: '400px',
+          filter: `drop-shadow(0 0 10px ${circle.visualTheme.primaryColor}20)`,
+          transition: 'all 0.5s ease-out'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.filter = `drop-shadow(0 0 15px ${circle.visualTheme.primaryColor}40)`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.filter = `drop-shadow(0 0 10px ${circle.visualTheme.primaryColor}20)`;
+        }}
       >
         {/* Islamic Ornate Card using your SVG */}
         <img 

@@ -53,16 +53,16 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
       <div className="text-center bg-gray-800/30 rounded-2xl p-6 border border-gray-700/50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <div className="text-2xl font-bold text-amber-400">16</div>
-            <div className="text-gray-400 text-sm font-inter">Classical Meters</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">١٦</div>
+            <div className="text-gray-400 text-sm font-amiri">بحراً كلاسيكياً</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400">5</div>
-            <div className="text-gray-400 text-sm font-inter">Prosodic Circles</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">٥</div>
+            <div className="text-gray-400 text-sm font-amiri">دوائر عروضية</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400">1000+</div>
-            <div className="text-gray-400 text-sm font-inter">Years of Tradition</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">+١٠٠٠</div>
+            <div className="text-gray-400 text-sm font-amiri">سنة من التراث</div>
           </div>
         </div>
       </div>
