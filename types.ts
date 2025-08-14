@@ -25,6 +25,7 @@ export interface PoetryExample {
   poet: string;
   translation?: string;
   era: string; // Classical, Abbasid, etc.
+  significance?: string; // Why this verse is representative of the meter
 }
 
 /**

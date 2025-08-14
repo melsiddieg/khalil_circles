@@ -14,89 +14,162 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
         <h1 className="text-5xl md:text-6xl font-bold text-amber-400 font-amiri mb-4">
           دوائر العروض الخمس
         </h1>
-        <h2 className="text-2xl md:text-3xl text-gray-300 font-inter mb-2">
-          The Five Circles of Arabic Prosody
+        <h2 className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2">
+          نظام الخليل بن أحمد الفراهيدي للعروض العربي
         </h2>
-        <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
-          Explore Al-Khalil ibn Ahmad al-Farahidi's complete system of Arabic poetry meters, 
-          organized into five traditional circles containing all sixteen classical meters.
+        <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed font-amiri text-center">
+          استكشف النظام الكامل لبحور الشعر العربي للخليل بن أحمد الفراهيدي،
+          المنظم في خمس دوائر تقليدية تحتوي على جميع البحور الكلاسيكية الستة عشر
         </p>
       </div>
 
-      {/* Circle Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {ALL_CIRCLES.map((circle) => (
-          <div
-            key={circle.id}
-            onClick={() => onCircleSelect(circle)}
-            className="group cursor-pointer bg-gray-800/50 backdrop-blur-sm border border-gray-700 
-                       rounded-2xl p-6 transition-all duration-500 ease-out
-                       hover:border-gray-500 hover:bg-gray-700/60 hover:scale-105
-                       hover:shadow-2xl hover:shadow-black/25"
-            style={{
-              background: `linear-gradient(135deg, ${circle.visualTheme.backgroundGradient[0]}05, ${circle.visualTheme.backgroundGradient[1]}10)`,
-              borderColor: `${circle.visualTheme.borderColor}40`
-            }}
-          >
-            {/* Circle Number */}
-            <div className="flex items-center justify-between mb-4">
+      {/* Circle Cluster - Grape Layout */}
+      <div className="flex flex-col items-center gap-12 mb-12 px-4">
+        {/* Top Row - 3 Circles */}
+        <div className="flex justify-center gap-20">
+          {ALL_CIRCLES.slice(0, 3).map((circle) => (
+            <div key={circle.id} className="flex flex-col items-center space-y-4">
+              {/* Circle Number Above */}
               <div 
-                className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl"
-                style={{ backgroundColor: circle.visualTheme.primaryColor }}
+                className="w-10 h-10 rounded-full flex items-center justify-center 
+                           text-white font-bold text-base border border-white/20"
+                style={{ 
+                  backgroundColor: circle.visualTheme.primaryColor
+                }}
               >
                 {circle.order}
               </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-400 font-inter">
-                  {circle.meters.length} meters
+              
+              {/* Main Circle */}
+              <div
+                onClick={() => onCircleSelect(circle)}
+                className="group cursor-pointer aspect-square w-72 h-72 relative
+                           border-2 rounded-full flex flex-col items-center justify-center
+                           transition-all duration-500 ease-out
+                           hover:scale-105 hover:shadow-2xl hover:shadow-black/30"
+                style={{
+                  background: `radial-gradient(circle at center, ${circle.visualTheme.backgroundGradient[0]}15, ${circle.visualTheme.backgroundGradient[1]}25, transparent 70%)`,
+                  borderColor: circle.visualTheme.borderColor,
+                  boxShadow: `0 0 20px ${circle.visualTheme.primaryColor}20`
+                }}
+              >
+                {/* Center Arabic Name Only */}
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold font-amiri mb-2" 
+                      style={{ color: circle.visualTheme.primaryColor }}>
+                    {circle.name}
+                  </h3>
+                  <div className="text-sm text-gray-400 font-inter">
+                    {circle.meters.length} بحر
+                  </div>
+                </div>
+
+                {/* Hover Tooltip Content */}
+                <div className="absolute inset-2 rounded-full bg-gray-900/95 backdrop-blur-sm
+                                opacity-0 group-hover:opacity-100 transition-all duration-300
+                                flex flex-col items-center justify-center p-6 overflow-hidden"
+                     style={{ borderColor: circle.visualTheme.borderColor }}>
+                  <div className="text-center space-y-2 max-w-full">
+                    <h4 className="text-lg font-inter text-gray-300 mb-2 leading-tight">
+                      {circle.nameTransliteration}
+                    </h4>
+                    <div className="text-sm text-gray-300 leading-tight mb-3 px-2">
+                      {circle.description}
+                    </div>
+                    <div className="space-y-1 max-h-24 overflow-y-auto px-2">
+                      {circle.meters.slice(0, 4).map((meter, index) => (
+                        <div key={meter.id} className="text-xs text-gray-400 font-amiri text-center">
+                          {meter.name}
+                        </div>
+                      ))}
+                      {circle.meters.length > 4 && (
+                        <div className="text-xs text-gray-500 italic">
+                          +{circle.meters.length - 4} more...
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-2 text-sm font-inter" style={{ color: circle.visualTheme.primaryColor }}>
+                      Click to explore →
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* Circle Names */}
-            <div className="mb-4">
-              <h3 className="text-2xl font-bold font-amiri text-right mb-2" 
-                  style={{ color: circle.visualTheme.primaryColor }}>
-                {circle.name}
-              </h3>
-              <h4 className="text-gray-300 font-inter text-sm">
-                {circle.nameTransliteration}
-              </h4>
-            </div>
-
-            {/* Description */}
-            <p className="text-gray-300 text-sm leading-relaxed mb-4">
-              {circle.description}
-            </p>
-
-            {/* Meter List Preview */}
-            <div className="space-y-1">
-              <div className="text-xs text-gray-500 font-inter uppercase tracking-wide mb-2">
-                Meters in this circle:
+        {/* Bottom Row - 2 Circles */}
+        <div className="flex justify-center gap-20">
+          {ALL_CIRCLES.slice(3).map((circle) => (
+            <div key={circle.id} className="flex flex-col items-center space-y-4">
+              {/* Circle Number Above */}
+              <div 
+                className="w-10 h-10 rounded-full flex items-center justify-center 
+                           text-white font-bold text-base border border-white/20"
+                style={{ 
+                  backgroundColor: circle.visualTheme.primaryColor
+                }}
+              >
+                {circle.order}
               </div>
-              {circle.meters.slice(0, 3).map((meter, index) => (
-                <div key={meter.id} className="text-sm text-gray-400 font-amiri text-right">
-                  {meter.name}
+              
+              {/* Main Circle */}
+              <div
+                onClick={() => onCircleSelect(circle)}
+                className="group cursor-pointer aspect-square w-72 h-72 relative
+                           border-2 rounded-full flex flex-col items-center justify-center
+                           transition-all duration-500 ease-out
+                           hover:scale-105 hover:shadow-2xl hover:shadow-black/30"
+                style={{
+                  background: `radial-gradient(circle at center, ${circle.visualTheme.backgroundGradient[0]}15, ${circle.visualTheme.backgroundGradient[1]}25, transparent 70%)`,
+                  borderColor: circle.visualTheme.borderColor,
+                  boxShadow: `0 0 20px ${circle.visualTheme.primaryColor}20`
+                }}
+              >
+                {/* Center Arabic Name Only */}
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold font-amiri mb-2" 
+                      style={{ color: circle.visualTheme.primaryColor }}>
+                    {circle.name}
+                  </h3>
+                  <div className="text-sm text-gray-400 font-inter">
+                    {circle.meters.length} بحر
+                  </div>
                 </div>
-              ))}
-              {circle.meters.length > 3 && (
-                <div className="text-xs text-gray-500 italic">
-                  +{circle.meters.length - 3} more...
-                </div>
-              )}
-            </div>
 
-            {/* Hover Indicator */}
-            <div className="mt-4 pt-4 border-t border-gray-700/50 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="text-center">
-                <span className="text-sm text-gray-400 font-inter">
-                  Click to explore →
-                </span>
+                {/* Hover Tooltip Content */}
+                <div className="absolute inset-2 rounded-full bg-gray-900/95 backdrop-blur-sm
+                                opacity-0 group-hover:opacity-100 transition-all duration-300
+                                flex flex-col items-center justify-center p-6 overflow-hidden"
+                     style={{ borderColor: circle.visualTheme.borderColor }}>
+                  <div className="text-center space-y-2 max-w-full">
+                    <h4 className="text-lg font-inter text-gray-300 mb-2 leading-tight">
+                      {circle.nameTransliteration}
+                    </h4>
+                    <div className="text-sm text-gray-300 leading-tight mb-3 px-2">
+                      {circle.description}
+                    </div>
+                    <div className="space-y-1 max-h-24 overflow-y-auto px-2">
+                      {circle.meters.slice(0, 4).map((meter, index) => (
+                        <div key={meter.id} className="text-xs text-gray-400 font-amiri text-center">
+                          {meter.name}
+                        </div>
+                      ))}
+                      {circle.meters.length > 4 && (
+                        <div className="text-xs text-gray-500 italic">
+                          +{circle.meters.length - 4} more...
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-2 text-sm font-inter" style={{ color: circle.visualTheme.primaryColor }}>
+                      Click to explore →
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Summary Statistics */}
