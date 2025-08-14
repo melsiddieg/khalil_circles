@@ -27,21 +27,16 @@ const InfoCard: React.FC = () => {
               تقوم هذه الدائرة على تسلسل أساسي من الوحدات المقطعية التي تتكرر في حلقة مغلقة.
             </p>
             
-            <div className="grid md:grid-cols-2 gap-4 text-sm">
-              <div className="bg-gray-900/50 rounded-lg p-3">
-                <h4 className="text-amber-200 font-bold mb-2 font-amiri">الوحدات الأساسية:</h4>
-                <ul className="space-y-1 font-amiri text-right">
+            <div className="bg-gray-900/50 rounded-lg p-4 max-w-4xl mx-auto">
+              <h4 className="text-amber-200 font-bold mb-3 font-amiri text-center">الوحدات الأساسية:</h4>
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <ul className="space-y-2 font-amiri text-right">
                   <li><span className="text-amber-300">الوتد المجموع (//0):</span> مقطعان قصيران + مقطع طويل</li>
                   <li><span className="text-amber-300">السبب الخفيف (/0):</span> مقطع قصير + مقطع طويل</li>
                 </ul>
-              </div>
-              
-              <div className="bg-gray-900/50 rounded-lg p-3">
-                <h4 className="text-amber-200 font-bold mb-2 font-amiri">البحور المستخدمة:</h4>
-                <ul className="space-y-1 font-amiri text-right">
-                  <li><span className="text-amber-300">الطويل:</span> أشهر البحور وأكثرها استخداماً</li>
-                  <li><span className="text-amber-300">المديد:</span> خفيف مناسب للوصف والعاطفة</li>
-                  <li><span className="text-amber-300">البسيط:</span> متنوع وسلس التدفق</li>
+                <ul className="space-y-2 font-amiri text-right">
+                  <li><span className="text-amber-300">السبب الثقيل (//):</span> مقطعان قصيران</li>
+                  <li><span className="text-amber-300">الوتد المفروق (/0/):</span> مقطع قصير + مقطع طويل + مقطع قصير</li>
                 </ul>
               </div>
             </div>

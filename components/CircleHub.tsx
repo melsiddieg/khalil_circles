@@ -43,7 +43,7 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
               {/* Main Circle */}
               <div
                 onClick={() => onCircleSelect(circle)}
-                className="group cursor-pointer aspect-square w-72 h-72 relative
+                className="group cursor-pointer aspect-square w-80 h-80 relative
                            border-2 rounded-full flex flex-col items-center justify-center
                            transition-all duration-500 ease-out
                            hover:scale-105 hover:shadow-2xl hover:shadow-black/30"
@@ -55,11 +55,11 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
               >
                 {/* Center Arabic Name Only */}
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold font-amiri mb-2" 
+                  <h3 className="text-3xl font-bold font-amiri mb-2" 
                       style={{ color: circle.visualTheme.primaryColor }}>
                     {circle.name}
                   </h3>
-                  <div className="text-sm text-gray-400 font-inter">
+                  <div className="text-base text-gray-400 font-inter">
                     {circle.meters.length} بحر
                   </div>
                 </div>
@@ -76,15 +76,15 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
                     <div className="text-sm text-gray-300 leading-tight mb-3 px-2">
                       {circle.description}
                     </div>
-                    <div className="space-y-1 max-h-24 overflow-y-auto px-2">
-                      {circle.meters.slice(0, 4).map((meter, index) => (
-                        <div key={meter.id} className="text-xs text-gray-400 font-amiri text-center">
+                    <div className="space-y-1 px-2">
+                      {circle.meters.slice(0, 3).map((meter, index) => (
+                        <div key={meter.id} className="text-sm text-gray-400 font-amiri text-center">
                           {meter.name}
                         </div>
                       ))}
-                      {circle.meters.length > 4 && (
-                        <div className="text-xs text-gray-500 italic">
-                          +{circle.meters.length - 4} more...
+                      {circle.meters.length > 3 && (
+                        <div className="text-sm text-gray-500 italic">
+                          +{circle.meters.length - 3} بحر آخر
                         </div>
                       )}
                     </div>
@@ -116,7 +116,7 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
               {/* Main Circle */}
               <div
                 onClick={() => onCircleSelect(circle)}
-                className="group cursor-pointer aspect-square w-72 h-72 relative
+                className="group cursor-pointer aspect-square w-80 h-80 relative
                            border-2 rounded-full flex flex-col items-center justify-center
                            transition-all duration-500 ease-out
                            hover:scale-105 hover:shadow-2xl hover:shadow-black/30"
@@ -128,11 +128,11 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
               >
                 {/* Center Arabic Name Only */}
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold font-amiri mb-2" 
+                  <h3 className="text-3xl font-bold font-amiri mb-2" 
                       style={{ color: circle.visualTheme.primaryColor }}>
                     {circle.name}
                   </h3>
-                  <div className="text-sm text-gray-400 font-inter">
+                  <div className="text-base text-gray-400 font-inter">
                     {circle.meters.length} بحر
                   </div>
                 </div>
@@ -149,15 +149,15 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
                     <div className="text-sm text-gray-300 leading-tight mb-3 px-2">
                       {circle.description}
                     </div>
-                    <div className="space-y-1 max-h-24 overflow-y-auto px-2">
-                      {circle.meters.slice(0, 4).map((meter, index) => (
-                        <div key={meter.id} className="text-xs text-gray-400 font-amiri text-center">
+                    <div className="space-y-1 px-2">
+                      {circle.meters.slice(0, 3).map((meter, index) => (
+                        <div key={meter.id} className="text-sm text-gray-400 font-amiri text-center">
                           {meter.name}
                         </div>
                       ))}
-                      {circle.meters.length > 4 && (
-                        <div className="text-xs text-gray-500 italic">
-                          +{circle.meters.length - 4} more...
+                      {circle.meters.length > 3 && (
+                        <div className="text-sm text-gray-500 italic">
+                          +{circle.meters.length - 3} بحر آخر
                         </div>
                       )}
                     </div>
