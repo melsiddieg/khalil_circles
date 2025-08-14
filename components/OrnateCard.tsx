@@ -9,17 +9,6 @@ interface OrnateCardProps {
 const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
   return (
     <div className="flex flex-col items-center space-y-4">
-      {/* Circle Number Above */}
-      <div 
-        className="w-12 h-12 rounded-full flex items-center justify-center 
-                   text-white font-bold text-lg border border-white/20 z-10"
-        style={{ 
-          backgroundColor: circle.visualTheme.primaryColor
-        }}
-      >
-        {['١', '٢', '٣', '٤', '٥'][circle.order - 1]}
-      </div>
-      
       {/* Ornate SVG Card */}
       <div
         onClick={() => onCircleSelect(circle)}
@@ -47,6 +36,19 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
             filter: `drop-shadow(0 0 20px ${circle.visualTheme.primaryColor}60) hue-rotate(${(circle.order - 1) * 72}deg) saturate(1.2)`
           }}
         />
+        
+        {/* Decorative Arch on Top */}
+        <div className="absolute -top-9 left-1/2 transform -translate-x-1/2 w-80 h-50 z-20 transition-all duration-500 ease-out
+                        opacity-100 group-hover:opacity-0">
+          <img 
+            src="/assets/islamic_arch_topper_transparent.svg"
+            alt="Decorative arch"
+            className="w-full h-full object-contain"
+            style={{ 
+              filter: `drop-shadow(0 0 8px ${circle.visualTheme.primaryColor}40) hue-rotate(${(circle.order - 1) * 72}deg) saturate(1.2)`
+            }}
+          />
+        </div>
         
         {/* Content Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
