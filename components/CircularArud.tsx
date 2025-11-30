@@ -52,9 +52,9 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
         <div className="relative flex items-center justify-center py-8">
             {/* Main SVG */}
             <svg
-                width="500"
-                height="500"
-                viewBox="-250 -250 500 500"
+                width="450"
+                height="450"
+                viewBox="-300 -300 600 600"
                 className="transition-transform duration-1000 ease-in-out"
                 style={{ transform: `rotate(${rotation}deg)` }}
             >
@@ -103,20 +103,45 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     const textX = Math.cos(midRad) * textRadius;
                     const textY = Math.sin(midRad) * textRadius;
 
-                    // Determine color
-                    // Use specific colors for specific unit types if possible, or cycle
-                    const isWatid = unit.includes('//'); // Heuristic
-                    const color = isWatid ? COLORS[1] : COLORS[2]; // Amber for Watid, Blue for Sabab (example)
-                    // Or just cycle for variety like the image
-                    const cycleColor = COLORS[index % COLORS.length];
+                    // Determine which Tafila group this unit belongs to
+                    // Calculate relative index from startOffset
+                    // We need to handle the wrapping correctly.
+                    // The sequence is displayed starting from -90deg (top) which corresponds to startOffset.
+                    // So visually, the first segment at top is startOffset.
+
+                    let relativeIndex = (index - activeMeter.startOffset);
+                    if (relativeIndex < 0) relativeIndex += totalUnits;
+
+                    // Find group index
+                    let currentGroupIndex = 0;
+                    let accumulatedUnits = 0;
+                    let groupColor = 'transparent'; // Default
+
+                    for (let i = 0; i < activeMeter.parsingInstructions.length; i++) {
+                        const groupSize = activeMeter.parsingInstructions[i];
+                        if (relativeIndex >= accumulatedUnits && relativeIndex < accumulatedUnits + groupSize) {
+                            currentGroupIndex = i;
+                            // Alternating colors for groups
+                            // Even groups: Primary Color (with opacity)
+                            // Odd groups: Accent Color (with opacity)
+                            // Or just alternate opacity of primary color
+                            const isEven = i % 2 === 0;
+                            groupColor = isEven
+                                ? (circle.visualTheme.primaryColor || '#FBBF24')
+                                : (circle.visualTheme.accentColor || '#F59E0B');
+                            break;
+                        }
+                        accumulatedUnits += groupSize;
+                    }
 
                     return (
                         <g key={index} className="group cursor-pointer hover:opacity-90 transition-opacity">
                             <path
                                 d={pathData}
-                                fill={cycleColor}
-                                stroke="white"
-                                strokeWidth="2"
+                                fill={groupColor}
+                                fillOpacity="0.3" // Semi-transparent
+                                stroke="rgba(255,255,255,0.4)"
+                                strokeWidth="1"
                                 className="transition-all duration-300"
                             />
                             {/* Unit Text */}
@@ -132,10 +157,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 style={{
                                     transformBox: 'fill-box',
                                     transformOrigin: 'center',
-                                    transform: `rotate(${midAngle + 90}deg)` // Rotate text to face center? Or +90 to be tangent?
-                                    // Let's try to keep it readable.
-                                    // If we want it upright relative to the slice: `rotate(${midAngle + 90}deg)` makes it tangent.
-                                    // `rotate(${midAngle + 90}deg)` aligns with the radius.
+                                    transform: `rotate(${midAngle + 90}deg)`
                                 }}
                             >
                                 {formatUnit(unit)}
@@ -144,7 +166,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     );
                 })}
 
-                {/* Outer Groupings (Tafilat) */}
+                {/* Outer Groupings (Tafilat Labels Only) */}
                 {activePattern.map((tafila, index) => {
                     // Find the start index for this tafila in the sequence
                     const previousUnits = activeMeter.parsingInstructions
@@ -155,73 +177,72 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     const groupSize = activeMeter.parsingInstructions[index];
 
                     // Calculate angles
-                    // Start angle is based on startIndex
+                    // Calculate angles
                     const startAngle = -90 - (startIndex * anglePerUnit);
-                    // End angle is startAngle - (groupSize * anglePerUnit)
                     const endAngle = startAngle - (groupSize * anglePerUnit);
 
-                    // Convert to radians
+                    // Convert to radians for coordinates
                     const startRad = (startAngle * Math.PI) / 180;
                     const endRad = (endAngle * Math.PI) / 180;
 
-                    // Radii for the grouping block
-                    const groupInnerRadius = radius + 10; // Start just outside the main circle
-                    const groupOuterRadius = radius + 50; // Width of the block
+                    // Coordinates for perimeter path
+                    const x1 = Math.cos(startRad) * radius;
+                    const y1 = Math.sin(startRad) * radius;
+                    const x2 = Math.cos(endRad) * radius;
+                    const y2 = Math.sin(endRad) * radius;
 
-                    // Calculate coordinates for the closed sector
-                    // Point 1: Outer Start
-                    const x1 = Math.cos(startRad) * groupOuterRadius;
-                    const y1 = Math.sin(startRad) * groupOuterRadius;
-                    // Point 2: Outer End
-                    const x2 = Math.cos(endRad) * groupOuterRadius;
-                    const y2 = Math.sin(endRad) * groupOuterRadius;
-                    // Point 3: Inner End
-                    const x3 = Math.cos(endRad) * groupInnerRadius;
-                    const y3 = Math.sin(endRad) * groupInnerRadius;
-                    // Point 4: Inner Start
-                    const x4 = Math.cos(startRad) * groupInnerRadius;
-                    const y4 = Math.sin(startRad) * groupInnerRadius;
+                    const x3 = Math.cos(endRad) * innerRadius;
+                    const y3 = Math.sin(endRad) * innerRadius;
+                    const x4 = Math.cos(startRad) * innerRadius;
+                    const y4 = Math.sin(startRad) * innerRadius;
 
-                    const largeArcFlag = (groupSize * anglePerUnit) > 180 ? 1 : 0;
+                    // Arc flags
+                    const largeArc = (groupSize * anglePerUnit) > 180 ? 1 : 0;
 
-                    // Closed path: Outer Arc -> Line to Inner -> Inner Arc (reverse) -> Line to Start
-                    const pathData = [
+                    const perimeterPath = [
                         `M ${x1} ${y1}`,
-                        `A ${groupOuterRadius} ${groupOuterRadius} 0 ${largeArcFlag} 0 ${x2} ${y2}`,
+                        `A ${radius} ${radius} 0 ${largeArc} 0 ${x2} ${y2}`,
                         `L ${x3} ${y3}`,
-                        `A ${groupInnerRadius} ${groupInnerRadius} 0 ${largeArcFlag} 1 ${x4} ${y4}`,
-                        'Z'
+                        `A ${innerRadius} ${innerRadius} 0 ${largeArc} 1 ${x4} ${y4}`,
+                        `Z`
                     ].join(' ');
+
+                    // Radii for the label positioning
+                    // We want the label to be outside the circle
+                    const labelRadius = radius + 40; // Position for label center
 
                     // Text position
                     const midAngle = startAngle - ((groupSize * anglePerUnit) / 2);
                     const midRad = (midAngle * Math.PI) / 180;
-                    // Center text within the block
-                    const textRadius = (groupInnerRadius + groupOuterRadius) / 2;
-                    const textX = Math.cos(midRad) * textRadius;
-                    const textY = Math.sin(midRad) * textRadius;
+
+                    const textX = Math.cos(midRad) * labelRadius;
+                    const textY = Math.sin(midRad) * labelRadius;
 
                     return (
-                        <g key={`group-${index}`} className="transition-all duration-500">
-                            {/* Group Block */}
+                        <g
+                            key={`group-${activeMeter.id}-${index}`}
+                            className="animate-fade-in"
+                            style={{ animationDuration: '0.5s', animationFillMode: 'both' }}
+                        >
+                            {/* Perimeter Outline */}
                             <path
-                                d={pathData}
-                                fill={circle.visualTheme.accentColor ? `${circle.visualTheme.accentColor}33` : '#F59E0B33'} // 20% opacity
+                                d={perimeterPath}
+                                fill="none"
                                 stroke={circle.visualTheme.accentColor || '#F59E0B'}
                                 strokeWidth="2"
-                                className="transition-all duration-500"
+                                className="opacity-80 drop-shadow-sm"
                             />
 
-                            {/* Tafila Name */}
+                            {/* Tafila Name - No Box */}
                             <text
                                 x={textX}
                                 y={textY}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
                                 fill={circle.visualTheme.primaryColor || '#FBBF24'}
-                                fontSize="16"
+                                fontSize="18"
                                 fontWeight="bold"
-                                className="font-amiri select-none pointer-events-none"
+                                className="font-amiri select-none pointer-events-none drop-shadow-md"
                                 style={{
                                     transformBox: 'fill-box',
                                     transformOrigin: 'center',
@@ -243,6 +264,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
             Actually, the groupings are at radius 190. Markers were at radius + 25 = 185.
             Let's push markers to 240 to avoid overlap.
         */}
+                {/* Re-render Loop for Markers to separate Line and Label */}
                 {circle.meters.map((meter) => {
                     const startAngle = -90 - (meter.startOffset * anglePerUnit);
                     const markerRadius = 240; // Pushed out
@@ -253,8 +275,8 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     const isActive = meter.id === activeMeter.id;
 
                     return (
-                        <g key={meter.id} className="transition-all duration-500">
-                            {/* Connector Line */}
+                        <React.Fragment key={meter.id}>
+                            {/* Connector Line - No rotation */}
                             <line
                                 x1={Math.cos(rad) * radius}
                                 y1={Math.sin(rad) * radius}
@@ -265,25 +287,27 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 strokeDasharray={isActive ? '0' : '4 2'}
                             />
 
-                            {/* Label Box */}
-                            <foreignObject
-                                x={x - 60}
-                                y={y - 15}
-                                width="120"
-                                height="30"
-                                className="overflow-visible"
-                            >
-                                <div
-                                    className={`flex items-center justify-center px-2 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-500 ${isActive
-                                        ? 'bg-white text-gray-900 shadow-lg scale-110'
-                                        : 'bg-gray-800/80 text-gray-400 border border-gray-700'
-                                        }`}
-                                    style={{ direction: 'rtl' }}
+                            {/* Label Box - Counter Rotated */}
+                            <g transform={`rotate(${-rotation} ${x} ${y})`}>
+                                <foreignObject
+                                    x={x - 60}
+                                    y={y - 15}
+                                    width="120"
+                                    height="30"
+                                    className="overflow-visible"
                                 >
-                                    {meter.name}
-                                </div>
-                            </foreignObject>
-                        </g>
+                                    <div
+                                        className={`flex items-center justify-center px-2 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-500 ${isActive
+                                            ? 'bg-white text-gray-900 shadow-lg scale-110'
+                                            : 'bg-gray-800/80 text-gray-400 border border-gray-700'
+                                            }`}
+                                        style={{ direction: 'rtl' }}
+                                    >
+                                        {meter.name}
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </React.Fragment>
                     );
                 })}
             </svg>
@@ -316,6 +340,16 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     </svg>
                 </div>
             </div>
+
+            <style>{`
+                @keyframes fade-in {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                .animate-fade-in {
+                    animation: fade-in 0.5s ease-out forwards;
+                }
+            `}</style>
         </div>
     );
 };

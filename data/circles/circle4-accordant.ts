@@ -64,46 +64,7 @@ const MUJTATH_EXAMPLES: PoetryExample[] = [
 ];
 
 const CIRCLE4_METERS: Meter[] = [
-  // 1. البحر السريع (al-Sari) - First in the image
-  {
-    id: 'al-sari',
-    name: 'البحر السريع',
-    nameTransliteration: 'al-Bahr al-Sarīʿ',
-    circleId: 'circle4-accordant',
-    startOffset: 0,
-    parsingInstructions: [3, 3, 3], // [مستفعلن, مستفعلن, مفعولات]
-    patternTransliteration: 'mustafʿilun mustafʿilun mafʿūlātu',
-    description: 'بحر السريع - إيقاع سريع نشيط مناسب للحماسة والفخر',
-    historicalUsage: 'يُستخدم في الشعر الحماسي والقصص البطولية، ينقل السرعة والحركة',
-    famousExamples: SARI_EXAMPLES
-  },
-  // 2. البحر المنسرح (al-Munsarih) - Second in the image  
-  {
-    id: 'al-munsarih',
-    name: 'البحر المنسرح',
-    nameTransliteration: 'al-Bahr al-Munsarih',
-    circleId: 'circle4-accordant',
-    startOffset: 3,
-    parsingInstructions: [3, 3, 3], // [مستفعلن, مفعولات, مستفعلن]
-    patternTransliteration: 'mustafʿilun mafʿūlātu mustafʿilun',
-    description: 'بحر المنسرح - إيقاع منساب سهل مناسب للتأمل الفلسفي',
-    historicalUsage: 'يُستخدم في الشعر التأملي والفلسفي، خاصة في العصر العباسي',
-    famousExamples: MUNSARIH_EXAMPLES
-  },
-  // 3. البحر الخفيف (al-Khafif) - Third in the image
-  {
-    id: 'al-khafif',
-    name: 'البحر الخفيف',
-    nameTransliteration: 'al-Bahr al-Khafif',
-    circleId: 'circle4-accordant',
-    startOffset: 4,
-    parsingInstructions: [3, 3, 3], // [فاعلاتن, مستفع لن, فاعلاتن]
-    patternTransliteration: 'fāʿilātun mustafiʿ lun fāʿilātun',
-    description: 'بحر الخفيف - إيقاع خفيف رشيق مناسب للموضوعات الرقيقة',
-    historicalUsage: 'محبوب في شعر الغزل ووصف الطبيعة، مفضل لدى شعراء البلاط',
-    famousExamples: KHAFIF_EXAMPLES
-  },
-  // 4. البحر المضارع (al-Mudari) - Fourth in the image
+  // 1. البحر المضارع (al-Mudari) - Starts the circle per user request
   {
     id: 'al-mudari',
     name: 'البحر المضارع',
@@ -116,7 +77,7 @@ const CIRCLE4_METERS: Meter[] = [
     historicalUsage: 'أقل شيوعاً لكن يُستخدم للشعر المتطور الذي يتطلب تنوعاً إيقاعياً',
     famousExamples: MUDARI_EXAMPLES
   },
-  // 5. البحر المقتضب (al-Muqtadab) - Fifth in the image
+  // 2. البحر المقتضب (al-Muqtadab)
   {
     id: 'al-muqtadab',
     name: 'البحر المقتضب',
@@ -129,7 +90,7 @@ const CIRCLE4_METERS: Meter[] = [
     historicalUsage: 'يُستخدم للحكم والأبيات المؤثرة المختصرة التي تتطلب الإيجاز',
     famousExamples: MUQTADAB_EXAMPLES
   },
-  // 6. البحر المجتث (al-Mujtath) - Sixth in the image
+  // 3. البحر المجتث (al-Mujtath)
   {
     id: 'al-mujtath',
     name: 'البحر المجتث',
@@ -141,6 +102,45 @@ const CIRCLE4_METERS: Meter[] = [
     description: 'بحر المجتث - إيقاع مقطوع يخلق إحساساً بالعجلة والشدة العاطفية',
     historicalUsage: 'يُستخدم كثيراً في الأدعية والشعر الديني والشعر المشحون عاطفياً',
     famousExamples: MUJTATH_EXAMPLES
+  },
+  // 4. البحر السريع (al-Sari)
+  {
+    id: 'al-sari',
+    name: 'البحر السريع',
+    nameTransliteration: 'al-Bahr al-Sarīʿ',
+    circleId: 'circle4-accordant',
+    startOffset: 0,
+    parsingInstructions: [3, 3, 3], // [مستفعلن, مستفعلن, مفعولات]
+    patternTransliteration: 'mustafʿilun mustafʿilun mafʿūlātu',
+    description: 'بحر السريع - إيقاع سريع نشيط مناسب للحماسة والفخر',
+    historicalUsage: 'يُستخدم في الشعر الحماسي والقصص البطولية، ينقل السرعة والحركة',
+    famousExamples: SARI_EXAMPLES
+  },
+  // 5. البحر المنسرح (al-Munsarih)
+  {
+    id: 'al-munsarih',
+    name: 'البحر المنسرح',
+    nameTransliteration: 'al-Bahr al-Munsarih',
+    circleId: 'circle4-accordant',
+    startOffset: 3,
+    parsingInstructions: [3, 3, 3], // [مستفعلن, مفعولات, مستفعلن]
+    patternTransliteration: 'mustafʿilun mafʿūlātu mustafʿilun',
+    description: 'بحر المنسرح - إيقاع منساب سهل مناسب للتأمل الفلسفي',
+    historicalUsage: 'يُستخدم في الشعر التأملي والفلسفي، خاصة في العصر العباسي',
+    famousExamples: MUNSARIH_EXAMPLES
+  },
+  // 6. البحر الخفيف (al-Khafif)
+  {
+    id: 'al-khafif',
+    name: 'البحر الخفيف',
+    nameTransliteration: 'al-Bahr al-Khafif',
+    circleId: 'circle4-accordant',
+    startOffset: 4,
+    parsingInstructions: [3, 3, 3], // [فاعلاتن, مستفع لن, فاعلاتن]
+    patternTransliteration: 'fāʿilātun mustafiʿ lun fāʿilātun',
+    description: 'بحر الخفيف - إيقاع خفيف رشيق مناسب للموضوعات الرقيقة',
+    historicalUsage: 'محبوب في شعر الغزل ووصف الطبيعة، مفضل لدى شعراء البلاط',
+    famousExamples: KHAFIF_EXAMPLES
   },
 ];
 
