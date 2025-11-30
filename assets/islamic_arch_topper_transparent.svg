@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<path d="M240.000,540.000 C348.000,522.000 420.000,288.000 600.000,180.000 C780.000,288.000 852.000,522.000 960.000,540.000" fill="none" stroke="#d4af37" stroke-width="4.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M240.000,536.400 C348.000,513.900 422.700,276.300 600.000,162.000 C777.300,276.300 852.000,513.900 960.000,536.400" fill="none" stroke="#b7892e" stroke-width="2.200" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M402.000,542.500 L798.000,542.500" fill="none" stroke="#d4af37" stroke-width="4.000" stroke-linejoin="round" stroke-linecap="butt" />
+<circle cx="264.350" cy="532.168" r="2.2" fill="#d4af37" />
+<circle cx="287.814" cy="517.600" r="2.2" fill="#d4af37" />
+<circle cx="310.787" cy="497.233" r="2.2" fill="#d4af37" />
+<circle cx="333.662" cy="471.998" r="2.2" fill="#d4af37" />
+<circle cx="356.832" cy="442.831" r="2.2" fill="#d4af37" />
+<circle cx="380.690" cy="410.665" r="2.2" fill="#d4af37" />
+<circle cx="405.629" cy="376.435" r="2.2" fill="#d4af37" />
+<circle cx="432.044" cy="341.074" r="2.2" fill="#d4af37" />
+<circle cx="460.326" cy="305.517" r="2.2" fill="#d4af37" />
+<circle cx="490.869" cy="270.696" r="2.2" fill="#d4af37" />
+<circle cx="524.067" cy="237.548" r="2.2" fill="#d4af37" />
+<circle cx="560.313" cy="207.004" r="2.2" fill="#d4af37" />
+<circle cx="639.687" cy="207.004" r="2.2" fill="#d4af37" />
+<circle cx="675.933" cy="237.548" r="2.2" fill="#d4af37" />
+<circle cx="709.131" cy="270.696" r="2.2" fill="#d4af37" />
+<circle cx="739.674" cy="305.517" r="2.2" fill="#d4af37" />
+<circle cx="767.956" cy="341.074" r="2.2" fill="#d4af37" />
+<circle cx="794.371" cy="376.435" r="2.2" fill="#d4af37" />
+<circle cx="819.310" cy="410.665" r="2.2" fill="#d4af37" />
+<circle cx="843.168" cy="442.831" r="2.2" fill="#d4af37" />
+<circle cx="866.338" cy="471.998" r="2.2" fill="#d4af37" />
+<circle cx="889.213" cy="497.233" r="2.2" fill="#d4af37" />
+<circle cx="912.186" cy="517.600" r="2.2" fill="#d4af37" />
+<circle cx="935.650" cy="532.168" r="2.2" fill="#d4af37" />
+<path d="M266.930,495.743 C276.188,503.118 284.370,512.010 288.236,517.360 C280.236,517.360 272.767,522.757 280.767,522.757 C276.901,517.408 271.027,506.847 266.930,495.743 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M304.523,459.911 C315.202,465.014 325.175,471.838 330.145,476.180 C322.145,476.180 316.082,483.120 324.082,483.120 C319.112,478.777 311.013,469.809 304.523,459.911 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M346.220,406.941 C357.282,411.150 367.782,417.131 373.092,421.051 C365.092,421.051 359.619,428.465 367.619,428.465 C362.309,424.545 353.501,416.272 346.220,406.941 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M392.670,343.466 C403.719,347.713 414.199,353.729 419.495,357.667 C411.495,357.667 405.997,365.062 413.997,365.062 C408.701,361.125 399.920,352.822 392.670,343.466 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M446.004,275.955 C456.737,280.945 466.783,287.661 471.799,291.950 C463.799,291.950 457.810,298.954 465.810,298.954 C460.794,294.665 452.599,285.784 446.004,275.955 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M508.969,210.715 C518.965,217.053 528.055,225.015 532.473,229.919 C524.473,229.919 517.626,236.087 525.626,236.087 C521.209,231.184 514.234,221.315 508.969,210.715 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M650.870,255.291 C656.135,244.691 663.109,234.822 667.527,229.919 C659.527,229.919 666.374,236.087 674.374,236.087 C669.956,240.990 660.865,248.952 650.870,255.291 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M708.394,314.948 C714.990,305.120 723.185,296.239 728.201,291.950 C720.201,291.950 726.190,298.954 734.190,298.954 C729.174,303.243 719.128,309.959 708.394,314.948 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M759.178,379.263 C766.427,369.906 775.208,361.604 780.505,357.667 C772.505,357.667 778.003,365.062 786.003,365.062 C780.706,369.000 770.226,375.016 759.178,379.263 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M805.509,442.576 C812.789,433.244 821.598,424.971 826.908,421.051 C818.908,421.051 824.381,428.465 832.381,428.465 C827.071,432.385 816.571,438.366 805.509,442.576 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M850.295,499.390 C856.785,489.491 864.885,480.523 869.855,476.180 C861.855,476.180 867.918,483.120 875.918,483.120 C870.948,487.463 860.975,494.286 850.295,499.390 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M897.927,544.374 C902.024,533.269 907.898,522.709 911.764,517.360 C903.764,517.360 911.233,522.757 919.233,522.757 C915.368,528.107 907.185,536.999 897.927,544.374 Z" fill="none" stroke="#d4af37" stroke-width="2.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M562.785,146.962 C580.513,152.300 597.004,160.907 605.191,166.855 C597.191,166.855 586.809,181.145 594.809,181.145 C586.622,175.196 573.340,162.173 562.785,146.962 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M572.962,136.785 C588.173,147.340 601.196,160.622 607.145,168.809 C599.145,168.809 584.855,179.191 592.855,179.191 C586.907,171.004 578.300,154.513 572.962,136.785 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M585.785,130.251 C596.990,144.990 605.272,161.646 608.399,171.271 C600.399,171.271 583.601,176.729 591.601,176.729 C588.474,167.104 585.384,148.761 585.785,130.251 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M600.000,128.000 C606.102,145.480 608.831,163.880 608.831,174.000 C600.831,174.000 583.169,174.000 591.169,174.000 C591.169,163.880 593.898,145.480 600.000,128.000 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M614.215,130.251 C614.616,148.761 611.526,167.104 608.399,176.729 C600.399,176.729 583.601,171.271 591.601,171.271 C594.728,161.646 603.010,144.990 614.215,130.251 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M627.038,136.785 C621.700,154.513 613.093,171.004 607.145,179.191 C599.145,179.191 584.855,168.809 592.855,168.809 C598.804,160.622 611.827,147.340 627.038,136.785 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M637.215,146.962 C626.660,162.173 613.378,175.196 605.191,181.145 C597.191,181.145 586.809,166.855 594.809,166.855 C602.996,160.907 619.487,152.300 637.215,146.962 Z" fill="none" stroke="#d4af37" stroke-width="2.400" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M240.000,540.000 C348.000,522.000 420.000,288.000 600.000,180.000 C780.000,288.000 852.000,522.000 960.000,540.000" fill="none" stroke="#d4af37" stroke-width="4.000" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M240.000,536.400 C348.000,513.900 422.700,276.300 600.000,162.000 C777.300,276.300 852.000,513.900 960.000,536.400" fill="none" stroke="#b7892e" stroke-width="2.200" stroke-linejoin="round" stroke-linecap="round" />
+</svg>
