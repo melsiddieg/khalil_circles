@@ -71,8 +71,8 @@ const CIRCLE4_METERS: Meter[] = [
     nameTransliteration: 'al-Bahr al-Mudāriʿ',
     circleId: 'circle4-accordant',
     startOffset: 5,
-    parsingInstructions: [3, 3, 3], // [مفاعيلن, فاع لاتن, مفاعيلن] 
-    patternTransliteration: 'mafāʿīlun fāʿi lātun mafāʿīlun',
+    parsingInstructions: [3, 3, 3], // [مفاعيلن, فاعلاتن, مفاعيلن] 
+    patternTransliteration: 'mafāʿīlun fāʿilātun mafāʿīlun',
     description: 'بحر المضارع - إيقاع متنوع بتنويعات خفيفة وأنماط إيقاعية دقيقة',
     historicalUsage: 'أقل شيوعاً لكن يُستخدم للشعر المتطور الذي يتطلب تنوعاً إيقاعياً',
     famousExamples: MUDARI_EXAMPLES
@@ -109,7 +109,7 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر السريع',
     nameTransliteration: 'al-Bahr al-Sarīʿ',
     circleId: 'circle4-accordant',
-    startOffset: 0,
+    startOffset: 9, // Updated from 0 to 9 to maintain forward progression
     parsingInstructions: [3, 3, 3], // [مستفعلن, مستفعلن, مفعولات]
     patternTransliteration: 'mustafʿilun mustafʿilun mafʿūlātu',
     description: 'بحر السريع - إيقاع سريع نشيط مناسب للحماسة والفخر',
@@ -122,7 +122,7 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر المنسرح',
     nameTransliteration: 'al-Bahr al-Munsarih',
     circleId: 'circle4-accordant',
-    startOffset: 3,
+    startOffset: 12, // Updated from 3 to 12 (9 + 3)
     parsingInstructions: [3, 3, 3], // [مستفعلن, مفعولات, مستفعلن]
     patternTransliteration: 'mustafʿilun mafʿūlātu mustafʿilun',
     description: 'بحر المنسرح - إيقاع منساب سهل مناسب للتأمل الفلسفي',
@@ -135,7 +135,7 @@ const CIRCLE4_METERS: Meter[] = [
     name: 'البحر الخفيف',
     nameTransliteration: 'al-Bahr al-Khafif',
     circleId: 'circle4-accordant',
-    startOffset: 4,
+    startOffset: 13, // Updated from 4 to 13 (12 + 1)
     parsingInstructions: [3, 3, 3], // [فاعلاتن, مستفع لن, فاعلاتن]
     patternTransliteration: 'fāʿilātun mustafiʿ lun fāʿilātun',
     description: 'بحر الخفيف - إيقاع خفيف رشيق مناسب للموضوعات الرقيقة',
@@ -150,7 +150,7 @@ export const CIRCLE4_ACCORDANT: Circle = {
   nameTransliteration: 'al-Da\'ira al-Muttafiqa',
   description: 'دائرة المشتبه - أعقد الدوائر بستة بحور متناغمة ومترابطة إيقاعياً',
   atomicSequence: CIRCLE4_ATOMIC_SEQUENCE,
-  baseSequenceLength: 12,
+  baseSequenceLength: 9, // Updated to 9
   meters: CIRCLE4_METERS,
   visualTheme: {
     primaryColor: '#8B5CF6', // Violet

@@ -109,7 +109,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     // The sequence is displayed starting from -90deg (top) which corresponds to startOffset.
                     // So visually, the first segment at top is startOffset.
 
-                    let relativeIndex = (index - activeMeter.startOffset);
+                    let relativeIndex = (index - activeMeter.startOffset) % totalUnits;
                     if (relativeIndex < 0) relativeIndex += totalUnits;
 
                     // Find group index
