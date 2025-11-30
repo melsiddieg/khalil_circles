@@ -3,38 +3,26 @@ import { Circle, Meter, PoetryExample } from '../../types';
 // Circle 2: الدائرة المجتلبة (al-Da'ira al-Mujtaliба) - Pure Circle  
 // This circle contains meters with "pure" prosodic patterns
 
-// Circle 2 atomic sequence - ensures both meters get uniform patterns
+// Circle 2 atomic sequence - fundamental pattern
 // الوافر (index 0): //0 ///0 | //0 ///0 | //0 ///0 = مفاعلتن مفاعلتن مفاعلتن
 // الكامل (index 1): ///0 //0 | ///0 //0 | ///0 //0 = متفاعلن متفاعلن متفاعلن
-export const CIRCLE2_ATOMIC_SEQUENCE = ['0//', '0///', '0//', '0///', '0//', '0///', '0//', '0///', '0//', '0///', '0//', '0///'];
+export const CIRCLE2_ATOMIC_SEQUENCE = ['0//', '0///', '0//', '0///', '0//', '0///'];
 
 // Historical poetry examples for Circle 2 meters
 const WAFIR_EXAMPLES: PoetryExample[] = [
   {
-    text: 'مُباركٌ الاسمُ أَغَرُّ اللَقَبْ * كَريمُ الجَرثومَةِ شَريفُ النَسَبْ',
-    poet: 'أحمد شوقي',
-    translation: 'Blessed is the name, glorious the title, noble the origin, honorable the lineage',
-    era: 'Modern'
-  },
-  {
-    text: 'يا مَن يَعِزُّ عَلَيْنَا أَنْ نُفَارِقَهُمْ * وِجْدَانُنَا كُلَّ شَيْءٍ بَعْدَكُمْ عَدَمُ',
-    poet: 'ابن زيدون',
-    translation: 'O those whom it grieves us to part from, our consciousness after you is nothingness',
-    era: 'Andalusian'
+    text: 'أَلا هُبّي بِصَحنِكِ فَاِصبَحينا * وَلا تُبقي خُمورَ الأَندَرينا',
+    poet: 'عمرو بن كلثوم',
+    translation: 'Wake up and bring us your morning draught in your goblet, and do not spare the wines of Al-Andarin.',
+    era: 'Pre-Islamic'
   }
 ];
 
 const KAMIL_EXAMPLES: PoetryExample[] = [
   {
-    text: 'بانَتْ سُعادُ فَقَلبي اليَومَ مَتبولُ * مُتَيَّمٌ إِثرَها لَم يُفْدَ مَكبولُ',
-    poet: 'كعب بن زهير',
-    translation: 'Su\'ad has departed, and my heart today is afflicted, captivated by her, unfree and shackled',
-    era: 'Early Islamic'
-  },
-  {
-    text: 'أَلا هُبِّي بِصَحْنِكِ فَاصْبَحِينَا * وَلا تُبْقِي خُمُورَ الأَنْدَرِينَا',
-    poet: 'الأعشى',
-    translation: 'Come, arise with your cup and give us to drink, do not leave the wines of the Andarīn',
+    text: 'هَل غادَرَ الشُعَراءُ مِن مُتَرَدَّمِ * أَم هَل عَرَفتَ الدارَ بَعدَ تَوَهُّمِ',
+    poet: 'عنترة بن شداد',
+    translation: 'Have the poets left anything to be patched? Or did you recognize the abode after imagining it?',
     era: 'Pre-Islamic'
   }
 ];
@@ -42,7 +30,7 @@ const KAMIL_EXAMPLES: PoetryExample[] = [
 const CIRCLE2_METERS: Meter[] = [
   {
     id: 'al-wafir',
-    name: 'البحر الوافر', 
+    name: 'البحر الوافر',
     nameTransliteration: 'al-Bahr al-Wafir',
     circleId: 'circle2-pure',
     startOffset: 0,
@@ -72,7 +60,7 @@ export const CIRCLE2_PURE: Circle = {
   nameTransliteration: 'al-Da\'ira al-Mujtaliба',
   description: 'دائرة المؤتلف - تحتوي على بحور متناغمة ذات أنماط عروضية مكتملة',
   atomicSequence: CIRCLE2_ATOMIC_SEQUENCE,
-  baseSequenceLength: 9,
+  baseSequenceLength: 6,
   meters: CIRCLE2_METERS,
   visualTheme: {
     primaryColor: '#3B82F6', // Blue

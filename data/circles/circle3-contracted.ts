@@ -8,41 +8,35 @@ import { Circle, Meter, PoetryExample } from '../../types';
 // al-Rajaz: مستفعلن (//0,/0,/0) - starts at index 3 (shifted for RTL: "0// 0/ 0/")  
 // al-Ramal: فاعلاتن (/0,//0,/0) - starts at index 5
 export const CIRCLE3_ATOMIC_SEQUENCE = [
-  // Index: 0    1   2    3    4   5    6    7    8    9   10  11   12   13  14   15   16  17   18  19  20
-  '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/',
-  '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/'
+  '0//', '0/', '0/',
+  '0//', '0/', '0/',
+  '0//', '0/', '0/'
 ];
 
 // Historical poetry examples for Circle 3 meters
 const HAZAJ_EXAMPLES: PoetryExample[] = [
   {
-    text: 'يا بَيتَ عاتِكَةَ الَّذي أَتَعَزَّى * حَذَرَ العَدا وَبِهِ أَقيمُ وَأَحْتَمي',
-    poet: 'عنترة بن شداد',
-    translation: 'O house of \'Atika, where I seek comfort, wary of enemies, and where I dwell and take refuge',
-    era: 'Pre-Islamic'
+    text: 'صَفَحنا عَن بَني ذُهلٍ * وَقُلنا القَومُ إِخوانُ',
+    poet: 'قيس بن الملوح (مجنون ليلى)',
+    translation: 'We forgave the Banu Dhuhl, and said: "The people are brothers."',
+    era: 'Umayyad'
   }
 ];
 
 const RAJAZ_EXAMPLES: PoetryExample[] = [
   {
-    text: 'أنا الَّذي نَظَرَ الأَعمى إِلى أَدَبي * وَأَسمَعَت كَلِماتي مَن بِهِ صَمَمُ',
-    poet: 'المتنبي',
-    translation: 'I am he whose literature the blind have seen, and whose words have been heard by the deaf',
-    era: 'Abbasid'
-  },
-  {
-    text: 'يا خَيلَ اللَهِ اِركَبي * وَفي سَبيلِ اللَهِ اِضرِبي',
-    poet: 'أبو تمام',
-    translation: 'O horses of Allah, mount and strike in the path of Allah',
-    era: 'Abbasid'
+    text: 'ما هاجَ أَحزاناً وَشَجواً قَد شَجا * تَأمُّلُ العَينِ بِأَعناقِ الدُمى',
+    poet: 'الفرزدق',
+    translation: 'What stirred sorrows and grief that was already grieving? The eye contemplating the necks of the statues.',
+    era: 'Umayyad'
   }
 ];
 
 const RAMAL_EXAMPLES: PoetryExample[] = [
   {
-    text: 'يا سَاكِني مِصرَ إِنّا لا نُزايِلُها * نَحنُ الطُيورُ وَهي الوَكرُ نَأوي بِها',
-    poet: 'ابن دراج القسطلي',
-    translation: 'O dwellers of Egypt, we never leave her; we are the birds and she is the nest where we shelter',
+    text: 'أَضحى التَنائي بَديلاً مِن تَدانينا * وَنابَ عَن طيبِ لُقيانا تَجافينا',
+    poet: 'ابن زيدون',
+    translation: 'Distance has become a substitute for our nearness, and separation has replaced the sweetness of our meeting.',
     era: 'Andalusian'
   }
 ];

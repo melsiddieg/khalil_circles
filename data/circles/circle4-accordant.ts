@@ -9,105 +9,57 @@ import { Circle, Meter, PoetryExample } from '../../types';
 export const CIRCLE4_ATOMIC_SEQUENCE = ['0/', '0/', '0//', '0/', '0/', '0//', '0/', '0/', '/0/'];
 
 // Historical poetry examples for Circle 4 meters
+const SARI_EXAMPLES: PoetryExample[] = [
+  {
+    text: 'ما أَبتَغي جَلَّ أَن يُسَمّى * وَالحَقُّ قَد يَعرى فَلا يُكسى',
+    poet: 'المتنبي',
+    translation: 'What I seek is too great to be named; and truth may be bare and not clothed.',
+    era: 'Abbasid'
+  }
+];
+
 const MUNSARIH_EXAMPLES: PoetryExample[] = [
   {
-    text: 'لَيس الغَريبُ غَريبَ الشَام وَاليَمَنِ * إِنَّ الغَريبَ غَريبُ اللَحدِ وَالكَفَنِ',
-    poet: 'ابن الرومي',
-    translation: 'The stranger is not the stranger of Syria and Yemen; the true stranger is the stranger of the grave and shroud',
-    era: 'Abbasid',
-    significance: 'This masterpiece exemplifies المنسرح meter\'s flowing quality, perfect for ابن الرومي\'s philosophical reflection on life\'s true meaning.'
-  },
-  {
-    text: 'وَإِذا المَنِيَّةُ أَنشَبَت أَظفارَها * أَلفَيتَ كُلَّ تَميمَةٍ لا تَنفَعُ',
-    poet: 'أبو ذؤيب الهذلي',
-    translation: 'When death sinks in its claws, you find that every amulet is of no avail',
-    era: 'Early Islamic',
-    significance: 'This profound verse demonstrates المنسرح\'s capacity for contemplative wisdom about mortality and fate.'
+    text: 'إِنَّ اِبنَ زَيدٍ لا زالَ مُستَعمِلاً * لِلخَيرِ يُفشي في مِصرِهِ العُرفا',
+    poet: 'الأعشى',
+    translation: 'Indeed, Ibn Zayd continues to practice good, spreading kindness in his city.',
+    era: 'Pre-Islamic'
   }
 ];
 
 const KHAFIF_EXAMPLES: PoetryExample[] = [
   {
     text: 'يا لَيلُ الصَبُّ مَتى غَدُهُ * أَقيامُ السّاعَةِ مَوعِدُهُ',
-    poet: 'أبو نواس',
-    translation: 'O night of the lover, when will his tomorrow come? Is the Hour of Judgment his promised time?',
-    era: 'Abbasid',
-    significance: 'This delicate verse showcases الخفيف meter\'s light, airy quality perfectly suited to أبو نواس\'s romantic poetry.'
-  },
-  {
-    text: 'لا تَعذُليهِ فَإِنَّ العَذلَ يولِعُهُ * قَد قُلتِ حَقّاً وَلَكِن لَيسَ يَسمَعُهُ',
-    poet: 'جرير',
-    translation: 'Do not blame him, for blame inflames him; you speak truth but he does not hear it',
-    era: 'Umayyad',
-    significance: 'جرير uses الخفيف\'s swift rhythm to capture the futility of reasoning with a lover, demonstrating the meter\'s psychological subtlety.'
+    poet: 'الحصري القيرواني',
+    translation: 'O night of the lover, when is his tomorrow? Is the Day of Judgment his appointment?',
+    era: 'Andalusian'
   }
 ];
 
 const MUDARI_EXAMPLES: PoetryExample[] = [
   {
-    text: 'أَينَ أَزمانُ الوَصلِ بِالأَندَلُس * لَم تَكُن أَحلامَاً وَلا أَطيافاً',
-    poet: 'ابن زيدون',
-    translation: 'Where are the times of union in Al-Andalus? They were not dreams nor phantoms',
-    era: 'Andalusian',
-    significance: 'ابن زيدون masterfully employs المضارع meter\'s subtle variations to evoke nostalgic longing for lost Andalusian paradise.'
-  },
-  {
-    text: 'مَلَكٌ تَخِرُّ لَهُ الوُجوهُ سُجوداً * وَتَضيءُ مِن نورِ الجَبينِ جِباهُ',
-    poet: 'البحتري',
-    translation: 'A king before whom faces fall prostrate, and foreheads are illuminated by the light of his brow',
-    era: 'Abbasid',
-    significance: 'البحتري uses المضارع\'s nuanced rhythm to create a portrait of royal majesty with refined poetic craftsmanship.'
+    text: 'دَعاني إِلى سُعادٍ * دَواعي هَوى سُعادِ',
+    poet: 'أبو العتاهية',
+    translation: 'The calls of Su\'ad\'s love summoned me to Su\'ad.',
+    era: 'Abbasid'
   }
 ];
 
 const MUQTADAB_EXAMPLES: PoetryExample[] = [
   {
-    text: 'الخَيلُ وَاللَيلُ وَالبَيداءُ تَعرِفُني * وَالسَيفُ وَالرُمحُ وَالقِرطاسُ وَالقَلَمُ',
-    poet: 'المتنبي',
-    translation: 'The horses, night, and desert know me, as do the sword, spear, parchment, and pen',
-    era: 'Abbasid',
-    significance: 'This powerful verse demonstrates المقتضب meter\'s concise force, perfectly capturing المتنبي\'s confident self-assertion.'
-  },
-  {
-    text: 'كُن كَيفَ شِئتَ فَإِنَّ الحُبَّ ذو عَجَبٍ * يُرضيكَ بِالوَصلِ حيناً ثُمَّ يُؤذيكا',
-    poet: 'عنترة بن شداد',
-    translation: 'Be as you wish, for love is wondrous - it pleases you with union at times, then hurts you',
-    era: 'Pre-Islamic',
-    significance: 'عنترة employs المقتضب\'s abbreviated power to express love\'s paradoxical nature with warrior-poet directness.'
+    text: 'حامِلُ الهَوى تَعِبُ * يَستَخِفُّهُ الطَرَبُ',
+    poet: 'أبو نواس',
+    translation: 'The bearer of love is weary; joy makes him light-headed.',
+    era: 'Abbasid'
   }
 ];
 
 const MUJTATH_EXAMPLES: PoetryExample[] = [
   {
-    text: 'يا رَبِّ إِن عَظُمَت ذُنوبي كَثرَةً * فَلَقَد عَلِمتُ بِأَنَّ عَفوَكَ أَعظَمُ',
-    poet: 'أبو نواس',
-    translation: 'O Lord, if my sins have grown great in number, I know that Your forgiveness is greater',
-    era: 'Abbasid',
-    significance: 'This famous penitential verse demonstrates المجتث meter\'s emotional intensity, perfect for أبو نواس\'s spiritual confession.'
-  },
-  {
-    text: 'أَرى المَنايا خَبط عَشواءَ مَن تُصِب * تُمِته وَمَن تُخطِئ يُعَمَّر فَيَهرَم',
-    poet: 'طرفة بن العبد',
-    translation: 'I see deaths strike blindly - whom they hit dies, whom they miss lives on to grow old',
-    era: 'Pre-Islamic',
-    significance: 'طرفة uses المجتث\'s urgent rhythm to express his fatalistic view of death\'s arbitrary nature with youthful intensity.'
-  }
-];
-
-const SARI_EXAMPLES: PoetryExample[] = [
-  {
-    text: 'ما أَبتغي جَلَّ أَن يُسمى وَأَن يُذكرا * وَالمُبتغي مَن إِليهِ المُشتكى صَبرا',
-    poet: 'المتنبي',
-    translation: 'What I seek is too sublime to be named or mentioned, and the sought is he to whom complaints are made for patience',
-    era: 'Abbasid',
-    significance: 'This verse demonstrates the Swift meter\'s energetic rhythm, perfectly suited to express المتنبي\'s philosophical contemplation of divine transcendence.'
-  },
-  {
-    text: 'أَلا كُلُّ شَيءٍ ما خَلا اللَهَ باطِلُ * وَكُلُّ نَعيمٍ لا مَحالَةَ زائِلُ',
-    poet: 'لبيد بن ربيعة',
-    translation: 'Indeed, all things save Allah are vanity, and all bliss shall inevitably pass away',
-    era: 'Pre-Islamic',
-    significance: 'This famous verse from لبيد exemplifies the السريع meter\'s ability to convey profound philosophical truths with swift, memorable rhythm.'
+    text: 'البَطنُ مِنها خَميصُ * وَالوَجهُ مِثلُ الهِلالِ',
+    poet: 'ابن المعتز',
+    translation: 'Her waist is slender, and her face is like the crescent moon.',
+    era: 'Abbasid'
   }
 ];
 

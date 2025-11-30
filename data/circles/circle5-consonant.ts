@@ -4,30 +4,24 @@ import { Circle, Meter, PoetryExample } from '../../types';
 // This circle contains meters with consonant-heavy, rapid rhythmic patterns
 
 // Circle 5 atomic sequence - pattern for فعولن repetition (0// 0/ for RTL)
-export const CIRCLE5_ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/'];
+export const CIRCLE5_ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/'];
 
 // Historical poetry examples for Circle 5 meters
 const MUTAQARIB_EXAMPLES: PoetryExample[] = [
   {
-    text: 'أفَدِ الحَيَوانَ حَدِيثاً ما لَهُ بَدُ * أو فَاصمُت فَالسَكوتُ لَكَ أَبَرُد',
-    poet: 'أبو العلاء المعري',
-    translation: 'Tell the living a necessary tale, or be silent, for silence is cooler for you',
-    era: 'Abbasid'
-  },
-  {
-    text: 'وَما نَيلُ الأَماني بِالتَمَنّي * وَلكِن تُؤخَذُ الدُنيا غِلاباً',
-    poet: 'أحمد شوقي',
-    translation: 'Hopes are not attained by wishing, but the world is taken by force',
-    era: 'Modern'
+    text: 'أَلا كُلُّ شَيءٍ ما خَلا اللَهَ باطِلُ * وَكُلُّ نَعيمٍ لا مَحالَةَ زائِلُ',
+    poet: 'لبيد بن ربيعة',
+    translation: 'Indeed, everything other than Allah is false, and every bliss is inevitably fleeting.',
+    era: 'Pre-Islamic'
   }
 ];
 
 const MUTADARIK_EXAMPLES: PoetryExample[] = [
   {
-    text: 'يا لَيلُ يا لَيلُ يا لَيلُ الصَبا * رُدَّ عَلى قَلبيَ المَهجُورِ صَباهُ',
-    poet: 'فاروق جويدة',
-    translation: 'O night, O night, O night of youth, return to my abandoned heart its youth',
-    era: 'Contemporary'
+    text: 'جاءَنا الأَشعَثُ حَقّاً * بِنِكاحٍ لا يُبالي',
+    poet: 'الخنساء',
+    translation: 'Al-Ash\'ath truly came to us with a marriage proposal, indifferent.',
+    era: 'Early Islamic'
   }
 ];
 
@@ -64,7 +58,7 @@ export const CIRCLE5_CONSONANT: Circle = {
   nameTransliteration: "al-Da'ira al-Muttafiq",
   description: 'دائرة المتفق - تحتوي على بحور سريعة ذات أنماط إيقاعية كثيفة الحروف الساكنة',
   atomicSequence: CIRCLE5_ATOMIC_SEQUENCE,
-  baseSequenceLength: 10,
+  baseSequenceLength: 8,
   meters: CIRCLE5_METERS,
   visualTheme: {
     primaryColor: '#EF4444', // Red

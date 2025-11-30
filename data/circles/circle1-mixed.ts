@@ -10,27 +10,27 @@ export const CIRCLE1_ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0/', '0//', '
 // Historical poetry examples for Circle 1 meters
 const TAWIL_EXAMPLES: PoetryExample[] = [
   {
-    text: 'أَرانِي إِلاّ مُزيدَ الهوى * وَأَنكَ إِلاّ مُهانٌ كَئِيبُ',
+    text: 'قِفا نَبكِ مِن ذِكرى حَبيبٍ وَمَنزِلِ * بِسِقطِ اللِوى بَينَ الدَخولِ فَحَومَلِ',
     poet: 'امرؤ القيس',
-    translation: 'I see myself increasing only in love, and you only as a dishonored, sorrowful one',
+    translation: 'Halt, friends both! Let us weep, recalling a love and a lodging by the rim of the twisted sands between Ad-Dakhul and Haumal.',
     era: 'Pre-Islamic'
   }
 ];
 
 const MADID_EXAMPLES: PoetryExample[] = [
   {
-    text: 'يا ليتَ الشبابَ يعودُ يوماً * فأخبِرَهُ بما فعلَ المَشيبُ',
+    text: 'يا لَيتَ الشَبابَ يَعودُ يَوماً * فَأُخبِرَهُ بِما فَعَلَ المَشيبُ',
     poet: 'أبو العتاهية',
-    translation: 'If only youth could return one day, so I could tell it what old age has done',
+    translation: 'I wish that youth would return one day, so that I might tell it what gray hair has done.',
     era: 'Abbasid'
   }
 ];
 
 const BASIT_EXAMPLES: PoetryExample[] = [
   {
-    text: 'إن الكريمَ إذا تمكن من أذى * لم يبق في قلبِه له أثرُ',
-    poet: 'البحتري', 
-    translation: 'When the generous one is able to cause harm, no trace of it remains in his heart',
+    text: 'الخَيلُ وَاللَيلُ وَالبَيداءُ تَعرِفُني * وَالسَيفُ وَالرُمحُ وَالقِرطاسُ وَالقَلَمُ',
+    poet: 'المتنبي',
+    translation: 'The horses, the night, and the desert know me; as do the sword, the spear, the paper, and the pen.',
     era: 'Abbasid'
   }
 ];
