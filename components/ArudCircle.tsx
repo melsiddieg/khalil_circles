@@ -20,8 +20,8 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
   const totalUnitsInPattern = activeMeter.parsingInstructions.reduce((sum, val) => sum + val, 0);
   const patternWidth = totalUnitsInPattern * unitWidth;
 
-  // Calculate shift with modular arithmetic for circular behavior
-  const normalizedOffset = ((activeMeter.startOffset % sequenceLength) + sequenceLength) % sequenceLength;
+  // Calculate shift without modular arithmetic to allow forward progression beyond sequence length
+  const normalizedOffset = activeMeter.startOffset;
   const shift = normalizedOffset * unitWidth;
 
   // State for sliding window effect

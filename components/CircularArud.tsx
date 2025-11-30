@@ -322,7 +322,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                         {activeMeter.nameTransliteration}
                     </div>
                     <div className="mt-2 text-emerald-400 font-mono text-lg">
-                        {formatUnit(sequence[activeMeter.startOffset])}
+                        {formatUnit(sequence[activeMeter.startOffset % totalUnits])}
                     </div>
                 </div>
             </div>
