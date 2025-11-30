@@ -29,10 +29,7 @@ The Interactive Arud Explorer is a React-based web application designed to visua
     ```bash
     npm install
     ```
-2.  Set your Gemini API key in a `.env.local` file (if applicable for future features):
-    ```
-    GEMINI_API_KEY=your-api-key
-    ```
+
 
 ### Running Locally
 
