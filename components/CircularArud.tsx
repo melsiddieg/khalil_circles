@@ -40,7 +40,10 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                 viewBox="-300 -300 600 600"
                 className="transition-transform duration-1000 ease-in-out"
                 style={{ transform: `rotate(${rotation}deg)` }}
+                role="img"
+                aria-label={`${circle.name} — ${activeMeter.name}`}
             >
+                <title>{`${circle.name}: ${activeMeter.name}`}</title>
                 {/* Segments */}
                 {sequence.map((unit, index) => {
                     // Calculate start and end angles

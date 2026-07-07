@@ -79,12 +79,16 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
       {/* Meter Progress Indicator */}
       <div className="mb-4 bg-gray-800/50 rounded-full p-1.5 border border-gray-700">
         <div className="flex items-center gap-2">
-          {circle.meters.map((_, index) => (
-            <div
-              key={index}
+          {circle.meters.map((meter, index) => (
+            <button
+              key={meter.id}
+              type="button"
+              onClick={() => setCurrentMeterIndex(index)}
+              aria-label={meter.name}
+              aria-current={index === currentMeterIndex}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentMeterIndex
                 ? 'scale-125 shadow-lg'
-                : 'opacity-50'
+                : 'opacity-50 hover:opacity-100'
                 }`}
               style={{
                 backgroundColor: index === currentMeterIndex
