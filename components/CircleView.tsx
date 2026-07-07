@@ -124,7 +124,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, currentMeterIndex, onMe
         {/* Visualization Column (Right on Desktop, Top on Mobile; sticky on mobile scroll) */}
         <div className="w-full lg:w-3/5 flex flex-col items-center gap-4 order-1 lg:order-2 sticky top-0 z-10 bg-gray-900/95 backdrop-blur-md py-4 -mx-4 px-4 shadow-xl lg:static lg:bg-transparent lg:shadow-none lg:p-0 lg:m-0">
           {/* Circular Visualization */}
-          <div className="transition-transform duration-500 scale-90 md:scale-100">
+          <div id="tour-circle-viz" className="transition-transform duration-500 scale-90 md:scale-100">
             <CircularArud
               circle={circle}
               activeMeter={activeMeter}
@@ -143,7 +143,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, currentMeterIndex, onMe
           </div>
 
           {/* Linear Visualization */}
-          <div className="w-full flex items-center justify-center p-2 h-[130px] overflow-hidden">
+          <div id="tour-banner" className="w-full flex items-center justify-center p-2 h-[130px] overflow-hidden">
             <ArudBanner
               activeMeter={activeMeter}
               activePattern={activePattern}

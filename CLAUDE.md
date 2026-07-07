@@ -93,9 +93,15 @@ The application is built around Al-Khalil's complete circular theory of Arabic p
 - `TAFILA_MAP`: Maps atomic unit sequences to their Arabic names with circle-specific prefixes
 
 ### Component Architecture
-- **App.tsx**: Main component managing navigation between hub and circle views
-- **CircleHub.tsx**: Hub view displaying all five circles for selection
-- **CircleView.tsx**: Individual circle view with meter navigation
+- **App.tsx**: Main component owning all navigation state (hub / circle / compare views, selected circle + meter index, tour step)
+- **CircleHub.tsx**: Hub view displaying all five circles for selection, plus meter search, compare and tour entry points
+- **CircleView.tsx**: Individual circle view; receives `currentMeterIndex` + `onMeterChange` from App (no internal meter state)
+- **MeterSearch.tsx**: Hub search across all 16 meters (Arabic/transliteration/tafila, normalized via `utils/arabicNormalize.ts`), deep-links to a meter
+- **CompareView.tsx** + **MeterPatternCard.tsx**: side-by-side meter comparison with shared-feet highlighting
+- **TourOverlay.tsx** + **tour/tourSteps.ts**: 7-step guided tour (spotlight overlay driving App navigation)
+- **IslamicPattern.tsx**: procedural geometric SVG backdrop for hub cards (per-instance pattern ids)
+- **ErrorBoundary.tsx**: top-level render-error fallback
+- **i18n/**: `LanguageContext` (ع/EN toggle, localStorage, flips html lang/dir), `translations.ts` (ar source of truth, typed en parity), `names.ts` helpers
 - **ArudCircle.tsx**: The critical "roulette" component - implements smooth sliding animation
 - **MeterDisplay.tsx**: Shows meter details with fade-in animations
 - **Controls.tsx**: RTL-compliant navigation controls

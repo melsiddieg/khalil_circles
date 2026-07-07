@@ -6,7 +6,11 @@ import CircleView from './components/CircleView';
 import CompareView from './components/CompareView';
 import InfoCard from './components/InfoCard';
 import LanguageToggle from './components/LanguageToggle';
+import TourOverlay from './components/TourOverlay';
+import { TOUR_STEPS } from './tour/tourSteps';
 import { Circle, AppState } from './types';
+
+const TOUR_SEEN_KEY = 'arud-tour-seen';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>({
@@ -40,6 +44,35 @@ const App: React.FC = () => {
     setAppState({ currentView: 'compare', selectedCircleId: undefined, selectedMeterIndex: 0 });
   }, []);
 
+  const [tourStep, setTourStep] = useState<number | null>(null);
+
+  const applyTourStep = useCallback((index: number) => {
+    const action = TOUR_STEPS[index]?.action;
+    if (action) {
+      if (action.view === 'hub') {
+        setAppState({ currentView: 'hub', selectedCircleId: undefined, selectedMeterIndex: 0 });
+      } else {
+        setAppState({
+          currentView: 'circle',
+          selectedCircleId: action.circleId,
+          selectedMeterIndex: action.meterIndex
+        });
+      }
+    }
+    setTourStep(index);
+  }, []);
+
+  const handleStartTour = useCallback(() => applyTourStep(0), [applyTourStep]);
+
+  const handleExitTour = useCallback(() => {
+    setTourStep(null);
+    try {
+      localStorage.setItem(TOUR_SEEN_KEY, '1');
+    } catch {
+      // Preference just won't persist.
+    }
+  }, []);
+
   const handleBackToHub = useCallback(() => {
     setAppState({
       currentView: 'hub',
@@ -62,6 +95,7 @@ const App: React.FC = () => {
             onCircleSelect={handleCircleSelect}
             onMeterSelect={handleMeterSelect}
             onCompare={handleCompare}
+            onStartTour={handleStartTour}
           />
         </div>
       ) : appState.currentView === 'compare' ? (
@@ -87,6 +121,10 @@ const App: React.FC = () => {
             Return to Hub
           </button>
         </div>
+      )}
+
+      {tourStep !== null && (
+        <TourOverlay stepIndex={tourStep} onStepChange={applyTourStep} onExit={handleExitTour} />
       )}
     </div>
   );

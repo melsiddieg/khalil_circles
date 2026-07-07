@@ -9,9 +9,10 @@ interface CircleHubProps {
   onCircleSelect: (circle: Circle) => void;
   onMeterSelect: (circleId: string, meterIndex: number) => void;
   onCompare: () => void;
+  onStartTour: () => void;
 }
 
-const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, onCompare }) => {
+const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, onCompare, onStartTour }) => {
   const { t } = useLanguage();
 
   return (
@@ -37,8 +38,8 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, on
       {/* Meter Search */}
       <MeterSearch onMeterSelect={onMeterSelect} />
 
-      {/* Compare entry */}
-      <div className="text-center -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
+      {/* Compare + Tour entries */}
+      <div className="flex items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
         <button
           type="button"
           onClick={onCompare}
@@ -49,10 +50,20 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, on
           <span aria-hidden="true">⇄</span>
           {t.compare.entry}
         </button>
+        <button
+          type="button"
+          onClick={onStartTour}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
+                     bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
+                     hover:border-amber-500/50 transition-all duration-300"
+        >
+          <span aria-hidden="true">✦</span>
+          {t.tour.entry}
+        </button>
       </div>
 
       {/* Ornate Cards Cluster - Grape Layout */}
-      <div className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
+      <div id="tour-cards" className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
         {/* Top Row - 3 Ornate Cards */}
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
           {ALL_CIRCLES.slice(0, 3).map((circle, i) => (
