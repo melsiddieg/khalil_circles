@@ -62,6 +62,11 @@ export const ar = {
     play: 'تشغيل',
     pause: 'إيقاف',
   },
+  search: {
+    placeholder: 'ابحث عن بحر… (مثال: الطويل، مستفعلن، tawil)',
+    label: 'البحث في البحور',
+    noResults: 'لا نتائج',
+  },
 } as const;
 
 type DeepStringify<T> = {
@@ -132,5 +137,10 @@ export const en: Translations = {
     next: 'Next Meter',
     play: 'Play',
     pause: 'Pause',
+  },
+  search: {
+    placeholder: 'Search meters… (e.g. tawil, الطويل, مستفعلن)',
+    label: 'Search meters',
+    noResults: 'No results',
   },
 };

@@ -22,6 +22,19 @@ const App: React.FC = () => {
     });
   }, []);
 
+  // Deep-link directly to a specific meter inside a circle (used by search).
+  const handleMeterSelect = useCallback((circleId: string, meterIndex: number) => {
+    setAppState({
+      currentView: 'circle',
+      selectedCircleId: circleId,
+      selectedMeterIndex: meterIndex
+    });
+  }, []);
+
+  const handleMeterChange = useCallback((meterIndex: number) => {
+    setAppState((prev) => ({ ...prev, selectedMeterIndex: meterIndex }));
+  }, []);
+
   const handleBackToHub = useCallback(() => {
     setAppState({
       currentView: 'hub',
@@ -31,7 +44,7 @@ const App: React.FC = () => {
   }, []);
 
   // Get selected circle for circle view
-  const selectedCircle = appState.selectedCircleId ? 
+  const selectedCircle = appState.selectedCircleId ?
     ALL_CIRCLES.find((c: Circle) => c.id === appState.selectedCircleId) : null;
 
   return (
@@ -40,19 +53,21 @@ const App: React.FC = () => {
       {appState.currentView === 'hub' ? (
         <div key="hub" className="animate-view-fade w-full flex flex-col items-center">
           <InfoCard />
-          <CircleHub onCircleSelect={handleCircleSelect} />
+          <CircleHub onCircleSelect={handleCircleSelect} onMeterSelect={handleMeterSelect} />
         </div>
       ) : selectedCircle ? (
         <div key={selectedCircle.id} className="animate-view-fade w-full">
           <CircleView
             circle={selectedCircle}
+            currentMeterIndex={appState.selectedMeterIndex ?? 0}
+            onMeterChange={handleMeterChange}
             onBackToHub={handleBackToHub}
           />
         </div>
       ) : (
         <div className="text-center">
           <p className="text-red-400">Error: Circle not found</p>
-          <button 
+          <button
             onClick={handleBackToHub}
             className="mt-4 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
           >

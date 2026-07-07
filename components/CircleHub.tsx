@@ -2,13 +2,15 @@ import React from 'react';
 import { Circle } from '../types';
 import { ALL_CIRCLES } from '../constants';
 import OrnateCard from './OrnateCard';
+import MeterSearch from './MeterSearch';
 import { useLanguage } from '../i18n/LanguageContext';
 
 interface CircleHubProps {
   onCircleSelect: (circle: Circle) => void;
+  onMeterSelect: (circleId: string, meterIndex: number) => void;
 }
 
-const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
+const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect }) => {
   const { t } = useLanguage();
 
   return (
@@ -30,6 +32,9 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
           {t.hub.intro}
         </p>
       </div>
+
+      {/* Meter Search */}
+      <MeterSearch onMeterSelect={onMeterSelect} />
 
       {/* Ornate Cards Cluster - Grape Layout */}
       <div className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">

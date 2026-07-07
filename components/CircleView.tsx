@@ -11,22 +11,23 @@ import { getCircleName, getMeterName } from '../i18n/names';
 
 interface CircleViewProps {
   circle: Circle;
+  currentMeterIndex: number;
+  onMeterChange: (meterIndex: number) => void;
   onBackToHub: () => void;
 }
 
-const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
-  const [currentMeterIndex, setCurrentMeterIndex] = useState(0);
+const CircleView: React.FC<CircleViewProps> = ({ circle, currentMeterIndex, onMeterChange, onBackToHub }) => {
   const { t, lang, dir } = useLanguage();
 
   const handleNext = useCallback(() => {
-    setCurrentMeterIndex((prevIndex) => (prevIndex + 1) % circle.meters.length);
-  }, [circle.meters.length]);
+    onMeterChange((currentMeterIndex + 1) % circle.meters.length);
+  }, [circle.meters.length, currentMeterIndex, onMeterChange]);
 
   const handlePrev = useCallback(() => {
-    setCurrentMeterIndex((prevIndex) => (prevIndex - 1 + circle.meters.length) % circle.meters.length);
-  }, [circle.meters.length]);
+    onMeterChange((currentMeterIndex - 1 + circle.meters.length) % circle.meters.length);
+  }, [circle.meters.length, currentMeterIndex, onMeterChange]);
 
-  const activeMeter: Meter = circle.meters[currentMeterIndex];
+  const activeMeter: Meter = circle.meters[currentMeterIndex % circle.meters.length];
   const activePattern: Tafila[] = parseMeterPattern(activeMeter, circle);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -91,7 +92,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
             <button
               key={meter.id}
               type="button"
-              onClick={() => setCurrentMeterIndex(index)}
+              onClick={() => onMeterChange(index)}
               aria-label={getMeterName(meter, lang)}
               aria-current={index === currentMeterIndex}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentMeterIndex
