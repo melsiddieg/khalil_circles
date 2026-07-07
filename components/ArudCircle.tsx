@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { ATOMIC_SEQUENCE } from '../constants';
 import { Meter, Tafila, Circle } from '../types';
 
 interface ArudBannerProps {
   activeMeter: Meter;
   activePattern: Tafila[];
-  circle?: Circle; // Optional circle for enhanced theming and sequences
+  circle: Circle;
 }
 
+// Width of one atomic unit cell in the sliding banner.
+const UNIT_WIDTH = 40;
+
+// Animation chain: disintegrate → slide → reform → reveal boxes one by one.
+// Each phase must start after the previous finishes, so these delays are
+// cumulative offsets from the meter change (slide runs 300→1100ms).
+const DISINTEGRATE_MS = 300;
+const REFORM_START_MS = 1100;
+const REVEAL_DONE_BASE_MS = 1600;
+const BOX_STAGGER_MS = 150;
+
 const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, circle }) => {
-  // Use circle's atomic sequence if provided, otherwise fall back to legacy sequence
-  const atomicSequence = circle?.atomicSequence || ATOMIC_SEQUENCE;
+  const atomicSequence = circle.atomicSequence;
 
   // Create a much longer sequence for infinite scrolling effect
   const repeatedSequence = Array(10).fill(atomicSequence).flat();
-  const unitWidth = 40; // pixels - Reduced to 40 for compactness
+  const unitWidth = UNIT_WIDTH;
   const sequenceLength = atomicSequence.length;
 
   const totalUnitsInPattern = activeMeter.parsingInstructions.reduce((sum, val) => sum + val, 0);
@@ -22,19 +31,20 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
 
   // Calculate shift without modular arithmetic to allow forward progression beyond sequence length
   const normalizedOffset = activeMeter.startOffset;
-  const shift = normalizedOffset * unitWidth;
 
   // State for sliding window effect
   const [currentOffset, setCurrentOffset] = useState(0);
   const [showGroupings, setShowGroupings] = useState(true);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isDisintegrating, setIsDisintegrating] = useState(false);
   const [isReforming, setIsReforming] = useState(false);
   const [visibleBoxes, setVisibleBoxes] = useState<boolean[]>(() =>
     new Array(activePattern.length).fill(true)
   );
 
-  // Sliding window animation sequence with smooth transitions
+  // Sliding window animation sequence with smooth transitions.
+  // This effect intentionally drives a timed setState choreography keyed on
+  // the meter change; the states ARE the animation frames, not derived data.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     // Calculate the target offset for smooth sliding
     const targetOffset = normalizedOffset;
@@ -44,14 +54,13 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
 
     // Phase 1: Start disintegration animation
     setIsDisintegrating(true);
-    setIsAnimating(true);
 
     // Phase 2: After disintegration, hide groupings and start sliding
     const hideTimer = setTimeout(() => {
       setShowGroupings(false);
       setIsDisintegrating(false);
       setCurrentOffset(targetOffset);
-    }, 300); // Allow disintegration animation to complete
+    }, DISINTEGRATE_MS); // Allow disintegration animation to complete
 
     // Phase 3: After slide completes, start reformation
     const reformTimer = setTimeout(() => {
@@ -66,22 +75,25 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
             newVisible[index] = true;
             return newVisible;
           });
-        }, index * 150); // 150ms delay between each box
+        }, index * BOX_STAGGER_MS); // stagger between each box
       });
-    }, 1100); // After slide animation completes
+    }, REFORM_START_MS); // After slide animation completes
 
     // Phase 4: Complete reformation
     const completeTimer = setTimeout(() => {
       setIsReforming(false);
-      setIsAnimating(false);
-    }, 1600 + (activePattern.length * 150)); // Allow all boxes to appear
+    }, REVEAL_DONE_BASE_MS + activePattern.length * BOX_STAGGER_MS); // Allow all boxes to appear
 
     return () => {
       clearTimeout(hideTimer);
       clearTimeout(reformTimer);
       clearTimeout(completeTimer);
     };
+    // Re-run only when the meter actually changes; activePattern is derived
+    // from the meter, and normalizedOffset is stable for a given meter.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeMeter.id, activePattern.length]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
     <div

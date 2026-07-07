@@ -16,9 +16,18 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
       style={{ width: '100%', maxWidth: '280px', height: '400px', flexShrink: 0 }}
     >
       <div
+        role="button"
+        tabIndex={0}
+        aria-label={circle.name}
         onClick={() => onCircleSelect(circle)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onCircleSelect(circle);
+          }
+        }}
         className="group cursor-pointer relative transition-all duration-500 ease-out
-                   hover:scale-105 w-full h-full"
+                   hover:scale-105 w-full h-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400 rounded-2xl"
       >
         {/* Card backdrop: glass panel with theme glow and geometric pattern */}
         <div className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-md border border-gray-700 shadow-2xl transition-all duration-500 group-hover:shadow-amber-900/40 group-hover:border-amber-500/50">

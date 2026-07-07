@@ -5,20 +5,22 @@ const InfoCard: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-6">
-      <div 
-        className="bg-gray-800/80 border border-gray-700 rounded-xl p-4 cursor-pointer hover:bg-gray-800/90 transition-all duration-300"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className="flex items-center justify-between">
+      <div className="bg-gray-800/80 border border-gray-700 rounded-xl p-4 hover:bg-gray-800/90 transition-all duration-300">
+        <button
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+          className="flex items-center justify-between w-full text-right"
+        >
           <h3 className="text-xl font-bold text-amber-300 font-amiri">
             عن دوائر العروض
           </h3>
           <div className={`transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : 'rotate-0'}`}>
-            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
-        </div>
+        </button>
         
         {isExpanded && (
           <div className="mt-4 space-y-4 text-gray-300 leading-relaxed">

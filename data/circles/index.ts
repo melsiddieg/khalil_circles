@@ -1,4 +1,4 @@
-import { Circle } from '../../types';
+import { Circle, Meter } from '../../types';
 import { CIRCLE1_MIXED } from './circle1-mixed';
 import { CIRCLE2_PURE } from './circle2-pure';
 import { CIRCLE3_CONTRACTED } from './circle3-contracted';
@@ -26,7 +26,7 @@ export const getCircleById = (id: string): Circle | undefined => {
   return ALL_CIRCLES.find(circle => circle.id === id);
 };
 
-export const getMeterById = (meterId: string): { circle: Circle; meter: any; meterIndex: number } | undefined => {
+export const getMeterById = (meterId: string): { circle: Circle; meter: Meter; meterIndex: number } | undefined => {
   for (const circle of ALL_CIRCLES) {
     const meterIndex = circle.meters.findIndex(meter => meter.id === meterId);
     if (meterIndex !== -1) {

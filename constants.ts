@@ -1,9 +1,6 @@
 import { Meter, Tafila, Circle } from './types';
 import { ALL_CIRCLES, getCircleById } from './data/circles';
 
-// Legacy ATOMIC_SEQUENCE for backward compatibility (Circle 1)
-export const ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0/', '0//', '0/', '0//', '0/', '0/'];
-
 // Comprehensive tafila mapping for all prosodic patterns across all circles
 export const TAFILA_MAP: Record<string, Tafila> = {
   // Circle 1 (Mixed) tafila patterns
@@ -46,7 +43,10 @@ export const parseMeterPattern = (meter: Meter, circle?: Circle): Tafila[] => {
   } else {
     // Find the circle by meter's circleId
     const meterCircle = getCircleById(meter.circleId);
-    atomicSequence = meterCircle?.atomicSequence || ATOMIC_SEQUENCE;
+    if (!meterCircle && import.meta.env.DEV) {
+      console.warn(`parseMeterPattern: unknown circleId "${meter.circleId}" on meter "${meter.id}"`);
+    }
+    atomicSequence = meterCircle?.atomicSequence ?? ALL_CIRCLES[0].atomicSequence;
   }
 
   // Special handling for Circle 3 (contracted) - force uniform tafila repetition
@@ -94,7 +94,13 @@ export const parseMeterPattern = (meter: Meter, circle?: Circle): Tafila[] => {
     } else if (TAFILA_MAP[key]) {
       pattern.push(TAFILA_MAP[key]);
     } else {
-      // Fallback for unmapped patterns
+      // Fallback for unmapped patterns — masks a missing TAFILA_MAP entry,
+      // so surface it loudly during development.
+      if (import.meta.env.DEV) {
+        console.warn(
+          `parseMeterPattern: no TAFILA_MAP entry for "${prefixedKey}" (meter "${meter.id}") — rendering raw atomic units`
+        );
+      }
       pattern.push({
         unmerged: atomicGroup.join(' '),
         merged: atomicGroup.join('')
@@ -105,14 +111,5 @@ export const parseMeterPattern = (meter: Meter, circle?: Circle): Tafila[] => {
   return pattern;
 };
 
-// Legacy function for backward compatibility
-export const parseMeterPatternLegacy = (meter: Meter): Tafila[] => {
-  return parseMeterPattern(meter);
-};
-
-
 // Export circles and utility functions
 export { ALL_CIRCLES, getCircleById, getMeterById, getTotalMeterCount } from './data/circles';
-
-// Legacy METERS array for backward compatibility (Circle 1 meters only)
-export const METERS: Meter[] = ALL_CIRCLES[0]?.meters || [];

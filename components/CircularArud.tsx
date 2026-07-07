@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Circle, Meter, Tafila } from '../types';
 
 interface CircularArudProps {
@@ -7,28 +7,11 @@ interface CircularArudProps {
     activePattern: Tafila[];
 }
 
-const COLORS = [
-    '#10B981', // Emerald
-    '#F59E0B', // Amber
-    '#3B82F6', // Blue
-    '#EF4444', // Red
-    '#8B5CF6', // Violet
-    '#EC4899', // Pink
-];
-
-// Helper to calculate point on circle
-const getCoordinatesForPercent = (percent: number, radius: number) => {
-    const x = Math.cos(2 * Math.PI * percent);
-    const y = Math.sin(2 * Math.PI * percent);
-    return [x * radius, y * radius];
-};
-
 const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, activePattern }) => {
     const sequence = circle.atomicSequence;
     const totalUnits = sequence.length;
     const radius = 160;
     const innerRadius = 80; // Donut hole
-    const outerGroupRadius = 190; // Radius for the grouping arcs
 
     // Calculate rotation to align active meter's start offset to top (-90 degrees in SVG space, but we'll rotate the group)
     // Each unit is (360 / totalUnits) degrees.
@@ -113,14 +96,12 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     if (relativeIndex < 0) relativeIndex += totalUnits;
 
                     // Find group index
-                    let currentGroupIndex = 0;
                     let accumulatedUnits = 0;
                     let groupColor = 'transparent'; // Default
 
                     for (let i = 0; i < activeMeter.parsingInstructions.length; i++) {
                         const groupSize = activeMeter.parsingInstructions[i];
                         if (relativeIndex >= accumulatedUnits && relativeIndex < accumulatedUnits + groupSize) {
-                            currentGroupIndex = i;
                             // Alternating colors for groups
                             // Even groups: Primary Color (with opacity)
                             // Odd groups: Accent Color (with opacity)

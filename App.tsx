@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
-import { parseMeterPattern, ALL_CIRCLES } from './constants';
+import { ALL_CIRCLES } from './constants';
 import CircleHub from './components/CircleHub';
 import CircleView from './components/CircleView';
 import InfoCard from './components/InfoCard';
