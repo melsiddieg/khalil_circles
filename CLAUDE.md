@@ -35,10 +35,10 @@ deploy script. The repo Pages source must be set to "GitHub Actions".
 - **Directionality**: Entire application rendered in RTL mode (dir="rtl" on <html> tag)
 - **Layout**: High-contrast, elegant dark theme design
 
-### Critical RTL Navigation Requirements
-- **Next Button**: Must be on the LEFT side with LEFT-pointing chevron (moves sequence forward)
-- **Previous Button**: Must be on the RIGHT side with RIGHT-pointing chevron
-- This ensures intuitive navigation for RTL interface users
+### Critical Navigation Requirements (direction-relative)
+- **Next** always advances in the reading direction: in RTL it sits on the LEFT with a LEFT-pointing chevron; in LTR (English mode) it mirrors to the RIGHT with a RIGHT-pointing chevron
+- **Previous** sits on the reading-start side pointing backward
+- The app is bilingual (see `i18n/`): `LanguageProvider` flips `document.documentElement.lang/dir`; `Controls.tsx` derives chevron direction from `useLanguage().dir` — never hardcode sides
 
 ## Architecture & Core Concepts
 

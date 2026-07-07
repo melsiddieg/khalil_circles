@@ -2,18 +2,21 @@ import React from 'react';
 import { Circle } from '../types';
 import { ALL_CIRCLES } from '../constants';
 import OrnateCard from './OrnateCard';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface CircleHubProps {
   onCircleSelect: (circle: Circle) => void;
 }
 
 const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12 animate-fade-up">
         <h1 className="text-5xl md:text-7xl font-bold text-gradient-gold font-amiri mb-4 drop-shadow-[0_2px_12px_rgba(251,191,36,0.25)]">
-          دوائر الخليل العروضية
+          {t.hub.title}
         </h1>
         <div className="flex items-center justify-center gap-3 mb-4" aria-hidden="true">
           <span className="h-px w-16 md:w-24 bg-gradient-to-l from-amber-500/60 to-transparent" />
@@ -21,11 +24,10 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
           <span className="h-px w-16 md:w-24 bg-gradient-to-r from-amber-500/60 to-transparent" />
         </div>
         <h2 className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2">
-          نظام الخليل بن أحمد الفراهيدي للعروض العربي
+          {t.hub.subtitle}
         </h2>
         <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed font-amiri text-center">
-          استكشف النظام الكامل لبحور الشعر العربي للخليل بن أحمد الفراهيدي،
-          المنظم في خمس دوائر تقليدية تحتوي على جميع البحور الكلاسيكية الستة عشر
+          {t.hub.intro}
         </p>
       </div>
 
@@ -54,16 +56,16 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
       <div className="text-center bg-gray-800/30 rounded-2xl p-6 border border-gray-700/50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">١٦</div>
-            <div className="text-gray-400 text-sm font-amiri">بحراً كلاسيكياً</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statMetersValue}</div>
+            <div className="text-gray-400 text-sm font-amiri">{t.hub.statMetersLabel}</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">٥</div>
-            <div className="text-gray-400 text-sm font-amiri">دوائر عروضية</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statCirclesValue}</div>
+            <div className="text-gray-400 text-sm font-amiri">{t.hub.statCirclesLabel}</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">+١٢٠٠</div>
-            <div className="text-gray-400 text-sm font-amiri">سنة من التراث</div>
+            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statHeritageValue}</div>
+            <div className="text-gray-400 text-sm font-amiri">{t.hub.statHeritageLabel}</div>
           </div>
         </div>
       </div>
@@ -71,18 +73,17 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
       {/* Footer Note */}
       <div className="mt-8 text-center">
         <p className="text-gray-500 text-sm max-w-2xl mx-auto">
-          This digital representation preserves Al-Khalil ibn Ahmad al-Farahidi's foundational 
-          work in Arabic prosody, offering an interactive exploration of classical Arabic poetry meters.
+          {t.hub.preservationNote}
         </p>
       </div>
 
       {/* Author Trademark Footer */}
       <div className="mt-6 text-center border-t border-gray-700/30 pt-6">
         <p className="text-gray-400 text-sm font-amiri">
-          © تطوير وتصميم: <span className="text-amber-300 font-bold">د.محمد عمر الصديق</span>
+          {t.hub.attribution} <span className="text-amber-300 font-bold">{t.hub.author}</span>
         </p>
         <p className="text-gray-500 text-xs mt-1 font-inter">
-          Interactive Arud Explorer - Digital Heritage Preservation
+          {t.hub.tagline}
         </p>
       </div>
     </div>

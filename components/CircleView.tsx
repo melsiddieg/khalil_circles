@@ -6,6 +6,8 @@ import CircularArud from './CircularArud';
 import MeterDisplay from './MeterDisplay';
 import Controls from './Controls';
 import { ChevronLeftIcon } from './Icons';
+import { useLanguage } from '../i18n/LanguageContext';
+import { getCircleName, getMeterName } from '../i18n/names';
 
 interface CircleViewProps {
   circle: Circle;
@@ -14,6 +16,7 @@ interface CircleViewProps {
 
 const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
   const [currentMeterIndex, setCurrentMeterIndex] = useState(0);
+  const { t, lang, dir } = useLanguage();
 
   const handleNext = useCallback(() => {
     setCurrentMeterIndex((prevIndex) => (prevIndex + 1) % circle.meters.length);
@@ -41,14 +44,16 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
       <div className="w-full max-w-7xl mb-2">
         <button
           onClick={onBackToHub}
-          className="flex items-center gap-2 text-gray-400 hover:text-amber-400 
+          className="flex items-center gap-2 text-gray-400 hover:text-amber-400
                      transition-colors duration-300 font-inter"
         >
-          <ChevronLeftIcon className="w-4 h-4 rotate-180" />
-          <span>Back to Circle Hub</span>
+          <ChevronLeftIcon className={`w-4 h-4 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+          <span>{t.circle.back}</span>
         </button>
         <div className="mt-1 text-xs text-gray-500 font-inter">
-          Circle Hub → {circle.nameTransliteration} → {activeMeter.nameTransliteration}
+          {[t.circle.breadcrumbHub, getCircleName(circle, lang), getMeterName(activeMeter, lang)].join(
+            dir === 'rtl' ? ' ← ' : ' → '
+          )}
         </div>
       </div>
 
@@ -64,13 +69,13 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
           >
             {circle.order}
           </div>
-          <div className="text-right">
+          <div className={dir === 'rtl' ? 'text-right' : 'text-left'}>
             <h1 className="text-3xl md:text-4xl font-bold font-amiri"
               style={{ color: circle.visualTheme.primaryColor }}>
-              {circle.name}
+              {getCircleName(circle, lang)}
             </h1>
             <p className="text-gray-400 text-base font-inter">
-              {circle.nameTransliteration}
+              {lang === 'ar' ? circle.nameTransliteration : circle.name}
             </p>
           </div>
         </div>
@@ -87,7 +92,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
               key={meter.id}
               type="button"
               onClick={() => setCurrentMeterIndex(index)}
-              aria-label={meter.name}
+              aria-label={getMeterName(meter, lang)}
               aria-current={index === currentMeterIndex}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentMeterIndex
                 ? 'scale-125 shadow-lg'
@@ -152,9 +157,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
       <footer className="mt-8 text-center text-gray-500 text-sm max-w-4xl">
         <div className="mb-4">
           <p className="mb-2">
-            <strong style={{ color: circle.visualTheme.primaryColor }}>
-              {circle.name}
-            </strong> contains {circle.meters.length} meters
+            {t.circle.containsMeters(getCircleName(circle, lang), String(circle.meters.length))}
           </p>
           <div className="flex flex-wrap justify-center gap-2 text-xs">
             {circle.meters.map((meter, index) => (
@@ -171,13 +174,13 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
                   border: `1px solid ${circle.visualTheme.borderColor}40`
                 }}
               >
-                {meter.name}
+                {getMeterName(meter, lang)}
               </span>
             ))}
           </div>
         </div>
-        <p>Inspired by the work of Al-Khalil ibn Ahmad al-Farahidi.</p>
-        <p>Use the controls to explore the poetic meters of this circle.</p>
+        <p>{t.circle.inspired}</p>
+        <p>{t.circle.useControls}</p>
       </footer>
     </div>
   );

@@ -4,6 +4,7 @@ import { ALL_CIRCLES } from './constants';
 import CircleHub from './components/CircleHub';
 import CircleView from './components/CircleView';
 import InfoCard from './components/InfoCard';
+import LanguageToggle from './components/LanguageToggle';
 import { Circle, AppState } from './types';
 
 const App: React.FC = () => {
@@ -35,6 +36,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center p-4 overflow-hidden">
+      <LanguageToggle />
       {appState.currentView === 'hub' ? (
         <div key="hub" className="animate-view-fade w-full flex flex-col items-center">
           <InfoCard />

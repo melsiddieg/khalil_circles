@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
 import { Meter, Tafila, Circle } from '../types';
+import { useLanguage } from '../i18n/LanguageContext';
+import { getMeterName } from '../i18n/names';
 
 interface MeterDisplayProps {
   activeMeter: Meter;
@@ -10,46 +12,54 @@ interface MeterDisplayProps {
 
 const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern, circle }) => {
   const [showArudScript, setShowArudScript] = useState(false);
+  const { t, lang, dir } = useLanguage();
+  const example = activeMeter.famousExamples[0];
+  const sectionAlign = dir === 'rtl' ? 'text-left' : 'text-left';
 
   return (
-    <div key={activeMeter.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 w-full animate-fade-in" dir="rtl">
+    <div key={activeMeter.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 w-full animate-fade-in" dir={dir}>
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2
             className="text-3xl font-bold font-amiri"
             style={{ color: circle?.visualTheme.primaryColor || '#FBBF24' }}
           >
-            {activeMeter.name}
+            {getMeterName(activeMeter, lang)}
           </h2>
+          {lang === 'en' && (
+            <p className="text-gray-500 font-amiri text-lg" dir="rtl">
+              {activeMeter.name}
+            </p>
+          )}
           {activeMeter.mnemonic && (
-            <p className="text-gray-400 font-amiri text-sm mt-1 opacity-80">
+            <p className="text-gray-400 font-amiri text-sm mt-1 opacity-80" dir="rtl">
               {activeMeter.mnemonic}
             </p>
           )}
         </div>
         <span className="text-sm font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded" dir="ltr">
-          OFFSET: {activeMeter.startOffset}
+          {t.meter.offset}: {activeMeter.startOffset}
         </span>
       </div>
       <p className="text-gray-300 text-lg mb-4" dir="ltr">{activeMeter.description}</p>
 
       {/* Enhanced meter information with circle context */}
       {activeMeter.historicalUsage && (
-        <div className="mb-6 p-4 bg-gray-700/30 rounded-lg border-l-4"
-          style={{ borderLeftColor: circle?.visualTheme.accentColor || '#F59E0B' }}>
-          <h4 className="text-sm font-semibold text-gray-400 mb-2" dir="ltr">Historical Usage</h4>
+        <div className="mb-6 p-4 bg-gray-700/30 rounded-lg border-s-4"
+          style={{ borderColor: circle?.visualTheme.accentColor || '#F59E0B' }}>
+          <h4 className="text-sm font-semibold text-gray-400 mb-2" dir="ltr">{t.meter.historicalUsage}</h4>
           <p className="text-gray-300 text-sm" dir="ltr">{activeMeter.historicalUsage}</p>
         </div>
       )}
 
       <div className="border-t border-gray-700/60 pt-4">
-        <h3 className="text-lg font-semibold text-gray-400 mb-2 text-left" dir="ltr">Pattern (Taf'īlāt)</h3>
+        <h3 className={`text-lg font-semibold text-gray-400 mb-2 ${sectionAlign}`} dir="ltr">{t.meter.pattern}</h3>
         <p
           className="font-amiri text-3xl text-right tracking-wider"
           style={{ color: circle?.visualTheme.primaryColor || '#FDE68A' }}
           dir="rtl"
         >
-          {activePattern.map(t => t.merged).join(' ')}
+          {activePattern.map((tafila) => tafila.merged).join(' ')}
         </p>
         <p className="font-mono text-sm text-gray-500 mt-1 text-left" dir="ltr">
           {activeMeter.patternTransliteration}
@@ -57,22 +67,22 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
       </div>
 
       {/* Famous Example */}
-      {activeMeter.famousExamples && activeMeter.famousExamples.length > 0 && (
+      {example && (
         <div className="border-t border-gray-700/60 pt-4 mt-4">
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-lg font-semibold text-gray-400 text-left" dir="ltr">Famous Example</h3>
-            {activeMeter.famousExamples[0].arudScript && (
+            <h3 className={`text-lg font-semibold text-gray-400 ${sectionAlign}`} dir="ltr">{t.meter.famousExample}</h3>
+            {example.arudScript && (
               <button
                 onClick={() => setShowArudScript(!showArudScript)}
                 className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 transition-colors font-amiri"
               >
-                {showArudScript ? 'النص الأصلي' : 'الكتابة العروضية'}
+                {showArudScript ? t.meter.showOriginal : t.meter.showArud}
               </button>
             )}
           </div>
 
           <div className="bg-gray-900/40 rounded-xl p-4 border border-gray-700/50">
-            {/* Verse */}
+            {/* Verse — always Arabic, always RTL */}
             <p
               className="font-amiri text-2xl text-center leading-loose mb-3 transition-all duration-300"
               style={{
@@ -80,26 +90,27 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
                 opacity: showArudScript ? 0.9 : 1
               }}
               dir="rtl"
+              lang="ar"
             >
-              {showArudScript && activeMeter.famousExamples[0].arudScript
-                ? activeMeter.famousExamples[0].arudScript
-                : activeMeter.famousExamples[0].text}
+              {showArudScript && example.arudScript ? example.arudScript : example.text}
             </p>
 
             {/* Poet & Translation */}
             <div className="flex flex-col gap-1 text-sm text-gray-400" dir="ltr">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-gray-300">Poet:</span>
-                <span>{activeMeter.famousExamples[0].poet}</span>
-                {activeMeter.famousExamples[0].era && (
+                <span className="font-semibold text-gray-300">{t.meter.poet}</span>
+                <span lang="ar">{example.poet}</span>
+                {example.era && (
                   <span className="text-xs bg-gray-700 px-1.5 py-0.5 rounded text-gray-500">
-                    {activeMeter.famousExamples[0].era}
+                    {example.era}
                   </span>
                 )}
               </div>
-              <p className="italic text-gray-500 mt-1">
-                "{activeMeter.famousExamples[0].translation}"
-              </p>
+              {example.translation && (
+                <p className="italic text-gray-500 mt-1">
+                  "{example.translation}"
+                </p>
+              )}
             </div>
           </div>
         </div>

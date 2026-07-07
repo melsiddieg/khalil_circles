@@ -1,6 +1,8 @@
 import React from 'react';
 import { Circle } from '../types';
 import IslamicPattern from './IslamicPattern';
+import { useLanguage } from '../i18n/LanguageContext';
+import { getCircleName, getMeterName } from '../i18n/names';
 
 interface OrnateCardProps {
   circle: Circle;
@@ -10,6 +12,16 @@ interface OrnateCardProps {
 const ARABIC_NUMERALS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
 const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
+  const { t, lang } = useLanguage();
+  const meterCount =
+    lang === 'ar'
+      ? ARABIC_NUMERALS[circle.meters.length] || String(circle.meters.length)
+      : String(circle.meters.length);
+  const moreCount =
+    lang === 'ar'
+      ? ARABIC_NUMERALS[circle.meters.length - 3] || String(circle.meters.length - 3)
+      : String(circle.meters.length - 3);
+
   return (
     <div
       className="flex flex-col items-center space-y-4 relative z-10"
@@ -18,7 +30,7 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
       <div
         role="button"
         tabIndex={0}
-        aria-label={circle.name}
+        aria-label={getCircleName(circle, lang)}
         onClick={() => onCircleSelect(circle)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -71,10 +83,10 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
               className="text-3xl font-bold font-amiri mb-3 drop-shadow-md"
               style={{ color: circle.visualTheme.primaryColor }}
             >
-              {circle.name}
+              {getCircleName(circle, lang)}
             </h3>
             <div className="text-sm text-gray-300 font-inter tracking-wider uppercase opacity-80">
-              {ARABIC_NUMERALS[circle.meters.length] || circle.meters.length} METERS
+              {meterCount} {t.card.metersSuffix}
             </div>
           </div>
         </div>
@@ -93,17 +105,17 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
             <div className="space-y-1.5">
               {circle.meters.slice(0, 3).map((meter) => (
                 <div key={meter.id} className="text-base text-gray-400 font-amiri text-center hover:text-white transition-colors">
-                  {meter.name}
+                  {getMeterName(meter, lang)}
                 </div>
               ))}
               {circle.meters.length > 3 && (
                 <div className="text-sm text-gray-500 italic font-amiri mt-2">
-                  +{ARABIC_NUMERALS[circle.meters.length - 3] || (circle.meters.length - 3)} أبحر أخرى
+                  +{moreCount} {t.card.moreMeters}
                 </div>
               )}
             </div>
             <div className="mt-4 text-sm font-amiri font-bold animate-pulse" style={{ color: circle.visualTheme.primaryColor }}>
-              انقر للاستكشاف ←
+              {t.card.explore}
             </div>
           </div>
         </div>

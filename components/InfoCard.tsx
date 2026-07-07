@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const InfoCard: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t, dir } = useLanguage();
+  const textAlign = dir === 'rtl' ? 'text-right' : 'text-left';
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-6">
@@ -10,10 +13,10 @@ const InfoCard: React.FC = () => {
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
           aria-expanded={isExpanded}
-          className="flex items-center justify-between w-full text-right"
+          className={`flex items-center justify-between w-full ${textAlign}`}
         >
           <h3 className="text-xl font-bold text-amber-300 font-amiri">
-            عن دوائر العروض
+            {t.info.title}
           </h3>
           <div className={`transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : 'rotate-0'}`}>
             <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -21,30 +24,29 @@ const InfoCard: React.FC = () => {
             </svg>
           </div>
         </button>
-        
+
         {isExpanded && (
           <div className="mt-4 space-y-4 text-gray-300 leading-relaxed">
-            <p className="font-amiri text-lg text-right">
-              دائرة العروض هي نظام رياضي عبقري وضعه الخليل بن أحمد الفراهيدي (ت ١٧٥هـ) لتنظيم بحور الشعر العربي.
-              تقوم هذه الدائرة على تسلسل أساسي من الوحدات المقطعية التي تتكرر في حلقة مغلقة.
+            <p className={`font-amiri text-lg ${textAlign}`}>
+              {t.info.body}
             </p>
-            
+
             <div className="bg-gray-900/50 rounded-lg p-4 max-w-4xl mx-auto">
-              <h4 className="text-amber-200 font-bold mb-3 font-amiri text-center">الوحدات الأساسية:</h4>
+              <h4 className="text-amber-200 font-bold mb-3 font-amiri text-center">{t.info.unitsTitle}</h4>
               <div className="grid md:grid-cols-2 gap-4 text-sm">
-                <ul className="space-y-2 font-amiri text-right">
-                  <li><span className="text-amber-300">الوتد المجموع (//0):</span> مقطعان قصيران + مقطع طويل</li>
-                  <li><span className="text-amber-300">السبب الخفيف (/0):</span> مقطع قصير + مقطع طويل</li>
+                <ul className={`space-y-2 font-amiri ${textAlign}`}>
+                  <li><span className="text-amber-300">{t.info.watidMajmu}</span> {t.info.watidMajmuDesc}</li>
+                  <li><span className="text-amber-300">{t.info.sababKhafif}</span> {t.info.sababKhafifDesc}</li>
                 </ul>
-                <ul className="space-y-2 font-amiri text-right">
-                  <li><span className="text-amber-300">السبب الثقيل (//):</span> مقطعان قصيران</li>
-                  <li><span className="text-amber-300">الوتد المفروق (/0/):</span> مقطع قصير + مقطع طويل + مقطع قصير</li>
+                <ul className={`space-y-2 font-amiri ${textAlign}`}>
+                  <li><span className="text-amber-300">{t.info.sababThaqil}</span> {t.info.sababThaqilDesc}</li>
+                  <li><span className="text-amber-300">{t.info.watidMafruq}</span> {t.info.watidMafruqDesc}</li>
                 </ul>
               </div>
             </div>
-            
+
             <p className="text-center text-amber-200 font-amiri text-sm">
-              استخدم الأسهم للانتقال بين البحور ومشاهدة كيف تتحرك الأنماط في الدائرة
+              {t.info.hint}
             </p>
           </div>
         )}
