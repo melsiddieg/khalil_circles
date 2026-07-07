@@ -1,3 +1,11 @@
+@import 'tailwindcss';
+
+/* Tailwind v3 (CDN) preflight parity: keep buttons clickable-looking */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']) {
+  cursor: pointer;
+}
+
 :root {
   --pattern-color: rgba(255, 255, 255, 0.03);
 }
@@ -19,6 +27,10 @@ body {
 .font-amiri {
   font-family: 'Amiri', serif;
   line-height: 2;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
 
 ::-webkit-scrollbar {
