@@ -86,7 +86,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, currentMeterIndex, onMe
       </header>
 
       {/* Meter Progress Indicator */}
-      <div className="mb-4 bg-gray-800/50 rounded-full p-1.5 border border-gray-700">
+      <div className="mb-4 bg-gray-900/60 rounded-full p-1.5 border border-gold-soft">
         <div className="flex items-center gap-2">
           {circle.meters.map((meter, index) => (
             <button

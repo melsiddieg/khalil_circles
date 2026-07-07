@@ -17,7 +17,7 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
   const sectionAlign = dir === 'rtl' ? 'text-left' : 'text-left';
 
   return (
-    <div key={activeMeter.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 w-full animate-fade-in" dir={dir}>
+    <div key={activeMeter.id} className="panel-engraved rounded-2xl p-6 w-full animate-fade-in" dir={dir}>
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2
@@ -37,7 +37,7 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
             </p>
           )}
         </div>
-        <span className="text-sm font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded" dir="ltr">
+        <span className="text-sm font-mono label-gold bg-gray-900/60 border border-gold-soft px-2 py-1 rounded" dir="ltr">
           {t.meter.offset}: {activeMeter.startOffset}
         </span>
       </div>
@@ -47,13 +47,13 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
       {activeMeter.historicalUsage && (
         <div className="mb-6 p-4 bg-gray-700/30 rounded-lg border-s-4"
           style={{ borderColor: circle?.visualTheme.accentColor || '#F59E0B' }}>
-          <h4 className="text-sm font-semibold text-gray-400 mb-2" dir="ltr">{t.meter.historicalUsage}</h4>
+          <h4 className="text-sm font-semibold label-gold mb-2" dir="ltr">{t.meter.historicalUsage}</h4>
           <p className="text-gray-300 text-sm" dir="ltr">{activeMeter.historicalUsage}</p>
         </div>
       )}
 
-      <div className="border-t border-gray-700/60 pt-4">
-        <h3 className={`text-lg font-semibold text-gray-400 mb-2 ${sectionAlign}`} dir="ltr">{t.meter.pattern}</h3>
+      <div className="border-t border-gold-soft pt-4">
+        <h3 className={`text-lg font-semibold label-gold mb-2 ${sectionAlign}`} dir="ltr">{t.meter.pattern}</h3>
         <p
           className="font-amiri text-3xl text-right tracking-wider"
           style={{ color: circle?.visualTheme.primaryColor || '#FDE68A' }}
@@ -68,20 +68,20 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
 
       {/* Famous Example */}
       {example && (
-        <div className="border-t border-gray-700/60 pt-4 mt-4">
+        <div className="border-t border-gold-soft pt-4 mt-4">
           <div className="flex justify-between items-center mb-3">
-            <h3 className={`text-lg font-semibold text-gray-400 ${sectionAlign}`} dir="ltr">{t.meter.famousExample}</h3>
+            <h3 className={`text-lg font-semibold label-gold ${sectionAlign}`} dir="ltr">{t.meter.famousExample}</h3>
             {example.arudScript && (
               <button
                 onClick={() => setShowArudScript(!showArudScript)}
-                className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 transition-colors font-amiri"
+                className="text-xs px-2 py-1 rounded border border-gold-soft bg-gray-900/60 hover:border-gold text-gray-300 transition-colors font-amiri"
               >
                 {showArudScript ? t.meter.showOriginal : t.meter.showArud}
               </button>
             )}
           </div>
 
-          <div className="bg-gray-900/40 rounded-xl p-4 border border-gray-700/50">
+          <div className="bg-gray-900/40 rounded-xl p-4 border border-gold-soft">
             {/* Verse — always Arabic, always RTL */}
             <p
               className="font-amiri text-2xl text-center leading-loose mb-3 transition-all duration-300"

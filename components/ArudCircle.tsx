@@ -97,7 +97,7 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
 
   return (
     <div
-      className="relative h-[120px] bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700 shadow-lg"
+      className="relative h-[120px] bg-gray-900/50 rounded-2xl overflow-hidden border border-gold-soft shadow-lg"
       style={{ width: `${patternWidth}px` }}
     >
       {/* Film reel: Continuous sliding window */}
@@ -118,7 +118,7 @@ const ArudBanner: React.FC<ArudBannerProps> = ({ activeMeter, activePattern, cir
               width: `${unitWidth}px`,
             }}
           >
-            <span className="text-base font-mono select-none text-gray-500 transition-colors duration-300" dir="ltr">
+            <span className="text-base font-mono select-none text-[#b7a276] transition-colors duration-300" dir="ltr">
               {unit}
             </span>
           </div>

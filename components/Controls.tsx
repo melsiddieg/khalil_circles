@@ -24,7 +24,7 @@ const Controls: React.FC<ControlsProps> = ({ onPrev, onNext, onPlay, isPlaying }
     dir === 'rtl' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1';
 
   return (
-    <div className="relative flex items-center justify-center gap-8 bg-gray-900/60 backdrop-blur-xl px-10 py-5 rounded-full border border-white/10 shadow-2xl ring-1 ring-white/5 transition-all duration-300 hover:shadow-amber-900/20 hover:border-amber-500/30">
+    <div className="relative flex items-center justify-center gap-8 bg-gray-900/60 backdrop-blur-xl px-10 py-5 rounded-full border border-gold-soft shadow-2xl ring-1 ring-white/5 transition-all duration-300 hover:shadow-amber-900/20 hover:border-amber-500/30">
       <button
         onClick={onPrev}
         className="p-4 rounded-full hover:bg-white/5 active:bg-white/10 text-gray-400 hover:text-amber-400 transition-all duration-200 group"

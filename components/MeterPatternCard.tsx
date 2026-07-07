@@ -21,14 +21,14 @@ const MeterPatternCard: React.FC<MeterPatternCardProps> = ({ meter, circle, high
 
   return (
     <div
-      className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 w-full h-full"
+      className="panel-engraved rounded-2xl p-6 w-full h-full"
       style={{ borderTopColor: circle.visualTheme.primaryColor, borderTopWidth: '3px' }}
     >
       <div className="flex items-start justify-between gap-2 mb-1">
         <h3 className="text-2xl font-bold font-amiri" style={{ color: circle.visualTheme.primaryColor }}>
           {getMeterName(meter, lang)}
         </h3>
-        <span className="flex items-center gap-1.5 text-xs text-gray-400 font-amiri shrink-0 bg-gray-900/50 px-2 py-1 rounded-full border border-gray-700/60">
+        <span className="flex items-center gap-1.5 text-xs text-gray-400 font-amiri shrink-0 bg-gray-900/50 px-2 py-1 rounded-full border border-gold-soft">
           <span
             className="w-2 h-2 rounded-full inline-block"
             style={{ backgroundColor: circle.visualTheme.primaryColor }}

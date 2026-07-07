@@ -128,7 +128,7 @@ const TourOverlay: React.FC<TourOverlayProps> = ({ stepIndex, onStepChange, onEx
               <button
                 type="button"
                 onClick={() => onStepChange(stepIndex - 1)}
-                className="px-4 py-2 rounded-full border border-gray-700 text-gray-300 hover:border-gray-500 transition-colors font-amiri text-sm"
+                className="px-4 py-2 rounded-full border border-gold-soft text-gray-300 hover:border-gold transition-colors font-amiri text-sm"
               >
                 {t.tour.back}
               </button>

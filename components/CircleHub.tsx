@@ -60,7 +60,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
             key={tool.label}
             type="button"
             onClick={tool.onClick}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-soft
                        bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
                        hover:border-amber-500/50 transition-all duration-300"
           >
@@ -92,7 +92,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
       </div>
 
       {/* Summary Statistics */}
-      <div className="text-center bg-gray-800/30 rounded-2xl p-6 border border-gray-700/50">
+      <div className="text-center panel-engraved rounded-2xl p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statMetersValue}</div>
@@ -117,7 +117,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
       </div>
 
       {/* Author Trademark Footer */}
-      <div className="mt-6 text-center border-t border-gray-700/30 pt-6">
+      <div className="mt-6 text-center border-t border-gold-soft pt-6">
         <p className="text-gray-400 text-sm font-amiri">
           {t.hub.attribution} <span className="text-amber-300 font-bold">{t.hub.author}</span>
         </p>

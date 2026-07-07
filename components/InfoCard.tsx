@@ -8,7 +8,7 @@ const InfoCard: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-6">
-      <div className="bg-gray-800/80 border border-gray-700 rounded-xl p-4 hover:bg-gray-800/90 transition-all duration-300">
+      <div className="panel-engraved rounded-xl p-4 hover:bg-gray-800/90 transition-all duration-300">
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}

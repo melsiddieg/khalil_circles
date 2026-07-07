@@ -153,7 +153,7 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
             className={`px-4 py-1.5 rounded-full border font-amiri text-sm transition-all duration-300 ${
               c.id === circleId
                 ? 'text-gray-900 font-bold border-transparent'
-                : 'text-gray-300 border-gray-700 hover:border-gray-500'
+                : 'text-gray-300 border-gold-soft hover:border-gold'
             }`}
             style={c.id === circleId ? { backgroundColor: c.visualTheme.primaryColor } : undefined}
           >
@@ -231,13 +231,13 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
               const labelR = (RADIUS + INNER_RADIUS) / 2;
               return (
                 <g key={index}>
-                  <path d={d} fill={fill} fillOpacity="0.3" stroke="rgba(255,255,255,0.35)" strokeWidth="1" />
+                  <path d={d} fill={fill} fillOpacity="0.3" stroke="rgba(216,185,120,0.45)" strokeWidth="1" />
                   <text
                     x={Math.cos(mid) * labelR}
                     y={Math.sin(mid) * labelR}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fill="white"
+                    fill="#E5D3A4"
                     fontSize="17"
                     fontWeight="bold"
                     className="font-mono pointer-events-none"
@@ -282,7 +282,7 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
                     y1={Math.sin(angle) * RADIUS}
                     x2={Math.cos(angle) * (MARKER_RADIUS - 16)}
                     y2={Math.sin(angle) * (MARKER_RADIUS - 16)}
-                    stroke={active ? 'white' : 'rgba(255,255,255,0.25)'}
+                    stroke={active ? '#E9C87E' : 'rgba(216,185,120,0.3)'}
                     strokeWidth={active ? 2 : 1}
                     strokeDasharray={isMeter ? '0' : '4 3'}
                   />
@@ -291,10 +291,10 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
                       <div
                         className={`flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap transition-all duration-500 font-amiri ${
                           active
-                            ? 'bg-white text-gray-900 shadow-lg scale-110'
+                            ? 'bg-[#E9C87E] text-gray-900 shadow-lg scale-110'
                             : isMeter
-                              ? 'bg-gray-800/90 text-gray-300 border border-gray-600'
-                              : 'bg-gray-900/70 text-gray-500 border border-dashed border-gray-600'
+                              ? 'bg-gray-900/85 text-gray-300 border border-gold-soft'
+                              : 'bg-gray-900/70 text-gray-500 border border-dashed border-gold-soft'
                         }`}
                         style={{ direction: 'rtl' }}
                       >
@@ -309,7 +309,7 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
 
           {/* Center readout */}
           <g className="pointer-events-none">
-            <circle r={INNER_RADIUS - 8} fill="#111827" stroke="#374151" strokeWidth="3" />
+            <circle r={INNER_RADIUS - 8} fill="#0d1424" stroke="rgba(212,176,106,0.4)" strokeWidth="3" />
             <text y="-12" textAnchor="middle" fill={statusLine.color} fontSize="19" fontWeight="bold" className="font-amiri">
               {statusLine.name}
             </text>
@@ -337,7 +337,7 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
       </div>
 
       {/* Live parse readout */}
-      <div className="bg-gray-800/40 border border-gray-700/60 rounded-2xl p-5 text-center max-w-2xl mx-auto">
+      <div className="panel-engraved rounded-2xl p-5 text-center max-w-2xl mx-auto">
         {isDuplicate && (
           <p className="text-xs text-gray-500 font-amiri mb-2">
             {t.dial.duplicateOf(String(canonical))}

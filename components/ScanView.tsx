@@ -87,7 +87,7 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
           <select
             value={meterId}
             onChange={(e) => selectMeter(e.target.value)}
-            className="bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-2 text-gray-200 font-amiri
+            className="bg-gray-900/70 border border-gold-soft rounded-xl px-4 py-2 text-gray-200 font-amiri
                        outline-none focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20 cursor-pointer"
           >
             {ALL_CIRCLES.map((c) => (
@@ -102,7 +102,7 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
           </select>
         </label>
 
-        <div className="flex rounded-full border border-gray-700 overflow-hidden">
+        <div className="flex rounded-full border border-gold-soft overflow-hidden">
           {([0, 1] as const).map((h) => (
             <button
               key={h}
@@ -124,7 +124,7 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
         <button
           type="button"
           onClick={() => setRunId((r) => r + 1)}
-          className="px-4 py-1.5 rounded-full border border-gray-700 text-gray-300 font-amiri text-sm
+          className="px-4 py-1.5 rounded-full border border-gold-soft text-gray-300 font-amiri text-sm
                      hover:text-amber-300 hover:border-amber-500/50 transition-all duration-300"
         >
           ↺ {t.scan.replay}
@@ -157,7 +157,7 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
                 return (
                   <div
                     key={u}
-                    className="flex flex-col items-center rounded-xl border border-gray-700/70 bg-gray-900/50 px-2 pt-2 pb-1.5 min-w-[3.2rem]"
+                    className="flex flex-col items-center rounded-xl border border-gold-soft bg-gray-900/50 px-2 pt-2 pb-1.5 min-w-[3.2rem]"
                   >
                     <div className="flex gap-1" dir="rtl">
                       {prosody.map((symbol, s) => {

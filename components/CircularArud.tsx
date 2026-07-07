@@ -124,7 +124,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 d={pathData}
                                 fill={groupColor}
                                 fillOpacity="0.3" // Semi-transparent
-                                stroke="rgba(255,255,255,0.4)"
+                                stroke="rgba(216,185,120,0.45)"
                                 strokeWidth="1"
                                 className="transition-all duration-300"
                             />
@@ -134,7 +134,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 y={textY}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                fill="white"
+                                fill="#E5D3A4"
                                 fontSize="20"
                                 fontWeight="bold"
                                 className="font-mono pointer-events-none select-none"
@@ -266,7 +266,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 y1={Math.sin(rad) * radius}
                                 x2={x}
                                 y2={y}
-                                stroke={isActive ? 'white' : 'rgba(255,255,255,0.3)'}
+                                stroke={isActive ? '#E9C87E' : 'rgba(216,185,120,0.35)'}
                                 strokeWidth={isActive ? 2 : 1}
                                 strokeDasharray={isActive ? '0' : '4 2'}
                             />
@@ -282,8 +282,8 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 >
                                     <div
                                         className={`flex items-center justify-center px-2 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-500 ${isActive
-                                            ? 'bg-white text-gray-900 shadow-lg scale-110'
-                                            : 'bg-gray-800/80 text-gray-400 border border-gray-700'
+                                            ? 'bg-[#E9C87E] text-gray-900 shadow-lg scale-110'
+                                            : 'bg-gray-900/85 text-gray-400 border border-gold-soft'
                                             }`}
                                         style={{ direction: 'rtl' }}
                                     >
@@ -298,14 +298,14 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
 
             {/* Central Hub (Static, does not rotate with SVG) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-36 h-36 rounded-full bg-gray-900 border-4 border-gray-700 flex flex-col items-center justify-center text-center p-2 shadow-2xl z-10">
+                <div className="w-36 h-36 rounded-full bg-[#0d1424] border-4 border-gold-soft flex flex-col items-center justify-center text-center p-2 shadow-2xl z-10">
                     <h3 className="text-amber-400 font-amiri font-bold text-xl mb-1">
                         {circle.name}
                     </h3>
                     <div className="text-gray-400 text-xs font-inter">
                         {activeMeter.nameTransliteration}
                     </div>
-                    <div className="mt-2 text-emerald-400 font-mono text-lg">
+                    <div className="mt-2 font-mono text-lg" style={{ color: circle.visualTheme.primaryColor }}>
                         {formatUnit(sequence[activeMeter.startOffset % totalUnits])}
                     </div>
                 </div>

@@ -104,7 +104,7 @@ const MeterSearch: React.FC<MeterSearchProps> = ({ onMeterSelect }) => {
           role="combobox"
           aria-expanded={results.length > 0}
           aria-controls="meter-search-results"
-          className={`w-full bg-gray-800/70 backdrop-blur-md border border-gray-700 rounded-full py-3 text-gray-200
+          className={`w-full bg-gray-800/70 backdrop-blur-md border border-gold-soft rounded-full py-3 text-gray-200
                       placeholder-gray-500 font-amiri text-lg outline-none transition-all duration-300
                       focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20 focus:bg-gray-800
                       ${dir === 'rtl' ? 'pr-12 pl-5' : 'pl-12 pr-5'}`}
@@ -116,7 +116,7 @@ const MeterSearch: React.FC<MeterSearchProps> = ({ onMeterSelect }) => {
           id="meter-search-results"
           ref={listRef}
           role="listbox"
-          className="absolute z-30 mt-2 w-full bg-gray-900/95 backdrop-blur-xl border border-gray-700 rounded-2xl shadow-2xl overflow-hidden"
+          className="absolute z-30 mt-2 w-full bg-gray-900/95 backdrop-blur-xl border border-gold-soft rounded-2xl shadow-2xl overflow-hidden"
         >
           {results.length === 0 && (
             <li className="px-5 py-3 text-gray-500 font-amiri">{t.search.noResults}</li>

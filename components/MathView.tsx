@@ -82,7 +82,7 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
             className={`px-4 py-1.5 rounded-full border font-amiri text-sm transition-all duration-300 ${
               c.id === circleId
                 ? 'text-gray-900 font-bold border-transparent'
-                : 'text-gray-300 border-gray-700 hover:border-gray-500'
+                : 'text-gray-300 border-gold-soft hover:border-gold'
             }`}
             style={c.id === circleId ? { backgroundColor: c.visualTheme.primaryColor } : undefined}
           >
@@ -92,13 +92,13 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
       </div>
 
       {/* Binary lens */}
-      <div className="bg-gray-800/40 border border-gray-700/60 rounded-2xl p-5 mb-4">
+      <div className="panel-engraved rounded-2xl p-5 mb-4">
         <h3 className="text-sm text-gray-400 font-amiri mb-3">{t.math.binaryLabel}</h3>
         <div className="flex flex-wrap gap-1.5 justify-center" dir="rtl">
           {circle.atomicSequence.map((unit, i) => (
             <span
               key={i}
-              className="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg bg-gray-900/50 border border-gray-700/50"
+              className="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg bg-gray-900/50 border border-gold-soft"
             >
               <span className="font-mono text-base tracking-widest" style={{ color: circle.visualTheme.primaryColor }} dir="ltr">
                 {unitDigits(unit)}
@@ -140,10 +140,10 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
       </div>
 
       {/* Rotation table */}
-      <div className="bg-gray-800/40 border border-gray-700/60 rounded-2xl overflow-hidden mb-4">
+      <div className="panel-engraved rounded-2xl overflow-hidden mb-4">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 font-amiri bg-gray-900/40">
+            <tr className="label-gold font-amiri bg-gray-900/40">
               <th className="py-2.5 px-4 font-normal">{t.math.tableOffset}</th>
               <th className="py-2.5 px-4 font-normal">{t.math.tablePattern}</th>
               <th className="py-2.5 px-4 font-normal">{t.math.tableStatus}</th>
@@ -155,7 +155,7 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
               return (
                 <tr
                   key={offset}
-                  className={`border-t border-gray-700/40 ${isDup ? 'opacity-40' : ''}`}
+                  className={`border-t border-gold-soft ${isDup ? 'opacity-40' : ''}`}
                 >
                   <td className="py-2 px-4 text-center font-mono text-gray-400">{offset}</td>
                   <td className="py-2 px-4 text-center font-amiri text-lg" dir="rtl">

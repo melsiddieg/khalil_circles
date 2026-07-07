@@ -49,7 +49,7 @@ const CompareView: React.FC<CompareViewProps> = ({ onBackToHub }) => {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-2.5 text-gray-200 font-amiri text-lg
+        className="bg-gray-900/70 border border-gold-soft rounded-xl px-4 py-2.5 text-gray-200 font-amiri text-lg
                    outline-none focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20 cursor-pointer"
       >
         {ALL_CIRCLES.map((circle) => (
@@ -96,7 +96,7 @@ const CompareView: React.FC<CompareViewProps> = ({ onBackToHub }) => {
       </div>
 
       {/* Difference summary */}
-      <div className="bg-gray-800/40 border border-gray-700/60 rounded-2xl p-5 text-center space-y-3">
+      <div className="panel-engraved rounded-2xl p-5 text-center space-y-3">
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-400 font-amiri">
           <span>
             <span style={{ color: first.circle.visualTheme.primaryColor }}>{getMeterName(first.meter, lang)}</span>
