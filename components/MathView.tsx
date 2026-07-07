@@ -3,6 +3,7 @@ import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { CIRCLE_ROTATIONS, sequencePeriod } from '../data/rotations';
 import { Circle, Meter } from '../types';
 import { ChevronLeftIcon } from './Icons';
+import OrnateDivider from './OrnateDivider';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -66,9 +67,10 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         <span>{t.math.back}</span>
       </button>
 
-      <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold font-amiri text-center mb-2">
+      <h1 className="text-4xl md:text-5xl font-bold heading-display text-center mb-2">
         {t.math.title}
       </h1>
+      <OrnateDivider className="mb-3" />
       <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6">{t.math.subtitle}</p>
 
       {/* Circle selector */}
@@ -93,7 +95,7 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
 
       {/* Binary lens */}
       <div className="panel-engraved rounded-2xl p-5 mb-4">
-        <h3 className="text-sm text-gray-400 font-amiri mb-3">{t.math.binaryLabel}</h3>
+        <h3 className="text-sm label-gold font-amiri mb-3">{t.math.binaryLabel}</h3>
         <div className="flex flex-wrap gap-1.5 justify-center" dir="rtl">
           {circle.atomicSequence.map((unit, i) => (
             <span

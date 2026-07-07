@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { ChevronLeftIcon } from './Icons';
+import OrnateDivider from './OrnateDivider';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 import { trackEvent } from '../utils/analytics';
@@ -75,15 +76,16 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
         <span>{t.scan.back}</span>
       </button>
 
-      <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold font-amiri text-center mb-2">
+      <h1 className="text-4xl md:text-5xl font-bold heading-display text-center mb-2">
         {t.scan.title}
       </h1>
+      <OrnateDivider className="mb-3" />
       <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6">{t.scan.subtitle}</p>
 
       {/* Meter selector + hemistich toggle + replay */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
         <label className="flex items-center gap-2">
-          <span className="text-sm text-gray-400 font-amiri">{t.scan.meterLabel}</span>
+          <span className="text-sm label-gold font-amiri">{t.scan.meterLabel}</span>
           <select
             value={meterId}
             onChange={(e) => selectMeter(e.target.value)}

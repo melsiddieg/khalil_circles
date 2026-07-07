@@ -2,6 +2,7 @@ import React from 'react';
 import { Circle } from '../types';
 import { ALL_CIRCLES } from '../constants';
 import OrnateCard from './OrnateCard';
+import OrnateDivider from './OrnateDivider';
 import MeterSearch from './MeterSearch';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -26,14 +27,10 @@ const CircleHub: React.FC<CircleHubProps> = ({
     <div className="w-full max-w-6xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12 animate-fade-up">
-        <h1 className="text-5xl md:text-7xl font-bold text-gradient-gold font-amiri mb-4 drop-shadow-[0_2px_12px_rgba(251,191,36,0.25)]">
+        <h1 className="text-5xl md:text-7xl font-bold heading-display mb-4">
           {t.hub.title}
         </h1>
-        <div className="flex items-center justify-center gap-3 mb-4" aria-hidden="true">
-          <span className="h-px w-16 md:w-24 bg-gradient-to-l from-amber-500/60 to-transparent" />
-          <span className="text-amber-500/80 text-lg">✦</span>
-          <span className="h-px w-16 md:w-24 bg-gradient-to-r from-amber-500/60 to-transparent" />
-        </div>
+        <OrnateDivider className="mb-4" />
         <h2 className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2">
           {t.hub.subtitle}
         </h2>

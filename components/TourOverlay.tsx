@@ -106,7 +106,7 @@ const TourOverlay: React.FC<TourOverlayProps> = ({ stepIndex, onStepChange, onEx
                    shadow-2xl p-6 outline-none animate-view-fade"
       >
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl font-bold text-amber-300 font-amiri">{t.tour[step.titleKey] as string}</h3>
+          <h3 className="text-xl font-bold text-amber-300 font-kufi">{t.tour[step.titleKey] as string}</h3>
           <span className="text-xs text-gray-500 font-inter" dir="ltr">
             {t.tour.progress(String(stepIndex + 1), String(TOUR_STEPS.length))}
           </span>

@@ -15,7 +15,7 @@ const InfoCard: React.FC = () => {
           aria-expanded={isExpanded}
           className={`flex items-center justify-between w-full ${textAlign}`}
         >
-          <h3 className="text-xl font-bold text-amber-300 font-amiri">
+          <h3 className="text-xl font-bold text-amber-300 font-kufi">
             {t.info.title}
           </h3>
           <div className={`transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : 'rotate-0'}`}>

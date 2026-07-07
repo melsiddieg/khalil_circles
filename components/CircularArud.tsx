@@ -299,7 +299,7 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
             {/* Central Hub (Static, does not rotate with SVG) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-36 h-36 rounded-full bg-[#0d1424] border-4 border-gold-soft flex flex-col items-center justify-center text-center p-2 shadow-2xl z-10">
-                    <h3 className="text-amber-400 font-amiri font-bold text-xl mb-1">
+                    <h3 className="font-kufi font-bold text-xl mb-1" style={{ color: '#E9C87E' }}>
                         {circle.name}
                     </h3>
                     <div className="text-gray-400 text-xs font-inter">

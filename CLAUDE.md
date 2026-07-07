@@ -27,11 +27,14 @@ deploy script. The repo Pages source must be set to "GitHub Actions".
 
 ## Design Specifications
 
-### Theme & Visual Design
-- **Color Scheme**: Deep gray/black background (#111827) with amber/gold accents (#FBBF24, #F59E0B)
-- **Typography**: 
-  - Arabic text: 'Amiri' Google Font (classic serif feel)
-  - English UI text: 'Inter' font (modern clarity)
+### Theme & Visual Design ("engraved medallion" language)
+- **Color Scheme**: Deep gray/black background (#111827); graphite surfaces with gold hairlines; per-circle theme colors reserved for content ("enamel")
+- **Design tokens** (index.css): `--gold-hairline(-soft)`, `--graphite-*`; utilities `.panel-engraved`, `.border-gold(-soft)`, `.label-gold`, `.heading-display`
+- **Typography**:
+  - Display/calligraphic headings: 'Reem Kufi' (geometric kufi) via `.heading-display` (gradient gold) or `.font-kufi` — used for view titles, medallion title rings, circle-hub centers
+  - Arabic body/poetry/tafail: 'Amiri' (naskh; keeps vocalization legible) via `.font-amiri`
+  - English UI text: 'Inter' via `.font-inter`
+- **Ornament**: `OrnateDivider` (✦ hairline) sits under every view heading
 - **Directionality**: Entire application rendered in RTL mode (dir="rtl" on <html> tag)
 - **Layout**: High-contrast, elegant dark theme design
 

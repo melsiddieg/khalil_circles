@@ -21,9 +21,9 @@ const shortMeterName = (name: string): string =>
   name.replace(/^البحر /, '').replace(/^al-Bahr /i, '');
 
 /** Rough advance width of a word (diacritics are zero-width). */
-const wordWidth = (word: string, fontSize: number): number => {
+const wordWidth = (word: string, fontSize: number, factor: number): number => {
   const visible = word.match(/[^ً-ْٰ]/g)?.length ?? 1;
-  return Math.max(1, visible) * fontSize * 0.46;
+  return Math.max(1, visible) * fontSize * factor;
 };
 
 interface CurvedTextProps {
@@ -33,6 +33,9 @@ interface CurvedTextProps {
   position: 'top' | 'bottom';
   rtl: boolean;
   fill: string;
+  /** Font utility class; kufi runs wider than amiri, so pair with widthFactor. */
+  fontClass?: string;
+  widthFactor?: number;
 }
 
 /**
@@ -42,11 +45,20 @@ interface CurvedTextProps {
  * only the word placement follows the curve — the classic approach on
  * engraved medallions.
  */
-const CurvedText: React.FC<CurvedTextProps> = ({ words, radius, fontSize, position, rtl, fill }) => {
+const CurvedText: React.FC<CurvedTextProps> = ({
+  words,
+  radius,
+  fontSize,
+  position,
+  rtl,
+  fill,
+  fontClass = 'font-amiri',
+  widthFactor = 0.46,
+}) => {
   const gap = fontSize * 0.38;
   // Visual order along the arc, left → right
   const visual = rtl ? [...words].reverse() : words;
-  const widths = visual.map((w) => wordWidth(w, fontSize));
+  const widths = visual.map((w) => wordWidth(w, fontSize, widthFactor));
   const total = widths.reduce((s, w) => s + w, 0) + gap * (visual.length - 1);
   const toDeg = (px: number) => (px / radius) * (180 / Math.PI);
 
@@ -69,7 +81,7 @@ const CurvedText: React.FC<CurvedTextProps> = ({ words, radius, fontSize, positi
               fill={fill}
               fontSize={fontSize}
               fontWeight="bold"
-              className="font-amiri"
+              className={fontClass}
               style={{ paintOrder: 'stroke', stroke: 'rgba(18,11,4,0.7)', strokeWidth: fontSize * 0.22 }}
             >
               {word}
@@ -136,10 +148,12 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
           <CurvedText
             words={titleWords}
             radius={TITLE_ARC_R}
-            fontSize={17}
+            fontSize={16}
             position="top"
             rtl={rtl}
             fill="#E9C87E"
+            fontClass="font-kufi"
+            widthFactor={0.62}
           />
           <CurvedText
             words={meterWords}

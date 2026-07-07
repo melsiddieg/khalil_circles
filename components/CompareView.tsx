@@ -3,6 +3,7 @@ import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { Circle, Meter } from '../types';
 import MeterPatternCard from './MeterPatternCard';
 import { ChevronLeftIcon } from './Icons';
+import OrnateDivider from './OrnateDivider';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -45,7 +46,7 @@ const CompareView: React.FC<CompareViewProps> = ({ onBackToHub }) => {
     onChange: (id: string) => void
   ) => (
     <label className="flex flex-col gap-1.5 w-full">
-      <span className="text-sm text-gray-400 font-amiri">{label}</span>
+      <span className="text-sm label-gold font-amiri">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -79,9 +80,10 @@ const CompareView: React.FC<CompareViewProps> = ({ onBackToHub }) => {
         <span>{t.compare.back}</span>
       </button>
 
-      <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold font-amiri text-center mb-8">
+      <h1 className="text-4xl md:text-5xl font-bold heading-display text-center mb-3">
         {t.compare.title}
       </h1>
+      <OrnateDivider className="mb-6" />
 
       {/* Selectors */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">

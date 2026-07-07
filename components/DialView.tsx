@@ -3,6 +3,7 @@ import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { CIRCLE_ROTATIONS, RotationInfo, canonicalOffset } from '../data/rotations';
 import { Circle, Meter, Tafila } from '../types';
 import { ChevronLeftIcon } from './Icons';
+import OrnateDivider from './OrnateDivider';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 import { trackEvent } from '../utils/analytics';
@@ -137,9 +138,10 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
         <span>{t.dial.back}</span>
       </button>
 
-      <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold font-amiri text-center mb-2">
+      <h1 className="text-4xl md:text-5xl font-bold heading-display text-center mb-2">
         {t.dial.title}
       </h1>
+      <OrnateDivider className="mb-3" />
       <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6">{t.dial.subtitle}</p>
 
       {/* Circle selector */}
@@ -310,7 +312,7 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
           {/* Center readout */}
           <g className="pointer-events-none">
             <circle r={INNER_RADIUS - 8} fill="#0d1424" stroke="rgba(212,176,106,0.4)" strokeWidth="3" />
-            <text y="-12" textAnchor="middle" fill={statusLine.color} fontSize="19" fontWeight="bold" className="font-amiri">
+            <text y="-12" textAnchor="middle" fill={statusLine.color} fontSize="19" fontWeight="bold" className="font-kufi">
               {statusLine.name}
             </text>
             <text y="12" textAnchor="middle" fill="#9CA3AF" fontSize="11" className="font-inter">
