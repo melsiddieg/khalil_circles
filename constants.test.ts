@@ -70,6 +70,18 @@ describe('parseMeterPattern', () => {
     }
   });
 
+  it('computes shared feet for every meter pair without crashing (compare view)', () => {
+    for (const a of allMeters) {
+      const aFeet = new Set(parseMeterPattern(a.meter, a.circle).map((tf) => tf.merged));
+      for (const b of allMeters) {
+        const shared = parseMeterPattern(b.meter, b.circle)
+          .map((tf) => tf.merged)
+          .filter((foot) => aFeet.has(foot));
+        expect(shared.length).toBeLessThanOrEqual(b.meter.parsingInstructions.length);
+      }
+    }
+  });
+
   it('falls back to raw atomic units for unmapped patterns', () => {
     const circle = getCircleById('circle1-mixed')!;
     const synthetic: Meter = {

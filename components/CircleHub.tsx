@@ -8,9 +8,10 @@ import { useLanguage } from '../i18n/LanguageContext';
 interface CircleHubProps {
   onCircleSelect: (circle: Circle) => void;
   onMeterSelect: (circleId: string, meterIndex: number) => void;
+  onCompare: () => void;
 }
 
-const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect }) => {
+const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, onCompare }) => {
   const { t } = useLanguage();
 
   return (
@@ -35,6 +36,20 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect }) 
 
       {/* Meter Search */}
       <MeterSearch onMeterSelect={onMeterSelect} />
+
+      {/* Compare entry */}
+      <div className="text-center -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
+        <button
+          type="button"
+          onClick={onCompare}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
+                     bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
+                     hover:border-amber-500/50 transition-all duration-300"
+        >
+          <span aria-hidden="true">⇄</span>
+          {t.compare.entry}
+        </button>
+      </div>
 
       {/* Ornate Cards Cluster - Grape Layout */}
       <div className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">

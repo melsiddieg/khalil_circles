@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { ALL_CIRCLES } from './constants';
 import CircleHub from './components/CircleHub';
 import CircleView from './components/CircleView';
+import CompareView from './components/CompareView';
 import InfoCard from './components/InfoCard';
 import LanguageToggle from './components/LanguageToggle';
 import { Circle, AppState } from './types';
@@ -35,6 +36,10 @@ const App: React.FC = () => {
     setAppState((prev) => ({ ...prev, selectedMeterIndex: meterIndex }));
   }, []);
 
+  const handleCompare = useCallback(() => {
+    setAppState({ currentView: 'compare', selectedCircleId: undefined, selectedMeterIndex: 0 });
+  }, []);
+
   const handleBackToHub = useCallback(() => {
     setAppState({
       currentView: 'hub',
@@ -53,7 +58,15 @@ const App: React.FC = () => {
       {appState.currentView === 'hub' ? (
         <div key="hub" className="animate-view-fade w-full flex flex-col items-center">
           <InfoCard />
-          <CircleHub onCircleSelect={handleCircleSelect} onMeterSelect={handleMeterSelect} />
+          <CircleHub
+            onCircleSelect={handleCircleSelect}
+            onMeterSelect={handleMeterSelect}
+            onCompare={handleCompare}
+          />
+        </div>
+      ) : appState.currentView === 'compare' ? (
+        <div key="compare" className="animate-view-fade w-full">
+          <CompareView onBackToHub={handleBackToHub} />
         </div>
       ) : selectedCircle ? (
         <div key={selectedCircle.id} className="animate-view-fade w-full">

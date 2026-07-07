@@ -67,6 +67,18 @@ export const ar = {
     label: 'البحث في البحور',
     noResults: 'لا نتائج',
   },
+  compare: {
+    entry: 'قارن بين بحرين',
+    title: 'مقارنة البحور',
+    firstMeter: 'البحر الأول',
+    secondMeter: 'البحر الثاني',
+    feetCount: (n: string) => `${n} تفعيلات`,
+    sharedFeet: 'التفعيلات المشتركة:',
+    noSharedFeet: 'لا توجد تفعيلات مشتركة',
+    sameCircle: 'ينتميان إلى الدائرة نفسها',
+    differentCircles: 'من دائرتين مختلفتين',
+    back: 'العودة إلى الدوائر',
+  },
 } as const;
 
 type DeepStringify<T> = {
@@ -142,5 +154,17 @@ export const en: Translations = {
     placeholder: 'Search meters… (e.g. tawil, الطويل, مستفعلن)',
     label: 'Search meters',
     noResults: 'No results',
+  },
+  compare: {
+    entry: 'Compare meters',
+    title: 'Meter Comparison',
+    firstMeter: 'First meter',
+    secondMeter: 'Second meter',
+    feetCount: (n: string) => `${n} feet`,
+    sharedFeet: 'Shared feet:',
+    noSharedFeet: 'No shared feet',
+    sameCircle: 'Belong to the same circle',
+    differentCircles: 'From two different circles',
+    back: 'Back to Circle Hub',
   },
 };
