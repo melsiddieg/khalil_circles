@@ -39,6 +39,21 @@ The Interactive Arud Explorer is a React-based web application designed to visua
     ```
     The application will be available at the URL provided in your terminal (typically `http://localhost:5173`).
 
+### Quality Checks
+
+```bash
+npm run typecheck   # TypeScript (strict)
+npm run lint        # ESLint
+npm test            # Vitest — parsing golden tests + data validation
+```
+
+## Deployment
+
+The site is live at **https://arudi.midadalfikr.com**. Every push to `main`
+runs the GitHub Actions workflow in `.github/workflows/deploy.yml`, which
+typechecks, lints, tests, builds, and publishes `dist/` to GitHub Pages.
+The custom domain is preserved via `public/CNAME`.
+
 ## Contribution & Roadmap
 
 This project is actively being developed with a roadmap focused on expanding its educational capabilities, adding advanced features like comparative analysis and search functionalities, and refining performance and accessibility. Contributions are welcome to help further develop this comprehensive digital representation of classical Arabic prosody.

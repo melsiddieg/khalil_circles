@@ -13,8 +13,17 @@ The Interactive Arud Explorer is a React-based web application that visualizes A
 - `npm run dev` - Start development server (Vite)
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
+- `npm run typecheck` - TypeScript strict type checking
+- `npm run lint` - ESLint (flat config: typescript-eslint, react-hooks, jsx-a11y)
+- `npm run format` - Prettier
+- `npm test` / `npm run test:watch` - Vitest (parsing golden tests + data validation)
 
-**Prerequisites:** Node.js is required. Set `GEMINI_API_KEY` in `.env.local` (though the current codebase doesn't appear to actively use Gemini API).
+**Deployment:** Pushing to `main` triggers `.github/workflows/deploy.yml`, which
+typechecks, lints, tests, builds, and deploys `dist/` to GitHub Pages (custom
+domain `arudi.midadalfikr.com`, kept by `public/CNAME`). There is no manual
+deploy script. The repo Pages source must be set to "GitHub Actions".
+
+**Prerequisites:** Node.js 22+.
 
 ## Design Specifications
 
@@ -164,7 +173,7 @@ The `parseMeterPattern()` function in constants.ts:36 is central to the app. It 
 - Uses SVG for the curved brace graphics (upward-pointing between layers)
 - Supports both Arabic and English text with proper RTL handling
 - Circle-specific visual themes and color schemes
-- The `unitWidth` constant (90px) in ArudCircle.tsx controls the visual spacing of atomic units
+- The `UNIT_WIDTH` constant (40px) in ArudCircle.tsx controls the visual spacing of atomic units
 - Animation timing and easing critical for smooth "roulette" effect
 - Legacy compatibility maintained for single-circle usage
 - Utility functions for circle/meter management: `getCircleById()`, `getMeterById()`, `getTotalMeterCount()`
