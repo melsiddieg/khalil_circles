@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import { LanguageProvider } from './i18n/LanguageContext';
+import { initAnalytics } from './utils/analytics';
 import './index.css';
+
+initAnalytics();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

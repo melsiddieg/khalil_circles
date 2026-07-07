@@ -2,6 +2,7 @@ import React, { useMemo, useState, useRef } from 'react';
 import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { normalizeArabic } from '../utils/arabicNormalize';
 import { useLanguage } from '../i18n/LanguageContext';
+import { trackEvent } from '../utils/analytics';
 
 interface MeterSearchProps {
   onMeterSelect: (circleId: string, meterIndex: number) => void;
@@ -60,6 +61,7 @@ const MeterSearch: React.FC<MeterSearchProps> = ({ onMeterSelect }) => {
   };
 
   const select = (entry: SearchEntry) => {
+    trackEvent('search_select', { circle: entry.circleId, meter_index: entry.meterIndex });
     setQuery('');
     onMeterSelect(entry.circleId, entry.meterIndex);
   };

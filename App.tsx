@@ -1,6 +1,7 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { ALL_CIRCLES } from './constants';
+import { trackPageview, trackEvent } from './utils/analytics';
 import CircleHub from './components/CircleHub';
 import CircleView from './components/CircleView';
 import CompareView from './components/CompareView';
@@ -62,16 +63,20 @@ const App: React.FC = () => {
     setTourStep(index);
   }, []);
 
-  const handleStartTour = useCallback(() => applyTourStep(0), [applyTourStep]);
+  const handleStartTour = useCallback(() => {
+    trackEvent('tour_start');
+    applyTourStep(0);
+  }, [applyTourStep]);
 
   const handleExitTour = useCallback(() => {
+    trackEvent('tour_exit', { step: tourStep ?? 0 });
     setTourStep(null);
     try {
       localStorage.setItem(TOUR_SEEN_KEY, '1');
     } catch {
       // Preference just won't persist.
     }
-  }, []);
+  }, [tourStep]);
 
   const handleBackToHub = useCallback(() => {
     setAppState({
@@ -84,6 +89,17 @@ const App: React.FC = () => {
   // Get selected circle for circle view
   const selectedCircle = appState.selectedCircleId ?
     ALL_CIRCLES.find((c: Circle) => c.id === appState.selectedCircleId) : null;
+
+  // Virtual pageviews for SPA navigation
+  useEffect(() => {
+    const path =
+      appState.currentView === 'hub'
+        ? '/'
+        : appState.currentView === 'compare'
+          ? '/compare'
+          : `/circle/${appState.selectedCircleId}/${appState.selectedMeterIndex ?? 0}`;
+    trackPageview(path);
+  }, [appState.currentView, appState.selectedCircleId, appState.selectedMeterIndex]);
 
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center p-4 overflow-hidden">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { trackEvent } from '../utils/analytics';
 
 const LanguageToggle: React.FC = () => {
   const { lang, setLang } = useLanguage();
@@ -8,7 +9,10 @@ const LanguageToggle: React.FC = () => {
   return (
     <button
       type="button"
-      onClick={() => setLang(next)}
+      onClick={() => {
+        trackEvent('language_switch', { to: next });
+        setLang(next);
+      }}
       aria-label={lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
       className="fixed top-4 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full
                  bg-gray-800/80 backdrop-blur-md border border-gray-700 text-sm
