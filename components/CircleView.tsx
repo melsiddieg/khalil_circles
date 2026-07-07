@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Circle, Meter, Tafila } from '../types';
 import { parseMeterPattern } from '../constants';
 import ArudBanner from './ArudCircle';
@@ -26,6 +26,14 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
   const activeMeter: Meter = circle.meters[currentMeterIndex];
   const activePattern: Tafila[] = parseMeterPattern(activeMeter, circle);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Auto-advance through the circle's meters while playing. The interval
+  // leaves room for the roulette animation chain (~1.6s + reveal) to finish.
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(handleNext, 5000);
+    return () => clearInterval(timer);
+  }, [isPlaying, handleNext]);
 
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center p-4 overflow-hidden">
@@ -89,23 +97,21 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
       </div>
 
       {/* Main Content */}
-      <main className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 w-full max-w-7xl px-4">
+      <main className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 w-full max-w-7xl px-2 md:px-4">
 
         {/* Info Column (Left on Desktop, Bottom on Mobile) */}
-        <div className="w-full lg:w-2/5 flex flex-col gap-4 order-2 lg:order-1">
+        <div className="w-full lg:w-2/5 flex flex-col gap-4 order-2 lg:order-1 pb-20 lg:pb-0">
           <MeterDisplay
             activeMeter={activeMeter}
             activePattern={activePattern}
             circle={circle}
           />
-
-
         </div>
 
-        {/* Visualization Column (Right on Desktop, Top on Mobile) */}
-        <div className="w-full lg:w-3/5 flex flex-col items-center gap-4 order-1 lg:order-2">
+        {/* Visualization Column (Right on Desktop, Top on Mobile; sticky on mobile scroll) */}
+        <div className="w-full lg:w-3/5 flex flex-col items-center gap-4 order-1 lg:order-2 sticky top-0 z-10 bg-gray-900/95 backdrop-blur-md py-4 -mx-4 px-4 shadow-xl lg:static lg:bg-transparent lg:shadow-none lg:p-0 lg:m-0">
           {/* Circular Visualization */}
-          <div className="transition-transform duration-500">
+          <div className="transition-transform duration-500 scale-90 md:scale-100">
             <CircularArud
               circle={circle}
               activeMeter={activeMeter}
@@ -120,13 +126,11 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
               onPrev={handlePrev}
               onPlay={() => setIsPlaying(!isPlaying)}
               isPlaying={isPlaying}
-              meterName={activeMeter.name}
-              circleName={circle.name}
             />
           </div>
 
           {/* Linear Visualization */}
-          <div className="w-full flex items-center justify-center p-2 h-[130px]">
+          <div className="w-full flex items-center justify-center p-2 h-[130px] overflow-hidden">
             <ArudBanner
               activeMeter={activeMeter}
               activePattern={activePattern}

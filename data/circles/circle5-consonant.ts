@@ -1,29 +1,10 @@
-import { Circle, Meter, PoetryExample } from '../../types';
+import { Circle, Meter } from '../../types';
 
-// Circle 5: دائرة المتقارب (al-Da'ira al-Mutaqarib) - Consonant Circle
+// Circle 5: دائرة المتفق (al-Da'ira al-Muttafiq) - Consonant Circle
 // This circle contains meters with consonant-heavy, rapid rhythmic patterns
 
 // Circle 5 atomic sequence - pattern for فعولن repetition (0// 0/ for RTL)
 export const CIRCLE5_ATOMIC_SEQUENCE = ['0//', '0/', '0//', '0/', '0//', '0/', '0//', '0/'];
-
-// Historical poetry examples for Circle 5 meters
-const MUTAQARIB_EXAMPLES: PoetryExample[] = [
-  {
-    text: 'أَلا كُلُّ شَيءٍ ما خَلا اللَهَ باطِلُ * وَكُلُّ نَعيمٍ لا مَحالَةَ زائِلُ',
-    poet: 'لبيد بن ربيعة',
-    translation: 'Indeed, everything other than Allah is false, and every bliss is inevitably fleeting.',
-    era: 'Pre-Islamic'
-  }
-];
-
-const MUTADARIK_EXAMPLES: PoetryExample[] = [
-  {
-    text: 'جاءَنا الأَشعَثُ حَقّاً * بِنِكاحٍ لا يُبالي',
-    poet: 'الخنساء',
-    translation: 'Al-Ash\'ath truly came to us with a marriage proposal, indifferent.',
-    era: 'Early Islamic'
-  }
-];
 
 const CIRCLE5_METERS: Meter[] = [
   {
@@ -34,9 +15,18 @@ const CIRCLE5_METERS: Meter[] = [
     startOffset: 0,
     parsingInstructions: [2, 2, 2, 2], // [فعولن, فعولن, فعولن, فعولن]
     patternTransliteration: 'faʿūlun faʿūlun faʿūlun faʿūlun',
-    description: 'The "Approaching" meter, with closely spaced beats creating rapid, urgent rhythm.',
-    historicalUsage: 'Perfect for dramatic monologues and emotional outbursts, popular in modern poetry.',
-    famousExamples: MUTAQARIB_EXAMPLES
+    mnemonic: 'عَنِ المُتَقَارِبِ قَالَ الخَلِيلُ *** فَعُولُنْ فَعُولُنْ فَعُولُنْ فَعُولُنْ',
+    description: 'A meter with a steady, marching rhythm, often used for heroic or narrative poetry.',
+    historicalUsage: 'Used in the Shahnameh and other epic poetry. Popular for its driving rhythm.',
+    famousExamples: [
+      {
+        text: 'فَأَمَّا تَمِيمٌ تَمِيمُ بْنُ مُرٍّ *** فَأَلْفَاهُمُ الْقَوْمُ رُوبَى نِيَامَا',
+        arudScript: 'فَأَمْمَا تَمِيمُنْ تَمِيمُ بْنُ مُرْرِنْ *** فَأَلْفَاهُمُ لْقَوْمُ رُوبَى نِيَامَا',
+        poet: 'مجهول',
+        translation: 'As for Tamim, Tamim bin Murr, the people found them exhausted and asleep.',
+        era: 'Classical'
+      }
+    ]
   },
   {
     id: 'al-mutadarik',
@@ -46,9 +36,18 @@ const CIRCLE5_METERS: Meter[] = [
     startOffset: 1,
     parsingInstructions: [2, 2, 2, 2], // [فاعلن, فاعلن, فاعلن, فاعلن]
     patternTransliteration: 'fāʿilun fāʿilun fāʿilun fāʿilun',
-    description: 'The "Compensating" meter, filling gaps left by other meters with its unique cadence.',
-    historicalUsage: 'Relatively late addition to classical prosody, popular in folk songs and modern verse.',
-    famousExamples: MUTADARIK_EXAMPLES
+    mnemonic: 'حَرَكَاتُ المُحْدَثِ تَنْتَقِلُ *** فَعِلُنْ فَعِلُنْ فَعِلُنْ فَعِلُنْ',
+    description: 'Also known as "al-Khabab", a very fast, galloping meter.',
+    historicalUsage: 'Often used for horse-riding songs and energetic chants. Less common in classical canon.',
+    famousExamples: [
+      {
+        text: 'يَا لَيْلُ الصَّبُّ مَتَى غَدُهُ * أَقِيَامُ السَّاعَةِ مَوْعِدُهُ',
+        arudScript: 'يَا لَيْلُ صْصَبْبُ مَتَى غَدُهُو *** أَقِيَامُ سْسَاعَةِ مَوْعِدُهُو',
+        poet: 'الحصري القيرواني',
+        translation: 'O night of the lover, when is his tomorrow? Is the Day of Judgment his appointment?',
+        era: 'Andalusian'
+      }
+    ]
   }
 ];
 
@@ -61,10 +60,10 @@ export const CIRCLE5_CONSONANT: Circle = {
   baseSequenceLength: 8,
   meters: CIRCLE5_METERS,
   visualTheme: {
-    primaryColor: '#EF4444', // Red
-    accentColor: '#DC2626',
-    backgroundGradient: ['#FEE2E2', '#FCA5A5'],
-    borderColor: '#B91C1C'
+    primaryColor: '#A78BFA', // Violet
+    accentColor: '#E5E7EB',
+    backgroundGradient: ['#4C1D95', '#5B21B6'],
+    borderColor: '#C4B5FD'
   },
   order: 5
 };

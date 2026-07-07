@@ -25,24 +25,24 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
       </div>
 
       {/* Ornate Cards Cluster - Grape Layout */}
-      <div className="flex flex-col items-center gap-16 mb-12 px-4">
+      <div className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
         {/* Top Row - 3 Ornate Cards */}
-        <div className="flex justify-center gap-8">
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
           {ALL_CIRCLES.slice(0, 3).map((circle) => (
-            <OrnateCard 
-              key={circle.id} 
-              circle={circle} 
+            <OrnateCard
+              key={circle.id}
+              circle={circle}
               onCircleSelect={onCircleSelect}
             />
           ))}
         </div>
 
         {/* Bottom Row - 2 Ornate Cards */}
-        <div className="flex justify-center gap-8">
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
           {ALL_CIRCLES.slice(3).map((circle) => (
-            <OrnateCard 
-              key={circle.id} 
-              circle={circle} 
+            <OrnateCard
+              key={circle.id}
+              circle={circle}
               onCircleSelect={onCircleSelect}
             />
           ))}

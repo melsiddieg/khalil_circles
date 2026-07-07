@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Meter, Tafila, Circle } from '../types';
 
 interface MeterDisplayProps {
@@ -9,15 +9,24 @@ interface MeterDisplayProps {
 }
 
 const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern, circle }) => {
+  const [showArudScript, setShowArudScript] = useState(false);
+
   return (
     <div key={activeMeter.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 w-full animate-fade-in" dir="rtl">
       <div className="flex justify-between items-start mb-4">
-        <h2
-          className="text-3xl font-bold font-amiri"
-          style={{ color: circle?.visualTheme.primaryColor || '#FBBF24' }}
-        >
-          {activeMeter.name}
-        </h2>
+        <div>
+          <h2
+            className="text-3xl font-bold font-amiri"
+            style={{ color: circle?.visualTheme.primaryColor || '#FBBF24' }}
+          >
+            {activeMeter.name}
+          </h2>
+          {activeMeter.mnemonic && (
+            <p className="text-gray-400 font-amiri text-sm mt-1 opacity-80">
+              {activeMeter.mnemonic}
+            </p>
+          )}
+        </div>
         <span className="text-sm font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded" dir="ltr">
           OFFSET: {activeMeter.startOffset}
         </span>
@@ -50,16 +59,31 @@ const MeterDisplay: React.FC<MeterDisplayProps> = ({ activeMeter, activePattern,
       {/* Famous Example */}
       {activeMeter.famousExamples && activeMeter.famousExamples.length > 0 && (
         <div className="border-t border-gray-700/60 pt-4 mt-4">
-          <h3 className="text-lg font-semibold text-gray-400 mb-3 text-left" dir="ltr">Famous Example</h3>
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-lg font-semibold text-gray-400 text-left" dir="ltr">Famous Example</h3>
+            {activeMeter.famousExamples[0].arudScript && (
+              <button
+                onClick={() => setShowArudScript(!showArudScript)}
+                className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 transition-colors font-amiri"
+              >
+                {showArudScript ? 'النص الأصلي' : 'الكتابة العروضية'}
+              </button>
+            )}
+          </div>
 
           <div className="bg-gray-900/40 rounded-xl p-4 border border-gray-700/50">
             {/* Verse */}
             <p
-              className="font-amiri text-2xl text-center leading-loose mb-3"
-              style={{ color: circle?.visualTheme.primaryColor || '#FDE68A' }}
+              className="font-amiri text-2xl text-center leading-loose mb-3 transition-all duration-300"
+              style={{
+                color: circle?.visualTheme.primaryColor || '#FDE68A',
+                opacity: showArudScript ? 0.9 : 1
+              }}
               dir="rtl"
             >
-              {activeMeter.famousExamples[0].text}
+              {showArudScript && activeMeter.famousExamples[0].arudScript
+                ? activeMeter.famousExamples[0].arudScript
+                : activeMeter.famousExamples[0].text}
             </p>
 
             {/* Poet & Translation */}

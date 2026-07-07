@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 # Local artifacts we don't want in Git
+# (root /assets/ only — tracked assets live in public/assets/)
 /assets/
 /data/classical-examples/
 /test-results/

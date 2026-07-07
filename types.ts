@@ -21,7 +21,8 @@ export interface TafilaVariant {
  * Poetry example with historical context
  */
 export interface PoetryExample {
-  text: string; // Arabic verse
+  text: string; // Arabic verse in standard orthography
+  arudScript?: string; // Same verse in prosodic writing (الكتابة العروضية)
   poet: string;
   translation?: string;
   era: string; // Classical, Abbasid, etc.
@@ -62,6 +63,7 @@ export interface Meter {
   startOffset: number; // Index in the circle's atomic sequence
   parsingInstructions: number[]; // How many atomic units to group for each tafila
   patternTransliteration: string;
+  mnemonic?: string; // Classical mnemonic verse encoding the meter's pattern
   historicalUsage: string; // Classical usage patterns
   famousExamples: PoetryExample[]; // Historical poetry examples
 }
