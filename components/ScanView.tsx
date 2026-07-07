@@ -56,8 +56,20 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
 
   const mismatch = letters.length !== expectedLetters;
 
-  // Assign letters sequentially to unit cells
-  let letterCursor = 0;
+  // Letter start index for each unit cell (letters fill cells sequentially)
+  const unitStarts = useMemo(() => {
+    const starts: number[][] = [];
+    let acc = 0;
+    for (const group of groups) {
+      const row: number[] = [];
+      for (const unit of group.units) {
+        row.push(acc);
+        acc += unit.length;
+      }
+      starts.push(row);
+    }
+    return starts;
+  }, [groups]);
 
   const selectMeter = (id: string) => {
     setMeterId(id);
@@ -150,9 +162,8 @@ const ScanView: React.FC<ScanViewProps> = ({ onBackToHub }) => {
           <div key={g} className="flex flex-col items-center gap-2">
             <div className="flex gap-1.5">
               {group.units.map((unit, u) => {
-                const cellLetters = letters.slice(letterCursor, letterCursor + unit.length);
-                const startIndex = letterCursor;
-                letterCursor += unit.length;
+                const startIndex = unitStarts[g][u];
+                const cellLetters = letters.slice(startIndex, startIndex + unit.length);
                 // unit chars are stored RTL-style; reverse for LTR digit order,
                 // then re-reverse for display alongside RTL letters
                 const prosody = unit.split('').reverse();

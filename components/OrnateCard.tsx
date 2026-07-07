@@ -61,13 +61,15 @@ const CurvedText: React.FC<CurvedTextProps> = ({
   const widths = visual.map((w) => wordWidth(w, fontSize, widthFactor));
   const total = widths.reduce((s, w) => s + w, 0) + gap * (visual.length - 1);
   const toDeg = (px: number) => (px / radius) * (180 / Math.PI);
+  // Arc-length start position of each word, from -total/2
+  const starts = widths.map((_, i) =>
+    widths.slice(0, i).reduce((s, w) => s + w + gap, -total / 2)
+  );
 
-  let cursor = -total / 2;
   return (
     <>
       {visual.map((word, i) => {
-        const center = cursor + widths[i] / 2;
-        cursor += widths[i] + gap;
+        const center = starts[i] + widths[i] / 2;
         // Top: rotate(+a) carries the up-vector (0,-r) rightward. Bottom:
         // rotate(+a) carries (0,+r) leftward, so negate. Glyphs at y=+r
         // already face the center — readable coin-style, no flip needed.
