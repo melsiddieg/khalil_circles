@@ -103,7 +103,7 @@ The application is built around Al-Khalil's complete circular theory of Arabic p
 - **CompareView.tsx** + **MeterPatternCard.tsx**: side-by-side meter comparison with shared-feet highlighting
 - **TourOverlay.tsx** + **tour/tourSteps.ts**: 7-step guided tour (spotlight overlay driving App navigation)
 - **DialView.tsx** (Rotation Lab): draggable/keyboard-rotatable circle exposing ALL rotations — canonical meters, neglected rotations (البحور المهملة, e.g. المستطيل/الممتد), and duplicates; powered by **data/rotations.ts** (`CIRCLE_ROTATIONS`, `sequencePeriod`)
-- **MathView.tsx**: moraic binary lens (moving=1/quiescent=0), sequence period + distinct-rotation counts, full rotation table per circle (16 used + 5 neglected = 21 distinct rotations)
+- **MathView.tsx**: moraic binary lens (moving=1/quiescent=0), sequence period + distinct-rotation counts, group-theory panel (cyclic group Cₙ action, stabilizer C₍ₙ/ₚ₎ via `stabilizerOrder`, orbit–stabilizer equation, SymmetryStar star-polygon {n/p} rendering of the stabilizer generator, cross-circle symmetry table), full rotation table per circle (16 used + 5 neglected = 21 distinct rotations)
 - **ScanView.tsx**: prosodic scansion — animates the shahid's arudScript letters onto the atomic-unit template letter-by-letter (`utils/scansion.ts` tokenizer); flags non-canonical (zihaf) examples as approximate
 - **IslamicPattern.tsx**: procedural geometric SVG backdrop for hub cards (per-instance pattern ids)
 - **ErrorBoundary.tsx**: top-level render-error fallback

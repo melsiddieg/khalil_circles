@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { ALL_CIRCLES } from './circles';
-import { CIRCLE_ROTATIONS, sequencePeriod, canonicalOffset } from './rotations';
+import {
+  CIRCLE_ROTATIONS,
+  sequencePeriod,
+  canonicalOffset,
+  stabilizerOrder,
+} from './rotations';
 
 describe('rotation table integrity', () => {
   it('covers every offset of every circle exactly once', () => {
@@ -55,6 +60,29 @@ describe('rotation table integrity', () => {
     });
     expect(summary.reduce((s, c) => s + c.meters, 0)).toBe(16);
     expect(summary.reduce((s, c) => s + c.muhmal, 0)).toBe(5);
+  });
+
+  it('satisfies the orbit–stabilizer theorem per circle', () => {
+    // C_n acts on the necklace; |orbit| = period, |stabilizer| = n/period.
+    const expectedStabilizers: Record<string, number> = {
+      'circle1-mixed': 2, // C₂: rotation by 5 of 10 units fixes the sequence
+      'circle2-pure': 3, // C₃
+      'circle3-contracted': 3, // C₃
+      'circle4-accordant': 1, // trivial — no internal symmetry
+      'circle5-consonant': 4, // C₄ — most symmetric, fewest meters
+    };
+    for (const circle of ALL_CIRCLES) {
+      const n = circle.atomicSequence.length;
+      const orbit = sequencePeriod(circle.atomicSequence);
+      const stab = stabilizerOrder(circle.atomicSequence);
+      expect(stab, circle.id).toBe(expectedStabilizers[circle.id]);
+      expect(orbit * stab, circle.id).toBe(n);
+      // Rotation by the period really does fix the sequence
+      const rotated = circle.atomicSequence.map(
+        (_, i) => circle.atomicSequence[(i + orbit) % n]
+      );
+      expect(rotated, circle.id).toEqual(circle.atomicSequence);
+    }
   });
 
   it('canonicalOffset resolves duplicates', () => {
