@@ -26,11 +26,12 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
             onCircleSelect(circle);
           }
         }}
+        style={{ '--card-glow': `${circle.visualTheme.primaryColor}59`, '--card-border': `${circle.visualTheme.primaryColor}80` } as React.CSSProperties}
         className="group cursor-pointer relative transition-all duration-500 ease-out
                    hover:scale-105 w-full h-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400 rounded-2xl"
       >
         {/* Card backdrop: glass panel with theme glow and geometric pattern */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-md border border-gray-700 shadow-2xl transition-all duration-500 group-hover:shadow-amber-900/40 group-hover:border-amber-500/50">
+        <div className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-md border border-gray-700 shadow-2xl transition-all duration-500 group-hover:shadow-[0_0_45px_-8px_var(--card-glow)] group-hover:border-[color:var(--card-border)]">
           <div
             className="absolute inset-0 opacity-30 transition-opacity duration-500 group-hover:opacity-50"
             style={{ background: `radial-gradient(circle at center, ${circle.visualTheme.primaryColor}20, transparent 70%)` }}

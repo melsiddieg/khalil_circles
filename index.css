@@ -33,6 +33,77 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* Soft vignette + top glow layered over the geometric pattern for depth */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(251, 191, 36, 0.06), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gradient headline treatment for the hub title */
+.text-gradient-gold {
+  background: linear-gradient(180deg, #fde68a 0%, #fbbf24 45%, #d97706 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Staggered entrance for hub content; delay set inline per element */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Cross-fade when switching between hub and circle views */
+@keyframes view-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-view-fade {
+  animation: view-fade 0.45s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-view-fade {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

@@ -36,15 +36,17 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center p-4 overflow-hidden">
       {appState.currentView === 'hub' ? (
-        <>
+        <div key="hub" className="animate-view-fade w-full flex flex-col items-center">
           <InfoCard />
           <CircleHub onCircleSelect={handleCircleSelect} />
-        </>
+        </div>
       ) : selectedCircle ? (
-        <CircleView 
-          circle={selectedCircle}
-          onBackToHub={handleBackToHub}
-        />
+        <div key={selectedCircle.id} className="animate-view-fade w-full">
+          <CircleView
+            circle={selectedCircle}
+            onBackToHub={handleBackToHub}
+          />
+        </div>
       ) : (
         <div className="text-center">
           <p className="text-red-400">Error: Circle not found</p>

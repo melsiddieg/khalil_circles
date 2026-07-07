@@ -11,10 +11,15 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl md:text-6xl font-bold text-amber-400 font-amiri mb-4">
+      <div className="text-center mb-12 animate-fade-up">
+        <h1 className="text-5xl md:text-7xl font-bold text-gradient-gold font-amiri mb-4 drop-shadow-[0_2px_12px_rgba(251,191,36,0.25)]">
           دوائر الخليل العروضية
         </h1>
+        <div className="flex items-center justify-center gap-3 mb-4" aria-hidden="true">
+          <span className="h-px w-16 md:w-24 bg-gradient-to-l from-amber-500/60 to-transparent" />
+          <span className="text-amber-500/80 text-lg">✦</span>
+          <span className="h-px w-16 md:w-24 bg-gradient-to-r from-amber-500/60 to-transparent" />
+        </div>
         <h2 className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2">
           نظام الخليل بن أحمد الفراهيدي للعروض العربي
         </h2>
@@ -28,23 +33,19 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect }) => {
       <div className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
         {/* Top Row - 3 Ornate Cards */}
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
-          {ALL_CIRCLES.slice(0, 3).map((circle) => (
-            <OrnateCard
-              key={circle.id}
-              circle={circle}
-              onCircleSelect={onCircleSelect}
-            />
+          {ALL_CIRCLES.slice(0, 3).map((circle, i) => (
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${120 + i * 110}ms` }}>
+              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
+            </div>
           ))}
         </div>
 
         {/* Bottom Row - 2 Ornate Cards */}
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
-          {ALL_CIRCLES.slice(3).map((circle) => (
-            <OrnateCard
-              key={circle.id}
-              circle={circle}
-              onCircleSelect={onCircleSelect}
-            />
+          {ALL_CIRCLES.slice(3).map((circle, i) => (
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${450 + i * 110}ms` }}>
+              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
+            </div>
           ))}
         </div>
       </div>

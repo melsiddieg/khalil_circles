@@ -56,8 +56,11 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, onBackToHub }) => {
       <header className="text-center mb-2">
         <div className="flex items-center justify-center gap-3 mb-2">
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg"
-            style={{ backgroundColor: circle.visualTheme.primaryColor }}
+            className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg ring-2 ring-white/20"
+            style={{
+              backgroundColor: circle.visualTheme.primaryColor,
+              boxShadow: `0 0 24px ${circle.visualTheme.primaryColor}66`
+            }}
           >
             {circle.order}
           </div>
