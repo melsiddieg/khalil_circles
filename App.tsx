@@ -5,6 +5,9 @@ import { trackPageview, trackEvent } from './utils/analytics';
 import CircleHub from './components/CircleHub';
 import CircleView from './components/CircleView';
 import CompareView from './components/CompareView';
+import DialView from './components/DialView';
+import MathView from './components/MathView';
+import ScanView from './components/ScanView';
 import InfoCard from './components/InfoCard';
 import LanguageToggle from './components/LanguageToggle';
 import TourOverlay from './components/TourOverlay';
@@ -43,6 +46,10 @@ const App: React.FC = () => {
 
   const handleCompare = useCallback(() => {
     setAppState({ currentView: 'compare', selectedCircleId: undefined, selectedMeterIndex: 0 });
+  }, []);
+
+  const handleShowView = useCallback((view: 'dial' | 'math' | 'scan') => {
+    setAppState({ currentView: view, selectedCircleId: undefined, selectedMeterIndex: 0 });
   }, []);
 
   const [tourStep, setTourStep] = useState<number | null>(null);
@@ -95,9 +102,9 @@ const App: React.FC = () => {
     const path =
       appState.currentView === 'hub'
         ? '/'
-        : appState.currentView === 'compare'
-          ? '/compare'
-          : `/circle/${appState.selectedCircleId}/${appState.selectedMeterIndex ?? 0}`;
+        : appState.currentView === 'circle'
+          ? `/circle/${appState.selectedCircleId}/${appState.selectedMeterIndex ?? 0}`
+          : `/${appState.currentView}`;
     trackPageview(path);
   }, [appState.currentView, appState.selectedCircleId, appState.selectedMeterIndex]);
 
@@ -112,11 +119,24 @@ const App: React.FC = () => {
             onMeterSelect={handleMeterSelect}
             onCompare={handleCompare}
             onStartTour={handleStartTour}
+            onShowView={handleShowView}
           />
         </div>
       ) : appState.currentView === 'compare' ? (
         <div key="compare" className="animate-view-fade w-full">
           <CompareView onBackToHub={handleBackToHub} />
+        </div>
+      ) : appState.currentView === 'dial' ? (
+        <div key="dial" className="animate-view-fade w-full">
+          <DialView onBackToHub={handleBackToHub} />
+        </div>
+      ) : appState.currentView === 'math' ? (
+        <div key="math" className="animate-view-fade w-full">
+          <MathView onBackToHub={handleBackToHub} />
+        </div>
+      ) : appState.currentView === 'scan' ? (
+        <div key="scan" className="animate-view-fade w-full">
+          <ScanView onBackToHub={handleBackToHub} />
         </div>
       ) : selectedCircle ? (
         <div key={selectedCircle.id} className="animate-view-fade w-full">

@@ -10,9 +10,16 @@ interface CircleHubProps {
   onMeterSelect: (circleId: string, meterIndex: number) => void;
   onCompare: () => void;
   onStartTour: () => void;
+  onShowView: (view: 'dial' | 'math' | 'scan') => void;
 }
 
-const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, onCompare, onStartTour }) => {
+const CircleHub: React.FC<CircleHubProps> = ({
+  onCircleSelect,
+  onMeterSelect,
+  onCompare,
+  onStartTour,
+  onShowView,
+}) => {
   const { t } = useLanguage();
 
   return (
@@ -38,28 +45,29 @@ const CircleHub: React.FC<CircleHubProps> = ({ onCircleSelect, onMeterSelect, on
       {/* Meter Search */}
       <MeterSearch onMeterSelect={onMeterSelect} />
 
-      {/* Compare + Tour entries */}
-      <div className="flex items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
-        <button
-          type="button"
-          onClick={onCompare}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
-                     bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
-                     hover:border-amber-500/50 transition-all duration-300"
-        >
-          <span aria-hidden="true">⇄</span>
-          {t.compare.entry}
-        </button>
-        <button
-          type="button"
-          onClick={onStartTour}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
-                     bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
-                     hover:border-amber-500/50 transition-all duration-300"
-        >
-          <span aria-hidden="true">✦</span>
-          {t.tour.entry}
-        </button>
+      {/* Exploration tools */}
+      <div className="flex flex-wrap items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
+        {(
+          [
+            { icon: '⇄', label: t.compare.entry, onClick: onCompare },
+            { icon: '✦', label: t.tour.entry, onClick: onStartTour },
+            { icon: '◎', label: t.dial.entry, onClick: () => onShowView('dial') },
+            { icon: '∑', label: t.math.entry, onClick: () => onShowView('math') },
+            { icon: '҂', label: t.scan.entry, onClick: () => onShowView('scan') },
+          ] as const
+        ).map((tool) => (
+          <button
+            key={tool.label}
+            type="button"
+            onClick={tool.onClick}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-700
+                       bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
+                       hover:border-amber-500/50 transition-all duration-300"
+          >
+            <span aria-hidden="true">{tool.icon}</span>
+            {tool.label}
+          </button>
+        ))}
       </div>
 
       {/* Ornate Cards Cluster - Grape Layout */}

@@ -72,7 +72,7 @@ export interface Meter {
  * Application state for navigation between circles and meters
  */
 export interface AppState {
-  currentView: 'hub' | 'circle' | 'compare';
+  currentView: 'hub' | 'circle' | 'compare' | 'dial' | 'math' | 'scan';
   selectedCircleId?: string;
   selectedMeterIndex?: number;
 }

@@ -1,0 +1,117 @@
+/**
+ * The complete rotation table of Al-Khalil's circles.
+ *
+ * Every circle admits exactly `atomicSequence.length` unit-level rotations
+ * (start offsets). Only some were canonized as meters; the rest are either
+ * duplicates (when the sequence has a period shorter than its length) or
+ * "neglected" rotations — البحور المهملة — valid patterns no classical poet
+ * composed in. Al-Khalil's system predicted them anyway; showing them
+ * demonstrates the combinatorial completeness of the circles.
+ *
+ * Naming: circle 1's two neglected rotations have universally agreed
+ * classical names (المستطيل, الممتد). Classical sources disagree on names
+ * for circle 4's three neglected rotations, so they stay unnamed here.
+ */
+
+export type RotationInfo =
+  | { kind: 'meter'; meterId: string }
+  | { kind: 'muhmal'; nameAr?: string; nameEn?: string; parsingInstructions: number[] }
+  | { kind: 'duplicate'; of: number };
+
+/** Rotation info per circle id, indexed by start offset. */
+export const CIRCLE_ROTATIONS: Record<string, RotationInfo[]> = {
+  // 10 units, period 5 → 5 distinct rotations: 3 meters + 2 neglected
+  'circle1-mixed': [
+    { kind: 'meter', meterId: 'al-tawil' },
+    { kind: 'meter', meterId: 'al-madid' },
+    {
+      kind: 'muhmal',
+      nameAr: 'المستطيل',
+      nameEn: 'al-Mustatil',
+      parsingInstructions: [3, 2, 3, 2], // مفاعيلن فعولن مفاعيلن فعولن (مقلوب الطويل)
+    },
+    { kind: 'meter', meterId: 'al-basit' },
+    {
+      kind: 'muhmal',
+      nameAr: 'الممتد',
+      nameEn: 'al-Mumtadd',
+      parsingInstructions: [2, 3, 2, 3], // فاعلن فاعلاتن فاعلن فاعلاتن (مقلوب المديد)
+    },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 2 },
+    { kind: 'duplicate', of: 3 },
+    { kind: 'duplicate', of: 4 },
+  ],
+
+  // 6 units, period 2 → 2 distinct rotations, both used
+  'circle2-pure': [
+    { kind: 'meter', meterId: 'al-wafir' },
+    { kind: 'meter', meterId: 'al-kamil' },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+  ],
+
+  // 9 units, period 3 → 3 distinct rotations, all used
+  'circle3-contracted': [
+    { kind: 'meter', meterId: 'al-hazaj' },
+    { kind: 'meter', meterId: 'al-rajaz' },
+    { kind: 'meter', meterId: 'al-ramal' },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 2 },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 2 },
+  ],
+
+  // 9 units, no shorter period → 9 distinct rotations: 6 meters + 3 neglected
+  'circle4-accordant': [
+    { kind: 'meter', meterId: 'al-mudari' },
+    { kind: 'meter', meterId: 'al-muqtadab' },
+    { kind: 'meter', meterId: 'al-mujtath' },
+    { kind: 'muhmal', parsingInstructions: [3, 3, 3] }, // فاع لاتن مفاعيلن مفاعيلن
+    { kind: 'meter', meterId: 'al-sari' },
+    { kind: 'muhmal', parsingInstructions: [3, 3, 3] }, // فاعلاتن فاعلاتن مستفع لن
+    { kind: 'muhmal', parsingInstructions: [3, 3, 3] }, // مفاعيلن مفاعيلن فاع لاتن
+    { kind: 'meter', meterId: 'al-munsarih' },
+    { kind: 'meter', meterId: 'al-khafif' },
+  ],
+
+  // 8 units, period 2 → 2 distinct rotations, both used
+  'circle5-consonant': [
+    { kind: 'meter', meterId: 'al-mutaqarib' },
+    { kind: 'meter', meterId: 'al-mutadarik' },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+    { kind: 'duplicate', of: 0 },
+    { kind: 'duplicate', of: 1 },
+  ],
+};
+
+/** Smallest period of a unit sequence under rotation. */
+export const sequencePeriod = (sequence: string[]): number => {
+  const n = sequence.length;
+  for (let p = 1; p <= n; p++) {
+    if (n % p !== 0) continue;
+    let matches = true;
+    for (let i = 0; i < n; i++) {
+      if (sequence[i] !== sequence[i % p]) {
+        matches = false;
+        break;
+      }
+    }
+    if (matches) return p;
+  }
+  return n;
+};
+
+/** Resolve a rotation to its canonical (non-duplicate) offset. */
+export const canonicalOffset = (circleId: string, offset: number): number => {
+  const info = CIRCLE_ROTATIONS[circleId]?.[offset];
+  return info?.kind === 'duplicate' ? info.of : offset;
+};
