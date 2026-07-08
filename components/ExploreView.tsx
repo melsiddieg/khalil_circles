@@ -3,6 +3,7 @@ import { ALL_CIRCLES } from '../constants';
 import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
 import DivisorSpiral from './explore/DivisorSpiral';
+import OrbitCollapser from './explore/OrbitCollapser';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName } from '../i18n/names';
 
@@ -75,6 +76,10 @@ const ExploreView: React.FC<ExploreViewProps> = ({ onBackToHub }) => {
           </button>
         ))}
       </div>
+
+      <Stage title={t.explore.collapseTitle} body={t.explore.collapseBody}>
+        <OrbitCollapser circle={circle} />
+      </Stage>
 
       <Stage title={t.explore.spiralTitle} body={t.explore.spiralBody}>
         <DivisorSpiral circle={circle} />
