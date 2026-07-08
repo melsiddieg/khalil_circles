@@ -86,6 +86,63 @@ body {
   color: #fff7e6;
 }
 
+/*
+ * Arabic legibility boost. Amiri and Reem Kufi carry a smaller apparent
+ * x-height than Inter at the same point size, so Arabic reads a touch
+ * small. Add a constant +3px to each reading size the Arabic classes
+ * actually use, which preserves the type hierarchy exactly (a constant,
+ * not a scale) while leaving Latin, mono digits, and SVG glyph geometry
+ * (sized by fontSize attributes, not these utility classes) untouched.
+ * Display headings (text-4xl+) are already large and are left as-is.
+ */
+:root {
+  --ar-boost: 3px;
+}
+.font-amiri.text-xs,
+.font-kufi.text-xs {
+  font-size: calc(0.75rem + var(--ar-boost));
+}
+.font-amiri.text-sm,
+.font-kufi.text-sm {
+  font-size: calc(0.875rem + var(--ar-boost));
+}
+.font-amiri.text-base,
+.font-kufi.text-base {
+  font-size: calc(1rem + var(--ar-boost));
+}
+.font-amiri.text-lg,
+.font-kufi.text-lg {
+  font-size: calc(1.125rem + var(--ar-boost));
+}
+.font-amiri.text-xl,
+.font-kufi.text-xl {
+  font-size: calc(1.25rem + var(--ar-boost));
+}
+.font-amiri.text-2xl,
+.font-kufi.text-2xl {
+  font-size: calc(1.5rem + var(--ar-boost));
+}
+.font-amiri.text-3xl,
+.font-kufi.text-3xl {
+  font-size: calc(1.875rem + var(--ar-boost));
+}
+/* Responsive reading pairs — keep the +3px through the md step-up so
+   headings still grow rather than getting pinned by the base rule. */
+@media (min-width: 48rem) {
+  .font-amiri.md\:text-base,
+  .font-kufi.md\:text-base {
+    font-size: calc(1rem + var(--ar-boost));
+  }
+  .font-amiri.md\:text-3xl,
+  .font-kufi.md\:text-3xl {
+    font-size: calc(1.875rem + var(--ar-boost));
+  }
+  .font-amiri.md\:text-4xl,
+  .font-kufi.md\:text-4xl {
+    font-size: calc(2.25rem + var(--ar-boost));
+  }
+}
+
 /* Soft vignette + top glow layered over the geometric pattern for depth */
 body::before {
   content: '';
