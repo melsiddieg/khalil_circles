@@ -4,6 +4,7 @@ import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
 import DivisorSpiral from './explore/DivisorSpiral';
 import OrbitCollapser from './explore/OrbitCollapser';
+import SymmetryMachine from './explore/SymmetryMachine';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName } from '../i18n/names';
 
@@ -78,11 +79,15 @@ const ExploreView: React.FC<ExploreViewProps> = ({ onBackToHub }) => {
       </div>
 
       <Stage title={t.explore.collapseTitle} body={t.explore.collapseBody}>
-        <OrbitCollapser circle={circle} />
+        <OrbitCollapser key={circle.id} circle={circle} />
+      </Stage>
+
+      <Stage title={t.explore.symTitle} body={t.explore.symBody}>
+        <SymmetryMachine key={circle.id} circle={circle} />
       </Stage>
 
       <Stage title={t.explore.spiralTitle} body={t.explore.spiralBody}>
-        <DivisorSpiral circle={circle} />
+        <DivisorSpiral key={circle.id} circle={circle} />
       </Stage>
     </div>
   );
