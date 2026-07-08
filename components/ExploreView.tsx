@@ -6,6 +6,7 @@ import DivisorSpiral from './explore/DivisorSpiral';
 import OrbitCollapser from './explore/OrbitCollapser';
 import SymmetryMachine from './explore/SymmetryMachine';
 import UnrollingCircle from './explore/UnrollingCircle';
+import RhythmClock from './explore/RhythmClock';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName } from '../i18n/names';
 
@@ -93,6 +94,10 @@ const ExploreView: React.FC<ExploreViewProps> = ({ onBackToHub }) => {
 
       <Stage title={t.explore.spiralTitle} body={t.explore.spiralBody}>
         <DivisorSpiral key={circle.id} circle={circle} />
+      </Stage>
+
+      <Stage title={t.explore.clockTitle} body={t.explore.clockBody}>
+        <RhythmClock key={circle.id} circle={circle} />
       </Stage>
     </div>
   );
