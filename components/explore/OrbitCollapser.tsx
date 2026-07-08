@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Circle } from '../../types';
 import { CIRCLE_ROTATIONS, canonicalOffset, sequencePeriod, stabilizerOrder } from '../../data/rotations';
 import { unitColor } from './geometry';
+import OrbitStabEquation from '../OrbitStabEquation';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getMeterName } from '../../i18n/names';
 
@@ -130,19 +131,19 @@ const OrbitCollapser: React.FC<{ circle: Circle }> = ({ circle }) => {
       </div>
 
       {/* The theorem, proving itself */}
-      <p
+      <div
         className={`text-center font-amiri mt-6 transition-all duration-700 ${
           collapsed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
         }`}
         aria-hidden={!collapsed}
       >
-        <span className="text-amber-200 text-lg">
+        <p className="text-amber-200 text-lg mb-2">
           {t.explore.collapseEquation(String(n), String(period), String(stab))}
-        </span>
-        <span className="block text-gray-500 text-sm mt-1 font-inter" dir="ltr">
-          |C<sub>{n}</sub>| = |Orbit| × |Stab| ⟹ {n} = {period} × {stab}
-        </span>
-      </p>
+        </p>
+        <div className="scale-90 origin-top">
+          <OrbitStabEquation n={n} orbit={period} stab={stab} color={circle.visualTheme.primaryColor} />
+        </div>
+      </div>
     </div>
   );
 };

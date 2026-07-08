@@ -192,6 +192,9 @@ export const ar = {
     orbit: 'المدار',
     orbitDesc: 'الأنماط المتمايزة = البحور الممكنة',
     orbitStabilizerName: 'مبرهنة المدار والمثبِّت',
+    eqGroup: 'زمرة الدورات',
+    eqOrbit: 'المدار',
+    eqStab: 'المثبِّت',
     orbitStabilizerReading: (orbit: string, stab: string, n: string) =>
       `${orbit} دورات مميزة × ${stab} تماثلات = ${n} وحدات`,
     starCaption: (p: string, n: string) =>
@@ -422,6 +425,9 @@ export const en: Translations = {
     orbit: 'Orbit',
     orbitDesc: 'distinct patterns = possible meters',
     orbitStabilizerName: 'Orbit–Stabilizer Theorem',
+    eqGroup: 'the cyclic group',
+    eqOrbit: 'the orbit',
+    eqStab: 'the stabilizer',
     orbitStabilizerReading: (orbit: string, stab: string, n: string) =>
       `${orbit} distinct rotations × ${stab} symmetries = ${n} units`,
     starCaption: (p: string, n: string) =>

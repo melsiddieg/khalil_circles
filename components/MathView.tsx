@@ -4,6 +4,7 @@ import { CIRCLE_ROTATIONS, sequencePeriod, stabilizerOrder } from '../data/rotat
 import { Circle, Meter } from '../types';
 import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
+import OrbitStabEquation from './OrbitStabEquation';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -267,15 +268,12 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         {/* The theorem, with this circle's numbers */}
         <div className="bg-gray-900/50 border border-gold-soft rounded-xl p-4 text-center mb-5">
           <div className="text-xs label-gold font-amiri mb-2">{t.math.orbitStabilizerName}</div>
-          <div className="text-xl md:text-2xl font-inter text-gray-200" dir="ltr">
-            |C<sub>{total}</sub>| <span className="text-gray-500">=</span> |Orbit| <span className="text-amber-400">×</span> |Stab|
-            <span className="mx-3 text-gray-500">⟹</span>
-            <span style={{ color: circle.visualTheme.primaryColor }}>{total}</span>
-            <span className="text-gray-500"> = </span>
-            <span style={{ color: circle.visualTheme.primaryColor }}>{period}</span>
-            <span className="text-amber-400"> × </span>
-            <span style={{ color: circle.visualTheme.primaryColor }}>{stabilizer}</span>
-          </div>
+          <OrbitStabEquation
+            n={total}
+            orbit={period}
+            stab={stabilizer}
+            color={circle.visualTheme.primaryColor}
+          />
           <div className="text-sm text-gray-400 font-amiri mt-2">
             {t.math.orbitStabilizerReading(String(period), String(stabilizer), String(total))}
           </div>
