@@ -5,6 +5,7 @@ import OrnateDivider from './OrnateDivider';
 import DivisorSpiral from './explore/DivisorSpiral';
 import OrbitCollapser from './explore/OrbitCollapser';
 import SymmetryMachine from './explore/SymmetryMachine';
+import UnrollingCircle from './explore/UnrollingCircle';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName } from '../i18n/names';
 
@@ -77,6 +78,10 @@ const ExploreView: React.FC<ExploreViewProps> = ({ onBackToHub }) => {
           </button>
         ))}
       </div>
+
+      <Stage title={t.explore.unrollTitle} body={t.explore.unrollBody}>
+        <UnrollingCircle key={circle.id} circle={circle} />
+      </Stage>
 
       <Stage title={t.explore.collapseTitle} body={t.explore.collapseBody}>
         <OrbitCollapser key={circle.id} circle={circle} />

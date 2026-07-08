@@ -116,6 +116,61 @@ export const canonicalOffset = (circleId: string, offset: number): number => {
   return info?.kind === 'duplicate' ? info.of : offset;
 };
 
+import { Circle, Meter } from '../types';
+import { parseMeterPattern } from '../constants';
+
+export interface RotationReading {
+  kind: 'meter' | 'muhmal' | 'duplicate';
+  /** Canonical offset this reading resolves to */
+  canonical: number;
+  nameAr?: string;
+  nameEn?: string;
+  parsingInstructions: number[];
+  /** Merged tafila names for the reading */
+  tafail: string[];
+}
+
+/** Full reading (names + feet) of any rotation, resolving duplicates. */
+export const rotationReading = (circle: Circle, offset: number): RotationReading => {
+  const kind = CIRCLE_ROTATIONS[circle.id][offset].kind;
+  const canonical = canonicalOffset(circle.id, offset);
+  const info = CIRCLE_ROTATIONS[circle.id][canonical];
+
+  if (info.kind === 'meter') {
+    const meter = circle.meters.find((m) => m.id === info.meterId)!;
+    return {
+      kind,
+      canonical,
+      nameAr: meter.name,
+      nameEn: meter.nameTransliteration,
+      parsingInstructions: meter.parsingInstructions,
+      tafail: parseMeterPattern(meter, circle).map((t) => t.merged),
+    };
+  }
+
+  const instructions = info.kind === 'muhmal' ? info.parsingInstructions : [];
+  const probe: Meter = {
+    id: `probe-${circle.id}-${canonical}`,
+    name: '',
+    nameTransliteration: '',
+    description: '',
+    circleId: circle.id,
+    startOffset: canonical,
+    parsingInstructions: instructions,
+    patternTransliteration: '',
+    historicalUsage: '',
+    famousExamples: [],
+  };
+  return {
+    kind,
+    canonical,
+    nameAr: info.kind === 'muhmal' ? info.nameAr : undefined,
+    nameEn: info.kind === 'muhmal' ? info.nameEn : undefined,
+    parsingInstructions: instructions,
+    tafail: parseMeterPattern(probe, circle).map((t) => t.merged),
+  };
+};
+
 /**
  * Order of the sequence's symmetry group under the rotation action of the
  * cyclic group C_n: the stabilizer subgroup {rotations that map the

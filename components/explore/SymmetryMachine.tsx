@@ -19,6 +19,7 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
   const [snapped, setSnapped] = useState(0); // current snapped rotation in units
   const [found, setFound] = useState<Set<number>>(() => new Set([0]));
   const [flash, setFlash] = useState<'match' | 'mismatch' | null>(null);
+  const [dragging, setDragging] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ startPointer: number; startAngle: number } | null>(null);
 
@@ -41,6 +42,7 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
   const onPointerDown = (e: React.PointerEvent) => {
     (e.target as Element).setPointerCapture?.(e.pointerId);
     drag.current = { startPointer: pointerAngle(e), startAngle: angle };
+    setDragging(true);
     setFlash(null);
   };
 
@@ -52,6 +54,7 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
   const onPointerUp = () => {
     if (!drag.current) return;
     drag.current = null;
+    setDragging(false);
     // Snap to the nearest unit rotation. Screen-clockwise drag increases
     // the CSS angle; a rotation by +k units turns the ring by +k*step deg.
     const kRaw = Math.round(angle / step);
@@ -153,7 +156,7 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
         <g
           style={{
             transform: `rotate(${angle}deg)`,
-            transition: drag.current ? 'none' : 'transform 250ms ease-out',
+            transition: dragging ? 'none' : 'transform 250ms ease-out',
           }}
         >
           {seq.map((unit, i) => {

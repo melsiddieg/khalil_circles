@@ -113,7 +113,7 @@ export const ar = {
     unrollPlay: 'افرد',
     unrollRewind: 'لُفّ',
     unrollCutHint: 'انقر وحدةً على الدائرة لتقطع عندها',
-    unrollResult: (name: string) => `القراءة من هنا: ${name}`,
+    unrollResultLabel: 'القراءة من هذا القطع: ',
     // — Orbit Collapser —
     collapseTitle: 'عشر قصاصات، خمسة أنماط',
     collapseBody: 'اكتب كل دورات الدائرة قصاصاتٍ متراصة، ثم اطلب منها أن «تتكوم»: القصاصات المتطابقة تنزلق فوق بعضها. ما يتبقى من أكوام هو المدار، وسماكة كل كومة هي زمرة التماثل — والمعادلة تُبرهن نفسها أمامك.',
@@ -343,7 +343,7 @@ export const en: Translations = {
     unrollPlay: 'Unroll',
     unrollRewind: 'Coil',
     unrollCutHint: 'Click a unit on the circle to cut there',
-    unrollResult: (name: string) => `Read from here: ${name}`,
+    unrollResultLabel: 'Reading from this cut: ',
     // — Orbit Collapser —
     collapseTitle: 'Ten strips, five patterns',
     collapseBody: 'Write out every rotation of the circle as a stack of strips, then ask them to collapse: identical strips slide onto each other. The piles that remain are the orbit; the thickness of each pile is the symmetry group — and the equation proves itself in front of you.',
