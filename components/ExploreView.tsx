@@ -7,6 +7,7 @@ import OrbitCollapser from './explore/OrbitCollapser';
 import SymmetryMachine from './explore/SymmetryMachine';
 import UnrollingCircle from './explore/UnrollingCircle';
 import RhythmClock from './explore/RhythmClock';
+import InkCanvas from './explore/InkCanvas';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName } from '../i18n/names';
 
@@ -17,13 +18,21 @@ interface ExploreViewProps {
 interface StageProps {
   title: string;
   body: string;
+  badge?: string;
   children: React.ReactNode;
 }
 
 /** One explorable stage: kufi title, explanatory prose, then the toy. */
-const Stage: React.FC<StageProps> = ({ title, body, children }) => (
+const Stage: React.FC<StageProps> = ({ title, body, badge, children }) => (
   <section className="panel-engraved rounded-2xl p-6 md:p-8 mb-8">
     <h2 className="text-2xl font-bold text-amber-300 font-kufi mb-2 text-center">{title}</h2>
+    {badge && (
+      <p className="text-center mb-2">
+        <span className="inline-block text-[11px] font-amiri text-amber-300/80 border border-dashed border-gold-soft rounded-full px-3 py-0.5">
+          {badge}
+        </span>
+      </p>
+    )}
     <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6 leading-relaxed">
       {body}
     </p>
@@ -98,6 +107,10 @@ const ExploreView: React.FC<ExploreViewProps> = ({ onBackToHub }) => {
 
       <Stage title={t.explore.clockTitle} body={t.explore.clockBody}>
         <RhythmClock key={circle.id} circle={circle} />
+      </Stage>
+
+      <Stage title={t.explore.inkTitle} body={t.explore.inkBody} badge={t.explore.inkBadge}>
+        <InkCanvas key={circle.id} circle={circle} />
       </Stage>
     </div>
   );

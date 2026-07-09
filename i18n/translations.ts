@@ -147,6 +147,15 @@ export const ar = {
     clockCutHint: 'انقر حرفاً لتجعله بداية البحر — حتى أثناء العزف',
     clockDum: 'دُم (بداية وحدة)',
     clockTak: 'تَك (متحرك)',
+    // — Ink (HTML-in-Canvas experiment) —
+    inkTitle: 'مِداد: البيت يلتفّ وينحلّ',
+    inkBody: 'تجربة على واجهة HTML-in-Canvas الجديدة: البيتُ نصٌّ حيّ يشكِّله المتصفح بخطّ أميري كامل التشكيل، ثم تلتقطه اللوحة فتَثنيه حول الدائرة خطاً متصلاً حقيقياً — ثم انقر، فينحلّ المداد ذرّاتٍ تتكثف على وحدات الدائرة: القصيدة تعود إلى ذرّاتها العروضية.',
+    inkBadge: 'تجريبي · يتطلب Chrome Canary',
+    inkDissolve: 'حلَّ المداد',
+    inkReform: 'أعد تشكيله',
+    inkUnsupportedTitle: 'متصفحك لا يدعم هذه التجربة بعد',
+    inkUnsupportedBody: 'تحتاج هذه التجربة إلى Chromium 147+ مع تفعيل العلم التالي ثم إعادة تشغيل المتصفح:',
+    inkDegraded: 'تعذّرت قراءة وحدات البكسل — عرضٌ مداري مبسّط',
   },
   dial: {
     entry: 'مختبر الدوران',
@@ -380,6 +389,15 @@ export const en: Translations = {
     clockCutHint: 'Click a letter to make it the meter’s start — even while playing',
     clockDum: 'dum (unit start)',
     clockTak: 'tak (moving)',
+    // — Ink (HTML-in-Canvas experiment) —
+    inkTitle: 'Midad: the verse bends, then dissolves',
+    inkBody: 'An experiment on the new HTML-in-Canvas API: the verse is live DOM text — fully shaped Amiri with its vocalization — captured by the canvas and bent around the circle as genuinely connected calligraphy. Then click: the ink dissolves into particles that condense onto the circle’s units — the poem returning to its prosodic atoms.',
+    inkBadge: 'Experimental · requires Chrome Canary',
+    inkDissolve: 'Dissolve the ink',
+    inkReform: 'Reform it',
+    inkUnsupportedTitle: 'Your browser does not support this experiment yet',
+    inkUnsupportedBody: 'This experiment needs Chromium 147+ with the following flag enabled, then a browser relaunch:',
+    inkDegraded: 'Pixel readback unavailable — simplified orbit rendering',
   },
   dial: {
     entry: 'Rotation Lab',
