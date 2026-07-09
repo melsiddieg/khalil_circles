@@ -64,6 +64,7 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const verseRef = useRef<HTMLDivElement>(null);
   const snapRef = useRef<HTMLCanvasElement | null>(null);
+  const snapScale = useRef(1); // measured device-px per CSS-px of the snapshot
   const needSnap = useRef(true);
   const particles = useRef<Particle[]>([]);
   const morph = useRef(0); // 0 = ring, 1 = condensed on dots
@@ -110,22 +111,56 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
 
     const takeSnapshot = (): boolean => {
       const rect = el.getBoundingClientRect();
-      const w = Math.ceil(rect.width);
-      const h = Math.ceil(rect.height);
-      if (w < 4 || h < 4) return false;
+      if (rect.width < 4 || rect.height < 4) return false;
       try {
-        // Draw the live element once into the visible canvas, read the
-        // pixels back into an offscreen snapshot, then clear the stage.
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, SIZE, SIZE);
-        ctx.drawElementImage!(el, 0, 0);
-        const image = ctx.getImageData(0, 0, w * dpr, h * dpr);
+        // The engine's output scale for drawElementImage is not something
+        // to assume (it differs between dpr 1 and Retina builds of this
+        // experimental API), so we MEASURE instead: draw under identity
+        // transform into the full backing store, find the ink's bounding
+        // box, crop to it, and derive the device-px-per-CSS-px scale from
+        // the measured ink width vs the element's layout width. Drawing
+        // offset also leaves room for tashkeel overflowing the border box.
+        const OFF = 60;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawElementImage!(el, OFF, OFF);
+        const full = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let minX = 1e9,
+          maxX = -1,
+          minY = 1e9,
+          maxY = -1;
+        for (let y = 0; y < full.height; y++) {
+          for (let x = 0; x < full.width; x++) {
+            if (full.data[(y * full.width + x) * 4 + 3] > 12) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+        if (maxX < 0) {
+          // Nothing painted yet — try again on a later frame.
+          needSnap.current = true;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          return false;
+        }
+        const PAD = 3;
+        minX = Math.max(0, minX - PAD);
+        minY = Math.max(0, minY - PAD);
+        maxX = Math.min(full.width - 1, maxX + PAD);
+        maxY = Math.min(full.height - 1, maxY + PAD);
+        const bw = maxX - minX + 1;
+        const bh = maxY - minY + 1;
         const snap = document.createElement('canvas');
-        snap.width = w * dpr;
-        snap.height = h * dpr;
-        snap.getContext('2d')!.putImageData(image, 0, 0);
+        snap.width = bw;
+        snap.height = bh;
+        snap.getContext('2d')!.putImageData(full, -minX, -minY);
         snapRef.current = snap;
-        buildParticles(image, w, h);
+        // Measured device-px per CSS-px of the captured ink.
+        const scale = Math.max(0.25, bw / rect.width);
+        snapScale.current = scale;
+        buildParticles(snap.getContext('2d')!.getImageData(0, 0, bw, bh), scale);
         degradedRef.current = false;
         setDegraded(false);
       } catch (err) {
@@ -140,7 +175,7 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
           setDegraded(true);
         }
       }
-      ctx.clearRect(0, 0, SIZE, SIZE);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       return true;
     };
 
@@ -152,7 +187,9 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
       return { angle, x: SIZE / 2 + Math.cos(angle) * RING_R, y: SIZE / 2 + Math.sin(angle) * RING_R };
     };
 
-    const buildParticles = (image: ImageData, w: number, h: number) => {
+    const buildParticles = (image: ImageData, scale: number) => {
+      const w = image.width / scale; // CSS px
+      const h = image.height / scale;
       const span = Math.min((w / RING_R) * 1.0, Math.PI * 1.6);
       const dots = circle.atomicSequence.map((unit, i) => {
         const p = polar(i, circle.atomicSequence.length, DOT_R);
@@ -160,14 +197,14 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
         return { x: SIZE / 2 + p.x, y: SIZE / 2 + p.y, r, g, b };
       });
       const out: Particle[] = [];
-      const stride = PARTICLE_STEP * dpr;
+      const stride = Math.max(1, Math.round(PARTICLE_STEP * scale));
       for (let py = 0; py < image.height; py += stride) {
         for (let px = 0; px < image.width; px += stride) {
           const a = image.data[(py * image.width + px) * 4 + 3];
           if (a < 90) continue;
           const frac = px / image.width;
           const pose = ringPose(frac, span);
-          const radial = (py / dpr - h / 2) * 1.0;
+          const radial = py / scale - h / 2;
           const hx = pose.x + Math.cos(pose.angle) * radial;
           const hy = pose.y + Math.sin(pose.angle) * radial;
           const dot = dots[out.length % dots.length];
@@ -224,8 +261,9 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
 
       if (snap && m < 0.985) {
         // Act I — the ring: slice-warp the captured ink around the circle.
-        const w = snap.width / dpr;
-        const h = snap.height / dpr;
+        const scale = snapScale.current;
+        const w = snap.width / scale;
+        const h = snap.height / scale;
         const span = Math.min((w / RING_R) * 1.0, Math.PI * 1.6);
         const slices = Math.ceil(w / SLICE_W);
         ctx.globalAlpha = 1 - m;
@@ -244,9 +282,9 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
           // overlap and no hairline gaps open at the glyph extremities.
           ctx.drawImage(
             snap,
-            s * SLICE_W * dpr,
+            s * SLICE_W * scale,
             0,
-            (SLICE_W + 0.75) * dpr,
+            (SLICE_W + 0.75) * scale,
             snap.height,
             -SLICE_W / 2 - 0.375,
             -h / 2,

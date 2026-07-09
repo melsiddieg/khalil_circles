@@ -1,10 +1,11 @@
 // Visual verification harness for the «مِداد» HTML-in-Canvas stage.
 // Requires Chrome Beta locally; not run in CI.
-// Usage: URL=http://localhost:5173/ node scripts/verify-ink.mjs
+// Usage: URL=http://localhost:5173/ DSF=2 node scripts/verify-ink.mjs
 import puppeteer from 'puppeteer-core';
 
 const BETA = '/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta';
-const OUT = process.env.OUT ?? '/tmp/ink';
+const DSF = Number(process.env.DSF ?? 1); // deviceScaleFactor: 2 = Retina
+const OUT = process.env.OUT ?? `/tmp/ink-dsf${DSF}`;
 
 const browser = await puppeteer.launch({
   executablePath: BETA,
@@ -13,9 +14,9 @@ const browser = await puppeteer.launch({
     '--enable-blink-features=CanvasDrawElement',
     '--no-first-run',
     '--window-size=1200,900',
-    '--user-data-dir=/tmp/ink-verify-profile',
+    `--user-data-dir=/tmp/ink-verify-profile-${DSF}`,
   ],
-  defaultViewport: { width: 1200, height: 900 },
+  defaultViewport: { width: 1200, height: 900, deviceScaleFactor: DSF },
 });
 const page = await browser.newPage();
 const logs = [];
