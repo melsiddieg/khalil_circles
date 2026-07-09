@@ -33,8 +33,8 @@ const detectSupport = (): boolean => {
 const SIZE = 520; // CSS px, square stage
 const RING_R = 168; // radius of the calligraphy ring
 const DOT_R = 96; // radius of the unit-dot ring the ink condenses onto
-const SLICE_W = 3; // CSS px per warp slice
-const PARTICLE_STEP = 3; // sampling stride over the snapshot
+const SLICE_W = 2; // CSS px per warp slice
+const PARTICLE_STEP = 2; // sampling stride over the snapshot
 
 interface Particle {
   hx: number; // home (ring) position
@@ -98,7 +98,7 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
     const canvas = canvasRef.current;
     const el = verseRef.current;
     if (!canvas || !el) return;
-    const ctx = canvas.getContext('2d') as ExperimentalCtx | null;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true }) as ExperimentalCtx | null;
     if (!ctx?.drawElementImage) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -128,19 +128,27 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
         buildParticles(image, w, h);
         degradedRef.current = false;
         setDegraded(false);
-      } catch {
-        // Tainted canvas or readback failure: no slices/particles possible.
-        snapRef.current = null;
-        degradedRef.current = true;
-        setDegraded(true);
+      } catch (err) {
+        // "No cached paint record" (InvalidStateError) just means the
+        // engine hasn't painted the element yet — retry next frame.
+        if (err instanceof DOMException && err.name === 'InvalidStateError') {
+          needSnap.current = true;
+        } else {
+          // Tainted canvas / readback refusal: slices & particles are off.
+          snapRef.current = null;
+          degradedRef.current = true;
+          setDegraded(true);
+        }
       }
       ctx.clearRect(0, 0, SIZE, SIZE);
       return true;
     };
 
     const ringPose = (fracAlong: number, span: number) => {
-      // RTL: the start of the verse sits at the arc's right end.
-      const angle = -Math.PI / 2 + span / 2 - fracAlong * span;
+      // Preserve the image's pixel order along the arc: image-left maps to
+      // the arc's left end (the text inside the image is already RTL).
+      // Mirroring this mapping shreds the glyphs into reordered slices.
+      const angle = -Math.PI / 2 - span / 2 + fracAlong * span;
       return { angle, x: SIZE / 2 + Math.cos(angle) * RING_R, y: SIZE / 2 + Math.sin(angle) * RING_R };
     };
 
@@ -232,15 +240,17 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
           ctx.save();
           ctx.translate(x, y);
           ctx.rotate(angle + Math.PI / 2);
+          // Draw slightly wider than the stride so rotated neighbours
+          // overlap and no hairline gaps open at the glyph extremities.
           ctx.drawImage(
             snap,
             s * SLICE_W * dpr,
             0,
-            SLICE_W * dpr,
+            (SLICE_W + 0.75) * dpr,
             snap.height,
-            -SLICE_W / 2,
+            -SLICE_W / 2 - 0.375,
             -h / 2,
-            SLICE_W,
+            SLICE_W + 0.75,
             h
           );
           ctx.restore();
@@ -272,8 +282,8 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
           const cr = Math.round(p.r + (p.tr - p.r) * m);
           const cg = Math.round(p.g + (p.tg - p.g) * m);
           const cb = Math.round(p.b + (p.tb - p.b) * m);
-          ctx.fillStyle = `rgba(${cr},${cg},${cb},${0.25 + m * 0.75})`;
-          ctx.fillRect(x, y, 1.6, 1.6);
+          ctx.fillStyle = `rgba(${cr},${cg},${cb},${0.55 + m * 0.45})`;
+          ctx.fillRect(x, y, 2.4, 2.4);
         }
       }
 
