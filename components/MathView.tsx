@@ -6,6 +6,8 @@ import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
 import OrbitStabEquation from './OrbitStabEquation';
 import GroupTheoryGloss from './GroupTheoryGloss';
+import { useDrawProgress } from '../utils/animation';
+import { easeOutBack, laggedProgress, rushFrom, smooth, window as subWindow } from '../utils/rate';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -75,11 +77,21 @@ const unitDotColor = (unit: string, circle: Circle): string => {
  * gold chord from every dot i to dot i+p (p = the sequence period, the
  * stabilizer's generator). The chords trace the star polygon {n/p} —
  * for the trivial stabilizer (p = n) there are no chords at all.
+ *
+ * It draws itself in Manim's grammar (one timeline, three staged acts):
+ * the dots land first with LaggedStart + easeOutBack, then each chord
+ * Writes itself along its own length, then the fundamental-domain arc
+ * sweeps in. Replays on every circle change (the host passes a key).
  */
 const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, period }) => {
   const n = circle.atomicSequence.length;
   const step = 360 / n;
   const R = 82;
+  const t = useDrawProgress(1500);
+  // Acts: dots [0, .3], chords [.22, .8], domain arc [.75, 1]
+  const tDots = subWindow(t, 0, 0.3);
+  const tChords = subWindow(t, 0.22, 0.8);
+  const tDomain = subWindow(t, 0.75, 1);
   const pos = (i: number) => {
     const a = ((-90 - i * step) * Math.PI) / 180;
     return { x: Math.cos(a) * R, y: Math.sin(a) * R };
@@ -99,6 +111,8 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
     <svg viewBox="-115 -115 230 230" className="w-52 h-52 mx-auto" role="img" aria-hidden="true">
       <circle r={R} fill="none" stroke="rgba(216,185,120,0.25)" strokeWidth="1" />
       {domain && (
+        // Sweeps in last: pathLength normalizes the dash to 0…1 regardless
+        // of the arc's real length.
         <path
           d={domain}
           fill="none"
@@ -106,12 +120,17 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
           strokeOpacity="0.55"
           strokeWidth="4"
           strokeLinecap="round"
+          pathLength={1}
+          strokeDasharray={1}
+          strokeDashoffset={1 - rushFrom(tDomain)}
         />
       )}
       {period < n &&
         circle.atomicSequence.map((_, i) => {
           const a = pos(i);
           const b = pos((i + period) % n);
+          // Each chord Writes itself along its own length (LaggedStart).
+          const p = smooth(laggedProgress(tChords, i, n, 0.35));
           return (
             <line
               key={`chord-${i}`}
@@ -121,17 +140,22 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
               y2={b.y}
               stroke="rgba(216,185,120,0.5)"
               strokeWidth="1.3"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={1 - p}
             />
           );
         })}
       {circle.atomicSequence.map((unit, i) => {
         const { x, y } = pos(i);
+        // Dots land with an overshoot, one after another.
+        const p = easeOutBack(laggedProgress(tDots, i, n, 0.5));
         return (
           <circle
             key={`dot-${i}`}
             cx={x}
             cy={y}
-            r="7"
+            r={7 * p}
             fill={unitDotColor(unit, circle)}
             stroke="rgba(13,18,32,0.9)"
             strokeWidth="2"
@@ -325,8 +349,9 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
             </div>
           </div>
 
-          {/* The stabilizer drawn: star polygon {n/p} */}
-          <SymmetryStar circle={circle} period={period} />
+          {/* The stabilizer drawn: star polygon {n/p}. Keyed so the whole
+              drawing replays whenever the circle changes. */}
+          <SymmetryStar key={circle.id} circle={circle} period={period} />
           <p className="text-center text-sm text-gray-400 font-amiri mt-3 max-w-xl mx-auto">
             {stabilizer === 1
               ? t.math.starTrivialCaption

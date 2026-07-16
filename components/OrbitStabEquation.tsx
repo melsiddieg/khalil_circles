@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useAnimatedNumber } from '../utils/animation';
 
 interface OrbitStabEquationProps {
   n: number;
@@ -17,6 +18,29 @@ const Term: React.FC<{ label: string; children: React.ReactNode }> = ({ label, c
 );
 
 /**
+ * A number that counts to its new value and flashes while it travels —
+ * Manim's ChangeDecimalToValue with an Indicate: the reader's eye is told
+ * which quantity moved, and watches it move rather than finding it
+ * already changed.
+ */
+const CountingNumber: React.FC<{ value: number; color: string }> = ({ value, color }) => {
+  const { display, pulse } = useAnimatedNumber(value);
+  return (
+    <span
+      className="inline-block tabular-nums"
+      style={{
+        color,
+        transform: `scale(${1 + pulse * 0.22})`,
+        filter: pulse > 0.01 ? `drop-shadow(0 0 ${pulse * 10}px ${color})` : undefined,
+        transition: 'none',
+      }}
+    >
+      {Math.round(display)}
+    </span>
+  );
+};
+
+/**
  * The orbit–stabilizer identity with each symbolic token annotated in the
  * reader's language, plus the concrete instance for the current circle.
  */
@@ -28,7 +52,7 @@ const OrbitStabEquation: React.FC<OrbitStabEquationProps> = ({ n, orbit, stab, c
       dir="ltr"
     >
       <Term label={t.math.eqGroup}>
-        |C<sub>{n}</sub>|
+        |C<sub className="tabular-nums">{n}</sub>|
       </Term>
       <span className="text-gray-500">=</span>
       <Term label={t.math.eqOrbit}>|Orbit|</Term>
@@ -36,11 +60,11 @@ const OrbitStabEquation: React.FC<OrbitStabEquationProps> = ({ n, orbit, stab, c
       <Term label={t.math.eqStab}>|Stab|</Term>
       <span className="mx-2 text-gray-500">⟹</span>
       <span>
-        <span style={{ color }}>{n}</span>
+        <CountingNumber value={n} color={color} />
         <span className="text-gray-500"> = </span>
-        <span style={{ color }}>{orbit}</span>
+        <CountingNumber value={orbit} color={color} />
         <span className="text-amber-400"> × </span>
-        <span style={{ color }}>{stab}</span>
+        <CountingNumber value={stab} color={color} />
       </span>
     </div>
   );
