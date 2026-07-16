@@ -5,6 +5,7 @@ import { Circle, Meter } from '../types';
 import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
 import OrbitStabEquation from './OrbitStabEquation';
+import GroupTheoryGloss from './GroupTheoryGloss';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -18,7 +19,11 @@ interface MathViewProps {
  * so reverse to read left-to-right as digits.
  */
 const unitDigits = (unit: string): string =>
-  unit.split('').reverse().map((c) => (c === '/' ? '1' : '0')).join('');
+  unit
+    .split('')
+    .reverse()
+    .map((c) => (c === '/' ? '1' : '0'))
+    .join('');
 
 const rotationPattern = (circle: Circle, offset: number): string => {
   const info = CIRCLE_ROTATIONS[circle.id][offset];
@@ -42,9 +47,13 @@ const rotationPattern = (circle: Circle, offset: number): string => {
   // For used meters, parse via the real meter to hit circle-3's special case
   if (info.kind === 'meter') {
     const meter = circle.meters.find((m) => m.id === info.meterId)!;
-    return parseMeterPattern(meter, circle).map((t) => t.merged).join(' ');
+    return parseMeterPattern(meter, circle)
+      .map((t) => t.merged)
+      .join(' ');
   }
-  return parseMeterPattern(probe, circle).map((t) => t.merged).join(' ');
+  return parseMeterPattern(probe, circle)
+    .map((t) => t.merged)
+    .join(' ');
 };
 
 /** Cn rendered as C with a real subscript. */
@@ -146,7 +155,7 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
   const total = circle.atomicSequence.length;
 
   return (
-    <div className="w-full max-w-4xl mx-auto" dir={dir}>
+    <div className="w-full max-w-5xl mx-auto" dir={dir}>
       <button
         onClick={onBackToHub}
         className="flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors duration-300 font-inter mb-4"
@@ -159,7 +168,9 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         {t.math.title}
       </h1>
       <OrnateDivider className="mb-3" />
-      <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6">{t.math.subtitle}</p>
+      <p className="text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-6">
+        {t.math.subtitle}
+      </p>
 
       {/* Circle selector */}
       <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -190,7 +201,11 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
               key={i}
               className="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg bg-gray-900/50 border border-gold-soft"
             >
-              <span className="font-mono text-base tracking-widest" style={{ color: circle.visualTheme.primaryColor }} dir="ltr">
+              <span
+                className="font-mono text-base tracking-widest"
+                style={{ color: circle.visualTheme.primaryColor }}
+                dir="ltr"
+              >
                 {unitDigits(unit)}
               </span>
               <span className="font-mono text-[10px] text-gray-500" dir="ltr">
@@ -203,19 +218,30 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         {/* Symmetry facts */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 text-center">
           <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold font-amiri" style={{ color: circle.visualTheme.primaryColor }}>
+            <div
+              className="text-2xl font-bold font-amiri"
+              style={{ color: circle.visualTheme.primaryColor }}
+            >
               {total}
             </div>
-            <div className="text-xs text-gray-500 font-amiri">{t.math.unitsCount(String(total))}</div>
+            <div className="text-xs text-gray-500 font-amiri">
+              {t.math.unitsCount(String(total))}
+            </div>
           </div>
           <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold font-amiri" style={{ color: circle.visualTheme.primaryColor }}>
+            <div
+              className="text-2xl font-bold font-amiri"
+              style={{ color: circle.visualTheme.primaryColor }}
+            >
               {period}
             </div>
             <div className="text-xs text-gray-500 font-amiri">{t.math.periodLabel}</div>
           </div>
           <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold font-amiri" style={{ color: circle.visualTheme.primaryColor }}>
+            <div
+              className="text-2xl font-bold font-amiri"
+              style={{ color: circle.visualTheme.primaryColor }}
+            >
               {period}
             </div>
             <div className="text-xs text-gray-500 font-amiri">
@@ -225,72 +251,100 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         </div>
 
         <p className="text-center text-sm text-gray-400 font-amiri mt-4">
-          {period < total ? t.math.symmetryNote(String(period), String(total)) : t.math.noSymmetryNote}
+          {period < total
+            ? t.math.symmetryNote(String(period), String(total))
+            : t.math.noSymmetryNote}
         </p>
       </div>
 
-      {/* Group theory: orbit–stabilizer */}
-      <div className="panel-engraved rounded-2xl p-5 mb-4">
-        <h3 className="text-lg font-bold text-amber-300 font-kufi mb-2 text-center">
-          {t.math.groupTitle}
-        </h3>
-        <p className="text-sm text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-5">
-          {t.math.groupIntro(String(total))}
-        </p>
-
-        {/* Acting group / stabilizer / orbit */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-5">
-          <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold" style={{ color: circle.visualTheme.primaryColor }}>
-              <GroupSymbol order={total} />
-            </div>
-            <div className="text-xs label-gold font-amiri mt-1">{t.math.actingGroup}</div>
-            <div className="text-xs text-gray-500 font-amiri">{t.math.actingGroupDesc(String(total))}</div>
-          </div>
-          <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold" style={{ color: circle.visualTheme.primaryColor }}>
-              <GroupSymbol order={stabilizer} />
-            </div>
-            <div className="text-xs label-gold font-amiri mt-1">{t.math.stabilizer}</div>
-            <div className="text-xs text-gray-500 font-amiri">
-              {stabilizer === 1 ? t.math.stabilizerTrivial : t.math.stabilizerDesc(String(period))}
-            </div>
-          </div>
-          <div className="bg-gray-900/40 rounded-xl p-3">
-            <div className="text-2xl font-bold font-inter" style={{ color: circle.visualTheme.primaryColor }} dir="ltr">
-              {period}
-            </div>
-            <div className="text-xs label-gold font-amiri mt-1">{t.math.orbit}</div>
-            <div className="text-xs text-gray-500 font-amiri">{t.math.orbitDesc}</div>
-          </div>
-        </div>
-
-        {/* The theorem, with this circle's numbers */}
-        <div className="bg-gray-900/50 border border-gold-soft rounded-xl p-4 text-center mb-5">
-          <div className="text-xs label-gold font-amiri mb-2">{t.math.orbitStabilizerName}</div>
-          <OrbitStabEquation
-            n={total}
-            orbit={period}
-            stab={stabilizer}
-            color={circle.visualTheme.primaryColor}
-          />
-          <div className="text-sm text-gray-400 font-amiri mt-2">
-            {t.math.orbitStabilizerReading(String(period), String(stabilizer), String(total))}
-          </div>
-        </div>
-
-        {/* The stabilizer drawn: star polygon {n/p} */}
-        <SymmetryStar circle={circle} period={period} />
-        <p className="text-center text-sm text-gray-400 font-amiri mt-3 max-w-xl mx-auto">
-          {stabilizer === 1
-            ? t.math.starTrivialCaption
-            : t.math.starCaption(String(period), String(total))}
-        </p>
-        {period < total && (
-          <p className="text-center text-xs font-amiri mt-1" style={{ color: circle.visualTheme.primaryColor }}>
-            {t.math.fundamentalDomain(String(period))}
+      {/* Group theory: the dense treatment, with its plain-language gloss
+          alongside — the manuscript habit of a ḥāshiya in the margin.
+          On narrow screens the gloss leads, so newcomers meet the
+          everyday explanation before the notation. */}
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_17rem] gap-4 mb-4 items-start">
+        <div className="panel-engraved rounded-2xl p-5">
+          <h3 className="text-lg font-bold text-amber-300 font-kufi mb-2 text-center">
+            {t.math.groupTitle}
+          </h3>
+          <p className="text-sm text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-5">
+            {t.math.groupIntro(String(total))}
           </p>
-        )}
+
+          {/* Acting group / stabilizer / orbit */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-5">
+            <div className="bg-gray-900/40 rounded-xl p-3">
+              <div
+                className="text-2xl font-bold"
+                style={{ color: circle.visualTheme.primaryColor }}
+              >
+                <GroupSymbol order={total} />
+              </div>
+              <div className="text-xs label-gold font-amiri mt-1">{t.math.actingGroup}</div>
+              <div className="text-xs text-gray-500 font-amiri">
+                {t.math.actingGroupDesc(String(total))}
+              </div>
+            </div>
+            <div className="bg-gray-900/40 rounded-xl p-3">
+              <div
+                className="text-2xl font-bold"
+                style={{ color: circle.visualTheme.primaryColor }}
+              >
+                <GroupSymbol order={stabilizer} />
+              </div>
+              <div className="text-xs label-gold font-amiri mt-1">{t.math.stabilizer}</div>
+              <div className="text-xs text-gray-500 font-amiri">
+                {stabilizer === 1
+                  ? t.math.stabilizerTrivial
+                  : t.math.stabilizerDesc(String(period))}
+              </div>
+            </div>
+            <div className="bg-gray-900/40 rounded-xl p-3">
+              <div
+                className="text-2xl font-bold font-inter"
+                style={{ color: circle.visualTheme.primaryColor }}
+                dir="ltr"
+              >
+                {period}
+              </div>
+              <div className="text-xs label-gold font-amiri mt-1">{t.math.orbit}</div>
+              <div className="text-xs text-gray-500 font-amiri">{t.math.orbitDesc}</div>
+            </div>
+          </div>
+
+          {/* The theorem, with this circle's numbers */}
+          <div className="bg-gray-900/50 border border-gold-soft rounded-xl p-4 text-center mb-5">
+            <div className="text-xs label-gold font-amiri mb-2">{t.math.orbitStabilizerName}</div>
+            <OrbitStabEquation
+              n={total}
+              orbit={period}
+              stab={stabilizer}
+              color={circle.visualTheme.primaryColor}
+            />
+            <div className="text-sm text-gray-400 font-amiri mt-2">
+              {t.math.orbitStabilizerReading(String(period), String(stabilizer), String(total))}
+            </div>
+          </div>
+
+          {/* The stabilizer drawn: star polygon {n/p} */}
+          <SymmetryStar circle={circle} period={period} />
+          <p className="text-center text-sm text-gray-400 font-amiri mt-3 max-w-xl mx-auto">
+            {stabilizer === 1
+              ? t.math.starTrivialCaption
+              : t.math.starCaption(String(period), String(total))}
+          </p>
+          {period < total && (
+            <p
+              className="text-center text-xs font-amiri mt-1"
+              style={{ color: circle.visualTheme.primaryColor }}
+            >
+              {t.math.fundamentalDomain(String(period))}
+            </p>
+          )}
+        </div>
+
+        <div className="order-first lg:order-none">
+          <GroupTheoryGloss />
+        </div>
       </div>
 
       {/* Rotation table */}
@@ -313,8 +367,15 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
                 >
                   <td className="py-2 px-4 text-center font-mono text-gray-400">{offset}</td>
                   <td className="py-2 px-4 text-center font-amiri text-lg" dir="rtl">
-                    {isDup ? '—' : (
-                      <span style={{ color: info.kind === 'meter' ? circle.visualTheme.primaryColor : '#9CA3AF' }}>
+                    {isDup ? (
+                      '—'
+                    ) : (
+                      <span
+                        style={{
+                          color:
+                            info.kind === 'meter' ? circle.visualTheme.primaryColor : '#9CA3AF',
+                        }}
+                      >
                         {rotationPattern(circle, offset)}
                       </span>
                     )}
@@ -322,9 +383,15 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
                   <td className="py-2 px-4 text-center font-amiri">
                     {info.kind === 'meter' && (
                       <span className="inline-flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: circle.visualTheme.primaryColor }} />
+                        <span
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: circle.visualTheme.primaryColor }}
+                        />
                         <span className="text-gray-200">
-                          {getMeterName(circle.meters.find((m) => m.id === info.meterId)!, lang)}
+                          {getMeterName(
+                            circle.meters.find((m) => m.id === info.meterId)!,
+                            lang
+                          )}
                         </span>
                       </span>
                     )}
@@ -333,7 +400,11 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
                         {(lang === 'ar' ? info.nameAr : info.nameEn) ?? t.math.statusMuhmal}
                       </span>
                     )}
-                    {isDup && <span className="text-gray-500 text-xs">{t.math.statusDuplicate(String(info.of))}</span>}
+                    {isDup && (
+                      <span className="text-gray-500 text-xs">
+                        {t.math.statusDuplicate(String(info.of))}
+                      </span>
+                    )}
                   </td>
                 </tr>
               );
@@ -369,15 +440,24 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
                   className={`border-t border-gold-soft cursor-pointer transition-colors ${isSelected ? 'bg-gray-900/50' : 'hover:bg-gray-900/30'}`}
                   onClick={() => setCircleId(c.id)}
                 >
-                  <td className="py-2 px-3 text-center font-amiri" style={{ color: c.visualTheme.primaryColor }}>
+                  <td
+                    className="py-2 px-3 text-center font-amiri"
+                    style={{ color: c.visualTheme.primaryColor }}
+                  >
                     {getCircleName(c, lang)}
                   </td>
-                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">{cn}</td>
+                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">
+                    {cn}
+                  </td>
                   <td className="py-2 px-3 text-center text-gray-300">
                     <GroupSymbol order={cStab} />
                   </td>
-                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">{cOrbit}</td>
-                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">{c.meters.length}</td>
+                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">
+                    {cOrbit}
+                  </td>
+                  <td className="py-2 px-3 text-center font-inter text-gray-300" dir="ltr">
+                    {c.meters.length}
+                  </td>
                 </tr>
               );
             })}
