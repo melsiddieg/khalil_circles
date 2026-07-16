@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { Circle } from '../../types';
 import { sequencePeriod, stabilizerOrder } from '../../data/rotations';
-import { polar, rotationMatches, unitColor } from './geometry';
+import { polar, rotationMatches, unitColor, uniqueChords } from './geometry';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 const R = 96;
@@ -106,7 +106,12 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
           }
         }}
       >
-        <circle r={R} fill="none" stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))" strokeWidth="1" />
+        <circle
+          r={R}
+          fill="none"
+          stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))"
+          strokeWidth="1"
+        />
 
         {/* Found symmetries as gold ticks; the completed group draws its star */}
         {[...found].map((k) => {
@@ -119,12 +124,12 @@ const SymmetryMachine: React.FC<{ circle: Circle }> = ({ circle }) => {
         })}
         {complete &&
           period < n &&
-          seq.map((_, i) => {
+          uniqueChords(n, period).map(([i, j]) => {
             const a = polar(i, n, R);
-            const b = polar((i + period) % n, n, R);
+            const b = polar(j, n, R);
             return (
               <line
-                key={`star-${i}`}
+                key={`star-${i}-${j}`}
                 x1={a.x}
                 y1={a.y}
                 x2={b.x}

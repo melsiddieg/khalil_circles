@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Circle } from '../../types';
-import { CIRCLE_ROTATIONS, canonicalOffset, sequencePeriod, stabilizerOrder } from '../../data/rotations';
+import {
+  CIRCLE_ROTATIONS,
+  canonicalOffset,
+  sequencePeriod,
+  stabilizerOrder,
+} from '../../data/rotations';
 import { unitColor } from './geometry';
 import OrbitStabEquation from '../OrbitStabEquation';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -122,7 +127,9 @@ const OrbitCollapser: React.FC<{ circle: Circle }> = ({ circle }) => {
                   collapsed && isTop ? 'opacity-100' : 'opacity-0'
                 }`}
               >
-                <span className="text-gray-500 me-1" dir="ltr">×{stab}</span>
+                <span className="text-gray-500 me-1" dir="ltr">
+                  ×{stab}
+                </span>
                 <span style={{ color: pileLabel(canon).color }}>{pileLabel(canon).text}</span>
               </span>
             </div>
@@ -141,7 +148,12 @@ const OrbitCollapser: React.FC<{ circle: Circle }> = ({ circle }) => {
           {t.explore.collapseEquation(String(n), String(period), String(stab))}
         </p>
         <div className="scale-90 origin-top">
-          <OrbitStabEquation n={n} orbit={period} stab={stab} color={circle.visualTheme.primaryColor} />
+          <OrbitStabEquation
+            n={n}
+            orbit={period}
+            stab={stab}
+            color={circle.visualTheme.primaryColor}
+          />
         </div>
       </div>
     </div>

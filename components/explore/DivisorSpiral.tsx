@@ -30,10 +30,23 @@ const DivisorSpiral: React.FC<{ circle: Circle }> = ({ circle }) => {
     <div>
       <div className="flex flex-col md:flex-row items-center justify-center gap-6">
         {/* The ring with candidate chords */}
-        <svg viewBox="-120 -120 240 240" className="w-64 h-64 shrink-0" role="img" aria-label={t.explore.spiralTitle}>
-          <circle r={R} fill="none" stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))" strokeWidth="1" />
+        <svg
+          viewBox="-120 -120 240 240"
+          className="w-64 h-64 shrink-0"
+          role="img"
+          aria-label={t.explore.spiralTitle}
+        >
+          <circle
+            r={R}
+            fill="none"
+            stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))"
+            strokeWidth="1"
+          />
           {cycles.map((cycle, ci) =>
             cycle.map((i, j) => {
+              // A 2-cycle closes on itself: its two edges are the same
+              // chord, so draw it once (else it renders double-opacity).
+              if (cycle.length === 2 && j === 1) return null;
               const a = polar(i, n, R);
               const b = polar(cycle[(j + 1) % cycle.length], n, R);
               return (
@@ -70,7 +83,10 @@ const DivisorSpiral: React.FC<{ circle: Circle }> = ({ circle }) => {
         <div className="w-full max-w-xs flex flex-col gap-3">
           <label className="flex flex-col gap-1.5">
             <span className="text-sm label-gold font-amiri">
-              {t.explore.spiralK}: <b className="font-inter" dir="ltr">{kSafe}</b>
+              {t.explore.spiralK}:{' '}
+              <b className="font-inter" dir="ltr">
+                {kSafe}
+              </b>
             </span>
             <input
               type="range"
@@ -90,9 +106,7 @@ const DivisorSpiral: React.FC<{ circle: Circle }> = ({ circle }) => {
           {/* Match lamp */}
           <div
             className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 transition-all duration-300 ${
-              matches
-                ? 'border-amber-400/60 bg-amber-400/10'
-                : 'border-gold-soft bg-gray-900/40'
+              matches ? 'border-amber-400/60 bg-amber-400/10' : 'border-gold-soft bg-gray-900/40'
             }`}
           >
             <span

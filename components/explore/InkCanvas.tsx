@@ -74,10 +74,7 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
   const degradedRef = useRef(false);
 
   const meter = circle.meters[0];
-  const verse = useMemo(
-    () => meter.mnemonic?.split('***')[0].trim() ?? meter.name,
-    [meter]
-  );
+  const verse = useMemo(() => meter.mnemonic?.split('***')[0].trim() ?? meter.name, [meter]);
 
   // Ask for a fresh snapshot whenever the live element repaints
   // (font swap, theme change, …) — the new `paint` event when available.
@@ -184,7 +181,11 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
       // the arc's left end (the text inside the image is already RTL).
       // Mirroring this mapping shreds the glyphs into reordered slices.
       const angle = -Math.PI / 2 - span / 2 + fracAlong * span;
-      return { angle, x: SIZE / 2 + Math.cos(angle) * RING_R, y: SIZE / 2 + Math.sin(angle) * RING_R };
+      return {
+        angle,
+        x: SIZE / 2 + Math.cos(angle) * RING_R,
+        y: SIZE / 2 + Math.sin(angle) * RING_R,
+      };
     };
 
     const buildParticles = (image: ImageData, scale: number) => {
@@ -331,7 +332,6 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
     raf.current = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf.current);
     // The loop reads dissolve state through a ref to avoid restarting.
-     
   }, [supported, circle, verse]);
 
   const toggle = () => {
@@ -355,7 +355,10 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
         <div className="max-w-md mx-auto rounded-xl border border-dashed border-gold-soft bg-gray-900/40 p-4">
           <p className="font-amiri text-gray-300 text-sm mb-1">{t.explore.inkUnsupportedTitle}</p>
           <p className="font-amiri text-gray-500 text-xs mb-2">{t.explore.inkUnsupportedBody}</p>
-          <code className="font-mono text-xs text-amber-300 bg-gray-950/60 rounded px-2 py-1 select-all" dir="ltr">
+          <code
+            className="font-mono text-xs text-amber-300 bg-gray-950/60 rounded px-2 py-1 select-all"
+            dir="ltr"
+          >
             chrome://flags/#canvas-draw-element
           </code>
         </div>
@@ -374,9 +377,7 @@ const InkCanvas: React.FC<{ circle: Circle }> = ({ circle }) => {
       >
         {dissolved ? t.explore.inkReform : t.explore.inkDissolve}
       </button>
-      {degraded && (
-        <p className="text-xs text-gray-500 font-amiri mb-1">{t.explore.inkDegraded}</p>
-      )}
+      {degraded && <p className="text-xs text-gray-500 font-amiri mb-1">{t.explore.inkDegraded}</p>}
       {/* The live, invisible-until-drawn verse lives INSIDE the canvas. */}
       <canvas
         ref={canvasRef}

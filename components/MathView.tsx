@@ -8,6 +8,9 @@ import OrbitStabEquation from './OrbitStabEquation';
 import GroupTheoryGloss from './GroupTheoryGloss';
 import { useDrawProgress } from '../utils/animation';
 import { easeOutBack, laggedProgress, rushFrom, smooth, window as subWindow } from '../utils/rate';
+// Shared circle geometry — the same helpers the explorables draw with, so
+// a dot's colour and a chord's endpoints are computed once for the app.
+import { polar, unitColor, uniqueChords } from './explore/geometry';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -65,13 +68,6 @@ const GroupSymbol: React.FC<{ order: number }> = ({ order }) => (
   </span>
 );
 
-const unitDotColor = (unit: string, circle: Circle): string => {
-  if (unit === '0//') return circle.visualTheme.primaryColor; // watid majmūʿ
-  if (unit === '/0/') return '#E9C87E'; // watid mafrūq
-  if (unit === '0///') return circle.visualTheme.accentColor; // fāṣila cluster
-  return '#64748B'; // sabab khafīf
-};
-
 /**
  * The stabilizer subgroup made visible: n unit-dots on a ring, with a
  * gold chord from every dot i to dot i+p (p = the sequence period, the
@@ -95,10 +91,10 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
   const tDots = subWindow(t, 0, 0.28);
   const tChords = subWindow(t, 0.22, 0.82);
   const tDomain = subWindow(t, 0.78, 1);
-  const pos = (i: number) => {
-    const a = ((-90 - i * step) * Math.PI) / 180;
-    return { x: Math.cos(a) * R, y: Math.sin(a) * R };
-  };
+  const pos = (i: number) => polar(i, n, R);
+  // Each chord once: for p = n/2 (circle 1) i→i+p and i+p→i are one line.
+  const chords = period < n ? uniqueChords(n, period) : [];
+  const trivial = period >= n;
 
   // Fundamental domain arc: spans dots 0 .. period-1 (only meaningful when p < n)
   const domain = (() => {
@@ -128,27 +124,26 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
           strokeDashoffset={1 - rushFrom(tDomain)}
         />
       )}
-      {period < n &&
-        circle.atomicSequence.map((_, i) => {
-          const a = pos(i);
-          const b = pos((i + period) % n);
-          // Each chord Writes itself along its own length (LaggedStart).
-          const p = smooth(laggedProgress(tChords, i, n, 0.45));
-          return (
-            <line
-              key={`chord-${i}`}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              stroke="rgba(216,185,120,0.5)"
-              strokeWidth="1.3"
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={1 - p}
-            />
-          );
-        })}
+      {chords.map(([i, j], c) => {
+        const a = pos(i);
+        const b = pos(j);
+        // Each chord Writes itself along its own length (LaggedStart).
+        const p = smooth(laggedProgress(tChords, c, chords.length, 0.45));
+        return (
+          <line
+            key={`chord-${i}-${j}`}
+            x1={a.x}
+            y1={a.y}
+            x2={b.x}
+            y2={b.y}
+            stroke="rgba(216,185,120,0.5)"
+            strokeWidth="1.3"
+            pathLength={1}
+            strokeDasharray={1}
+            strokeDashoffset={1 - p}
+          />
+        );
+      })}
       {circle.atomicSequence.map((unit, i) => {
         const { x, y } = pos(i);
         // Dots land with an overshoot, one after another.
@@ -159,12 +154,29 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
             cx={x}
             cy={y}
             r={7 * p}
-            fill={unitDotColor(unit, circle)}
+            fill={unitColor(unit, circle)}
             stroke="rgba(13,18,32,0.9)"
             strokeWidth="2"
           />
         );
       })}
+      {/* A trivial stabilizer has no chords at all. Name it in the middle
+          so the empty ring reads as the answer, not a failed drawing. */}
+      {trivial && (
+        <text
+          x={0}
+          y={0}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize="26"
+          fontWeight="bold"
+          fill="rgba(216,185,120,0.5)"
+          className="font-inter"
+          opacity={smooth(subWindow(t, 0.3, 0.7))}
+        >
+          C₁
+        </text>
+      )}
     </svg>
   );
 };

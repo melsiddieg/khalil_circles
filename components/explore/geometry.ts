@@ -13,6 +13,29 @@ export const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b
 export const rotationMatches = (seq: string[], k: number): boolean =>
   seq.every((u, i) => u === seq[(i + k) % seq.length]);
 
+/**
+ * The undirected chords i → i+k, each drawn once.
+ *
+ * Naively mapping every i to i+k double-draws when 2k ≡ 0 (mod n) — i.e.
+ * when k = n/2, where chord i and chord i+k are the same line (circle 1's
+ * five diameters, n=10, p=5). Duplicates cost nothing geometrically but
+ * render at double opacity and make a staggered "write" animation redraw
+ * lines it has already drawn, so the star appears to finish halfway.
+ */
+export const uniqueChords = (n: number, k: number): [number, number][] => {
+  const seen = new Set<string>();
+  const out: [number, number][] = [];
+  for (let i = 0; i < n; i++) {
+    const j = (i + k) % n;
+    if (i === j) continue; // k ≡ 0: a chord to itself
+    const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push([i, j]);
+  }
+  return out;
+};
+
 /** The chord system i → i+k decomposed into its closed cycles. */
 export const chordCycles = (n: number, k: number): number[][] => {
   const seen = new Set<number>();

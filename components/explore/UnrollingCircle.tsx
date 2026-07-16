@@ -165,7 +165,9 @@ const UnrollingCircle: React.FC<{ circle: Circle }> = ({ circle }) => {
                   y1={TAPE_Y + UNIT_H / 2 + 12}
                   x2={xRight - 3}
                   y2={TAPE_Y + UNIT_H / 2 + 12}
-                  stroke={g % 2 === 0 ? circle.visualTheme.primaryColor : circle.visualTheme.accentColor}
+                  stroke={
+                    g % 2 === 0 ? circle.visualTheme.primaryColor : circle.visualTheme.accentColor
+                  }
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
@@ -175,7 +177,9 @@ const UnrollingCircle: React.FC<{ circle: Circle }> = ({ circle }) => {
                   textAnchor="middle"
                   fontSize="13"
                   fontWeight="bold"
-                  fill={g % 2 === 0 ? circle.visualTheme.primaryColor : circle.visualTheme.accentColor}
+                  fill={
+                    g % 2 === 0 ? circle.visualTheme.primaryColor : circle.visualTheme.accentColor
+                  }
                   className="font-amiri"
                 >
                   {name}
@@ -210,7 +214,11 @@ const UnrollingCircle: React.FC<{ circle: Circle }> = ({ circle }) => {
                   height={UNIT_H}
                   rx="5"
                   fill={`${unitColor(unit, circle)}26`}
-                  stroke={isCut ? 'var(--gold-bright, #E9C87E)' : 'var(--gold-hairline-soft, rgba(212,176,106,0.16))'}
+                  stroke={
+                    isCut
+                      ? 'var(--gold-bright, #E9C87E)'
+                      : 'var(--gold-hairline-soft, rgba(212,176,106,0.16))'
+                  }
                   strokeWidth={isCut ? 2 : 1}
                 />
                 <text

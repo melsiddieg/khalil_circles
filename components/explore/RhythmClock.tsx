@@ -137,12 +137,34 @@ const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
 
       <div className="flex flex-col md:flex-row items-center justify-center gap-6">
         {/* The clock face: prosodic letters around the ring */}
-        <svg viewBox="-120 -120 240 240" className="w-72 h-72 shrink-0" role="img" aria-label={t.explore.clockTitle}>
-          <circle r={R} fill="none" stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))" strokeWidth="1" />
+        <svg
+          viewBox="-120 -120 240 240"
+          className="w-72 h-72 shrink-0"
+          role="img"
+          aria-label={t.explore.clockTitle}
+        >
+          <circle
+            r={R}
+            fill="none"
+            stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))"
+            strokeWidth="1"
+          />
 
           {/* hand */}
-          <g style={{ transform: `rotate(${handAngle + 90}deg)`, transition: 'transform 120ms linear' }}>
-            <line x1="0" y1="6" x2="0" y2={-R + 14} stroke="var(--gold-bright, #E9C87E)" strokeWidth="1.6" />
+          <g
+            style={{
+              transform: `rotate(${handAngle + 90}deg)`,
+              transition: 'transform 120ms linear',
+            }}
+          >
+            <line
+              x1="0"
+              y1="6"
+              x2="0"
+              y2={-R + 14}
+              stroke="var(--gold-bright, #E9C87E)"
+              strokeWidth="1.6"
+            />
             <circle r="3.5" fill="var(--gold-bright, #E9C87E)" />
           </g>
 
@@ -164,7 +186,13 @@ const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
                     cy={y}
                     r={l.unitInitial ? 7 : 5}
                     fill={color}
-                    stroke={active ? '#ffffff' : isCut ? 'var(--gold-bright, #E9C87E)' : 'rgba(13,18,32,0.9)'}
+                    stroke={
+                      active
+                        ? '#ffffff'
+                        : isCut
+                          ? 'var(--gold-bright, #E9C87E)'
+                          : 'rgba(13,18,32,0.9)'
+                    }
                     strokeWidth={active || isCut ? 2.5 : 1.5}
                     style={active ? { filter: `drop-shadow(0 0 6px ${color})` } : undefined}
                   />
@@ -189,7 +217,9 @@ const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
             <span className="text-gray-500">{t.explore.unrollResultLabel}</span>
             <span
               className="font-bold"
-              style={{ color: reading.kind === 'meter' ? circle.visualTheme.primaryColor : '#9CA3AF' }}
+              style={{
+                color: reading.kind === 'meter' ? circle.visualTheme.primaryColor : '#9CA3AF',
+              }}
             >
               {readingName}
             </span>
@@ -224,7 +254,10 @@ const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
           {/* legend */}
           <div className="flex justify-center gap-5 text-xs text-gray-500 font-amiri mt-3">
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full inline-block" style={{ backgroundColor: circle.visualTheme.primaryColor }} />
+              <span
+                className="w-3 h-3 rounded-full inline-block"
+                style={{ backgroundColor: circle.visualTheme.primaryColor }}
+              />
               {t.explore.clockDum}
             </span>
             <span className="flex items-center gap-1.5">

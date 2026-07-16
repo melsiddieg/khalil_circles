@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ALL_CIRCLES } from '../../data/circles';
 import { sequencePeriod, stabilizerOrder } from '../../data/rotations';
-import { gcd, rotationMatches, chordCycles, expandUnits } from './geometry';
+import { gcd, rotationMatches, chordCycles, expandUnits, uniqueChords } from './geometry';
 
 describe('explorable geometry helpers', () => {
   it('rotationMatches lights exactly at multiples of the period', () => {
@@ -34,6 +34,48 @@ describe('explorable geometry helpers', () => {
       const cycles = chordCycles(n, p);
       for (const c of cycles) {
         expect(c).toHaveLength(stabilizerOrder(circle.atomicSequence));
+      }
+    }
+  });
+
+  it('uniqueChords never repeats an undirected chord', () => {
+    for (const n of [6, 8, 9, 10, 12]) {
+      for (let k = 1; k < n; k++) {
+        const chords = uniqueChords(n, k);
+        const keys = chords.map(([a, b]) => (a < b ? `${a}-${b}` : `${b}-${a}`));
+        expect(new Set(keys).size, `n=${n} k=${k}`).toBe(chords.length);
+        // every chord really is a step of k
+        for (const [a, b] of chords) expect((a + k) % n === b || (b + k) % n === a).toBe(true);
+      }
+    }
+  });
+
+  it('uniqueChords halves the count exactly when k = n/2, and keeps n otherwise', () => {
+    for (const n of [6, 8, 9, 10, 12]) {
+      for (let k = 1; k < n; k++) {
+        const expected = (2 * k) % n === 0 ? n / 2 : n;
+        expect(uniqueChords(n, k).length, `n=${n} k=${k}`).toBe(expected);
+      }
+    }
+  });
+
+  it('each circle draws its stabilizer chords exactly once', () => {
+    // The five diameters of al-Mukhtalif were being drawn twice.
+    const expected: Record<string, number> = {
+      'circle1-mixed': 5, // n=10, p=5 → 5 diameters, not 10
+      'circle2-pure': 6, // {6/2} hexagram
+      'circle3-contracted': 9, // {9/3} three triangles
+      'circle4-accordant': 0, // trivial stabilizer: nothing to draw
+      'circle5-consonant': 8, // {8/2} two squares
+    };
+    for (const circle of ALL_CIRCLES) {
+      const n = circle.atomicSequence.length;
+      const p = sequencePeriod(circle.atomicSequence);
+      const chords = p >= n ? [] : uniqueChords(n, p);
+      expect(chords.length, circle.id).toBe(expected[circle.id]);
+      // Every dot is touched by at least one chord (no orphan on a star)
+      if (chords.length > 0) {
+        expect(new Set(chords.flat()).size).toBe(n);
       }
     }
   });
