@@ -87,11 +87,14 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
   const n = circle.atomicSequence.length;
   const step = 360 / n;
   const R = 82;
-  const t = useDrawProgress(1500);
-  // Acts: dots [0, .3], chords [.22, .8], domain arc [.75, 1]
-  const tDots = subWindow(t, 0, 0.3);
-  const tChords = subWindow(t, 0.22, 0.8);
-  const tDomain = subWindow(t, 0.75, 1);
+  // Paced to be watched, not just noticed: each chord takes ~330ms to
+  // write and they start ~150ms apart, so the eye can follow the star
+  // being constructed one chord at a time.
+  const t = useDrawProgress(2800);
+  // Acts: dots [0, .28], chords [.22, .82], domain arc [.78, 1]
+  const tDots = subWindow(t, 0, 0.28);
+  const tChords = subWindow(t, 0.22, 0.82);
+  const tDomain = subWindow(t, 0.78, 1);
   const pos = (i: number) => {
     const a = ((-90 - i * step) * Math.PI) / 180;
     return { x: Math.cos(a) * R, y: Math.sin(a) * R };
@@ -130,7 +133,7 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
           const a = pos(i);
           const b = pos((i + period) % n);
           // Each chord Writes itself along its own length (LaggedStart).
-          const p = smooth(laggedProgress(tChords, i, n, 0.35));
+          const p = smooth(laggedProgress(tChords, i, n, 0.45));
           return (
             <line
               key={`chord-${i}`}
@@ -216,6 +219,110 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
         ))}
       </div>
 
+      {/* Group theory: the dense treatment, with its plain-language gloss
+          alongside — the manuscript habit of a ḥāshiya in the margin.
+          On narrow screens the gloss leads, so newcomers meet the
+          everyday explanation before the notation.
+
+          This section leads the view: the drawing star and the theorem are
+          the payoff, so they open above the fold and the binary encoding
+          follows as supporting detail. */}
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_17rem] gap-4 mb-4 items-start">
+        <div className="panel-engraved rounded-2xl p-5">
+          <h3 className="text-lg font-bold text-amber-300 font-kufi mb-2 text-center">
+            {t.math.groupTitle}
+          </h3>
+          {/* The star leads, on the reading-start side (right in RTL), so the
+              drawing is in view the moment the panel is — no scrolling to
+              find the payoff. The intro and the three terms sit beside it. */}
+          <div className="grid md:grid-cols-[13rem_minmax(0,1fr)] gap-5 items-start mb-5">
+            <div className="flex flex-col items-center">
+              {/* The stabilizer drawn: star polygon {n/p}. Keyed so the whole
+                  drawing replays whenever the circle changes. */}
+              <SymmetryStar key={circle.id} circle={circle} period={period} />
+              <p className="text-center text-xs text-gray-400 font-amiri mt-2 leading-relaxed">
+                {stabilizer === 1
+                  ? t.math.starTrivialCaption
+                  : t.math.starCaption(String(period), String(total))}
+              </p>
+              {period < total && (
+                <p
+                  className="text-center text-[11px] font-amiri mt-1 leading-snug"
+                  style={{ color: circle.visualTheme.primaryColor }}
+                >
+                  {t.math.fundamentalDomain(String(period))}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-400 font-amiri mb-4 leading-relaxed">
+                {t.math.groupIntro(String(total))}
+              </p>
+
+              {/* Acting group / stabilizer / orbit */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                <div className="bg-gray-900/40 rounded-xl p-3">
+                  <div
+                    className="text-2xl font-bold"
+                    style={{ color: circle.visualTheme.primaryColor }}
+                  >
+                    <GroupSymbol order={total} />
+                  </div>
+                  <div className="text-xs label-gold font-amiri mt-1">{t.math.actingGroup}</div>
+                  <div className="text-xs text-gray-500 font-amiri">
+                    {t.math.actingGroupDesc(String(total))}
+                  </div>
+                </div>
+                <div className="bg-gray-900/40 rounded-xl p-3">
+                  <div
+                    className="text-2xl font-bold"
+                    style={{ color: circle.visualTheme.primaryColor }}
+                  >
+                    <GroupSymbol order={stabilizer} />
+                  </div>
+                  <div className="text-xs label-gold font-amiri mt-1">{t.math.stabilizer}</div>
+                  <div className="text-xs text-gray-500 font-amiri">
+                    {stabilizer === 1
+                      ? t.math.stabilizerTrivial
+                      : t.math.stabilizerDesc(String(period))}
+                  </div>
+                </div>
+                <div className="bg-gray-900/40 rounded-xl p-3">
+                  <div
+                    className="text-2xl font-bold font-inter"
+                    style={{ color: circle.visualTheme.primaryColor }}
+                    dir="ltr"
+                  >
+                    {period}
+                  </div>
+                  <div className="text-xs label-gold font-amiri mt-1">{t.math.orbit}</div>
+                  <div className="text-xs text-gray-500 font-amiri">{t.math.orbitDesc}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* The theorem keeps the full measure — it is the punchline */}
+          <div className="bg-gray-900/50 border border-gold-soft rounded-xl p-4 text-center">
+            <div className="text-xs label-gold font-amiri mb-2">{t.math.orbitStabilizerName}</div>
+            <OrbitStabEquation
+              n={total}
+              orbit={period}
+              stab={stabilizer}
+              color={circle.visualTheme.primaryColor}
+            />
+            <div className="text-sm text-gray-400 font-amiri mt-2">
+              {t.math.orbitStabilizerReading(String(period), String(stabilizer), String(total))}
+            </div>
+          </div>
+        </div>
+
+        <div className="order-first lg:order-none">
+          <GroupTheoryGloss />
+        </div>
+      </div>
+
       {/* Binary lens */}
       <div className="panel-engraved rounded-2xl p-5 mb-4">
         <h3 className="text-sm label-gold font-amiri mb-3">{t.math.binaryLabel}</h3>
@@ -279,97 +386,6 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
             ? t.math.symmetryNote(String(period), String(total))
             : t.math.noSymmetryNote}
         </p>
-      </div>
-
-      {/* Group theory: the dense treatment, with its plain-language gloss
-          alongside — the manuscript habit of a ḥāshiya in the margin.
-          On narrow screens the gloss leads, so newcomers meet the
-          everyday explanation before the notation. */}
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_17rem] gap-4 mb-4 items-start">
-        <div className="panel-engraved rounded-2xl p-5">
-          <h3 className="text-lg font-bold text-amber-300 font-kufi mb-2 text-center">
-            {t.math.groupTitle}
-          </h3>
-          <p className="text-sm text-gray-400 font-amiri text-center max-w-2xl mx-auto mb-5">
-            {t.math.groupIntro(String(total))}
-          </p>
-
-          {/* Acting group / stabilizer / orbit */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-5">
-            <div className="bg-gray-900/40 rounded-xl p-3">
-              <div
-                className="text-2xl font-bold"
-                style={{ color: circle.visualTheme.primaryColor }}
-              >
-                <GroupSymbol order={total} />
-              </div>
-              <div className="text-xs label-gold font-amiri mt-1">{t.math.actingGroup}</div>
-              <div className="text-xs text-gray-500 font-amiri">
-                {t.math.actingGroupDesc(String(total))}
-              </div>
-            </div>
-            <div className="bg-gray-900/40 rounded-xl p-3">
-              <div
-                className="text-2xl font-bold"
-                style={{ color: circle.visualTheme.primaryColor }}
-              >
-                <GroupSymbol order={stabilizer} />
-              </div>
-              <div className="text-xs label-gold font-amiri mt-1">{t.math.stabilizer}</div>
-              <div className="text-xs text-gray-500 font-amiri">
-                {stabilizer === 1
-                  ? t.math.stabilizerTrivial
-                  : t.math.stabilizerDesc(String(period))}
-              </div>
-            </div>
-            <div className="bg-gray-900/40 rounded-xl p-3">
-              <div
-                className="text-2xl font-bold font-inter"
-                style={{ color: circle.visualTheme.primaryColor }}
-                dir="ltr"
-              >
-                {period}
-              </div>
-              <div className="text-xs label-gold font-amiri mt-1">{t.math.orbit}</div>
-              <div className="text-xs text-gray-500 font-amiri">{t.math.orbitDesc}</div>
-            </div>
-          </div>
-
-          {/* The theorem, with this circle's numbers */}
-          <div className="bg-gray-900/50 border border-gold-soft rounded-xl p-4 text-center mb-5">
-            <div className="text-xs label-gold font-amiri mb-2">{t.math.orbitStabilizerName}</div>
-            <OrbitStabEquation
-              n={total}
-              orbit={period}
-              stab={stabilizer}
-              color={circle.visualTheme.primaryColor}
-            />
-            <div className="text-sm text-gray-400 font-amiri mt-2">
-              {t.math.orbitStabilizerReading(String(period), String(stabilizer), String(total))}
-            </div>
-          </div>
-
-          {/* The stabilizer drawn: star polygon {n/p}. Keyed so the whole
-              drawing replays whenever the circle changes. */}
-          <SymmetryStar key={circle.id} circle={circle} period={period} />
-          <p className="text-center text-sm text-gray-400 font-amiri mt-3 max-w-xl mx-auto">
-            {stabilizer === 1
-              ? t.math.starTrivialCaption
-              : t.math.starCaption(String(period), String(total))}
-          </p>
-          {period < total && (
-            <p
-              className="text-center text-xs font-amiri mt-1"
-              style={{ color: circle.visualTheme.primaryColor }}
-            >
-              {t.math.fundamentalDomain(String(period))}
-            </p>
-          )}
-        </div>
-
-        <div className="order-first lg:order-none">
-          <GroupTheoryGloss />
-        </div>
       </div>
 
       {/* Rotation table */}
