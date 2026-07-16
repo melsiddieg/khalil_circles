@@ -16,10 +16,13 @@ const Fan: React.FC = () => {
     <div className="flex items-center gap-3">
       <svg viewBox="-50 -50 100 100" className="w-20 h-20 shrink-0" aria-hidden="true">
         <circle r="46" fill="none" stroke="var(--gold-hairline-soft, rgba(212,176,106,0.16))" strokeWidth="1" />
+        {/* No transform-origin: SVG defaults it to 0 0 — the hub the blades are
+            drawn around. Saying `center` instead would pivot on the reference
+            box's centre (50,50), which this viewBox puts off in the corner, and
+            the fan swings out of frame. */}
         <g
           style={{
             transform: `rotate(${turns * 120}deg)`,
-            transformOrigin: 'center',
             transition: 'transform 600ms cubic-bezier(0.34, 1.2, 0.64, 1)',
           }}
         >
