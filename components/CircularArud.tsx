@@ -26,10 +26,10 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
     // Let's try inverting the rotation first.
     const rotation = (activeMeter.startOffset * anglePerUnit);
 
-    // Format unit text (e.g., "0//" -> "//0")
-    const formatUnit = (unit: string) => {
-        return unit.split('').reverse().join('');
-    };
+    // Prosodic symbols in classical order — '0//' with the slashes to the
+    // right, read from the right. The chars are direction-neutral, so pin
+    // them with a bidi override wherever they render.
+    const SYMBOL_LTR = { direction: 'ltr', unicodeBidi: 'bidi-override' } as const;
 
     return (
         <div className="relative flex items-center justify-center py-8">
@@ -141,10 +141,11 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                                 style={{
                                     transformBox: 'fill-box',
                                     transformOrigin: 'center',
-                                    transform: `rotate(${midAngle + 90}deg)`
+                                    transform: `rotate(${midAngle + 90}deg)`,
+                                    ...SYMBOL_LTR,
                                 }}
                             >
-                                {formatUnit(unit)}
+                                {unit}
                             </text>
                         </g>
                     );
@@ -305,8 +306,12 @@ const CircularArud: React.FC<CircularArudProps> = ({ circle, activeMeter, active
                     <div className="text-gray-400 text-xs font-inter">
                         {activeMeter.nameTransliteration}
                     </div>
-                    <div className="mt-2 font-mono text-lg" style={{ color: circle.visualTheme.primaryColor }}>
-                        {formatUnit(sequence[activeMeter.startOffset % totalUnits])}
+                    <div
+                        className="mt-2 font-mono text-lg"
+                        style={{ color: circle.visualTheme.primaryColor }}
+                        dir="ltr"
+                    >
+                        {sequence[activeMeter.startOffset % totalUnits]}
                     </div>
                 </div>
             </div>

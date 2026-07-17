@@ -663,7 +663,7 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
                 {unitDigits(unit)}
               </span>
               <span className="font-mono text-[10px] text-gray-500" dir="ltr">
-                {unit.split('').reverse().join('')}
+                {unit}
               </span>
             </span>
           ))}

@@ -228,8 +228,10 @@ const UnrollingCircle: React.FC<{ circle: Circle }> = ({ circle }) => {
                   fontWeight="bold"
                   fill={unitColor(unit, circle)}
                   className="font-mono select-none"
+                  // classical symbol order ('0//'), pinned against page bidi
+                  style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}
                 >
-                  {unit.split('').reverse().join('')}
+                  {unit}
                 </text>
               </g>
             );

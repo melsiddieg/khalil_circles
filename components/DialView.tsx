@@ -111,7 +111,11 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
   };
 
   const rotation = offset * anglePerUnit;
-  const reverse = (unit: string) => unit.split('').reverse().join('');
+  // Prosodic symbols in classical order — '0//' with the slashes to the
+  // right, read from the right. The chars are direction-neutral, so pin
+  // them with a bidi override wherever they render; reversing the string
+  // instead only looks right where RTL bidi happens to re-reverse it.
+  const SYMBOL_LTR = { direction: 'ltr', unicodeBidi: 'bidi-override' } as const;
 
   // Status line for the current rotation
   const statusLine = (() => {
@@ -247,9 +251,10 @@ const DialView: React.FC<DialViewProps> = ({ onBackToHub }) => {
                       transformBox: 'fill-box',
                       transformOrigin: 'center',
                       transform: `rotate(${start - anglePerUnit / 2 + 90}deg)`,
+                      ...SYMBOL_LTR,
                     }}
                   >
-                    {reverse(unit)}
+                    {unit}
                   </text>
                 </g>
               );

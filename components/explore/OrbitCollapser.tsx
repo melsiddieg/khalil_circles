@@ -114,7 +114,7 @@ const OrbitCollapser: React.FC<{ circle: Circle }> = ({ circle }) => {
                         style={{ color: unitColor(unit, circle) }}
                         dir="ltr"
                       >
-                        {unit.split('').reverse().join('')}
+                        {unit}
                       </span>
                     </span>
                   );
