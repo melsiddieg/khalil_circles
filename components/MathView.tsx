@@ -7,7 +7,14 @@ import OrnateDivider from './OrnateDivider';
 import OrbitStabEquation from './OrbitStabEquation';
 import GroupTheoryGloss from './GroupTheoryGloss';
 import { useDrawProgress } from '../utils/animation';
-import { easeOutBack, laggedProgress, rushFrom, smooth, window as subWindow } from '../utils/rate';
+import {
+  easeOutBack,
+  laggedProgress,
+  rushFrom,
+  smooth,
+  thereAndBack,
+  window as subWindow,
+} from '../utils/rate';
 // Shared circle geometry — the same helpers the explorables draw with, so
 // a dot's colour and a chord's endpoints are computed once for the app.
 import { polar, unitColor, uniqueChords } from './explore/geometry';
@@ -69,15 +76,22 @@ const GroupSymbol: React.FC<{ order: number }> = ({ order }) => (
 );
 
 /**
- * The stabilizer subgroup made visible: n unit-dots on a ring, with a
- * gold chord from every dot i to dot i+p (p = the sequence period, the
- * stabilizer's generator). The chords trace the star polygon {n/p} —
- * for the trivial stabilizer (p = n) there are no chords at all.
+ * The stabilizer made visible ON the circle itself: the ring carries the
+ * circle's own units — glyphs, colors, reading order — and the symmetry
+ * is performed, not asserted. A ghost copy of the units lifts off,
+ * rotates by p positions, and lands with every unit on an identical
+ * unit; the chords then write themselves as the trails of that landing
+ * (each in its unit's color — both endpoints are the same unit, which
+ * is the whole claim). The star polygon {n/p} falls out as the record.
  *
- * It draws itself in Manim's grammar (one timeline, three staged acts):
- * the dots land first with LaggedStart + easeOutBack, then each chord
- * Writes itself along its own length, then the fundamental-domain arc
- * sweeps in. Replays on every circle change (the host passes a key).
+ * The trivial stabilizer gets the counter-demonstration: the ghost tries
+ * the smallest turn, lands wrong, the failed positions keep their ✕
+ * marks, and C₁ names the result.
+ *
+ * One timeline in Manim's grammar (Succession of acts): dots+labels land
+ * → ghost lifts and rotates → verdict flash → ghost departs → chords
+ * Write / ✕ marks settle → fundamental-domain arc / C₁. Remount (the
+ * host's key) to replay.
  */
 const SymmetryStar: React.FC<{
   circle: Circle;
@@ -86,21 +100,52 @@ const SymmetryStar: React.FC<{
   arcActive?: boolean;
   onArcHover?: (over: boolean) => void;
 }> = ({ circle, period, arcActive = false, onArcHover }) => {
-  const n = circle.atomicSequence.length;
+  const { t } = useLanguage();
+  const seq = circle.atomicSequence;
+  const n = seq.length;
   const step = 360 / n;
   const R = 82;
-  // Paced to be watched, not just noticed: each chord takes ~330ms to
-  // write and they start ~150ms apart, so the eye can follow the star
-  // being constructed one chord at a time.
-  const t = useDrawProgress(2800);
-  // Acts: dots [0, .28], chords [.22, .82], domain arc [.78, 1]
-  const tDots = subWindow(t, 0, 0.28);
-  const tChords = subWindow(t, 0.22, 0.82);
-  const tDomain = subWindow(t, 0.78, 1);
+  const LABEL_R = 56;
+  const trivial = period >= n;
+  // The rotation the scene demonstrates: the stabilizer's generator — or,
+  // when the stabilizer is trivial, the smallest turn, shown failing.
+  const k = trivial ? 1 : period;
+  const time = useDrawProgress(trivial ? 4000 : 4600);
+  const tDots = subWindow(time, 0, trivial ? 0.17 : 0.15);
+  const tGhostIn = subWindow(time, trivial ? 0.17 : 0.15, trivial ? 0.23 : 0.2);
+  const tRot = subWindow(time, trivial ? 0.23 : 0.2, trivial ? 0.46 : 0.44);
+  const tFlash = subWindow(time, trivial ? 0.46 : 0.44, trivial ? 0.6 : 0.56);
+  const tGhostOut = subWindow(time, trivial ? 0.58 : 0.54, trivial ? 0.7 : 0.62);
+  const tChords = trivial ? 0 : subWindow(time, 0.58, 0.87);
+  const tDomain = subWindow(time, 0.85, 1);
+  const tC1 = trivial ? subWindow(time, 0.7, 0.88) : 0;
+
+  const ghostOpacity = smooth(tGhostIn) * (1 - smooth(tGhostOut));
+  // rotate(−k·step) sends the dot at position i to position i+k — the
+  // ghost travels in the reading direction (CCW, like the dial).
+  const ghostAngle = -k * step * smooth(tRot);
+  const flash = thereAndBack(tFlash);
+
   const pos = (i: number) => polar(i, n, R);
   // Each chord once: for p = n/2 (circle 1) i→i+p and i+p→i are one line.
-  const chords = period < n ? uniqueChords(n, period) : [];
-  const trivial = period >= n;
+  const chords = trivial ? [] : uniqueChords(n, k);
+
+  // Trivial only — where the landing fails: position b receives ghost dot
+  // b−k, so a mismatch is a unit set down on an unlike unit. The ✕ marks
+  // flash with the verdict, then settle in as the lasting evidence.
+  const mismatches = trivial
+    ? seq.map((_, b) => b).filter((b) => seq[(b - k + n) % n] !== seq[b])
+    : [];
+  const missOpacity = Math.max(0.8 * flash, 0.5 * smooth(subWindow(time, 0.64, 0.8)));
+
+  // While a chord writes itself its endpoint dots swell: this unit landed
+  // on that one.
+  const dotPulse = new Array<number>(n).fill(0);
+  chords.forEach(([i, j], c) => {
+    const w = thereAndBack(laggedProgress(tChords, c, chords.length, 0.45));
+    if (w > dotPulse[i]) dotPulse[i] = w;
+    if (w > dotPulse[j]) dotPulse[j] = w;
+  });
 
   // Fundamental domain arc: spans dots 0 .. period-1 (only meaningful when p < n)
   const domain = (() => {
@@ -134,7 +179,8 @@ const SymmetryStar: React.FC<{
       {chords.map(([i, j], c) => {
         const a = pos(i);
         const b = pos(j);
-        // Each chord Writes itself along its own length (LaggedStart).
+        // Each chord Writes itself along its own length (LaggedStart), in
+        // its unit's color — both of its endpoints are that same unit.
         const p = smooth(laggedProgress(tChords, c, chords.length, 0.45));
         return (
           <line
@@ -143,15 +189,27 @@ const SymmetryStar: React.FC<{
             y1={a.y}
             x2={b.x}
             y2={b.y}
-            stroke="rgba(216,185,120,0.5)"
-            strokeWidth="1.3"
+            stroke={unitColor(seq[i], circle)}
+            strokeOpacity="0.55"
+            strokeWidth="1.4"
             pathLength={1}
             strokeDasharray={1}
             strokeDashoffset={1 - p}
           />
         );
       })}
-      {circle.atomicSequence.map((unit, i) => {
+      {/* Trivial only: the positions where the attempted turn set a unit
+          down on an unlike unit — the reason there is no symmetry. */}
+      {mismatches.map((b) => {
+        const { x, y } = polar(b, n, R + 15);
+        return (
+          <g key={`miss-${b}`} opacity={missOpacity} stroke="#9CA3AF" strokeWidth="1.5">
+            <line x1={x - 3.2} y1={y - 3.2} x2={x + 3.2} y2={y + 3.2} />
+            <line x1={x - 3.2} y1={y + 3.2} x2={x + 3.2} y2={y - 3.2} />
+          </g>
+        );
+      })}
+      {seq.map((unit, i) => {
         const { x, y } = pos(i);
         // Dots land with an overshoot, one after another.
         const p = easeOutBack(laggedProgress(tDots, i, n, 0.5));
@@ -159,20 +217,117 @@ const SymmetryStar: React.FC<{
         // the rest: the arc's claim ("the first p units") becomes something
         // you can count off the drawing.
         const inDomain = i < period;
+        // Recede a little while the ghost performs, swell when your chord
+        // arrives.
+        const fade = (arcActive && !inDomain ? 0.3 : 1) * (1 - 0.35 * ghostOpacity);
         return (
           <circle
             key={`dot-${i}`}
             cx={x}
             cy={y}
-            r={7 * p}
+            r={7 * p * (1 + 0.22 * dotPulse[i])}
             fill={unitColor(unit, circle)}
-            fillOpacity={arcActive && !inDomain ? 0.3 : 1}
+            fillOpacity={fade}
             stroke={arcActive && inDomain ? circle.visualTheme.primaryColor : 'rgba(13,18,32,0.9)'}
             strokeWidth="2"
             style={{ transition: 'fill-opacity 180ms ease-out, stroke 180ms ease-out' }}
           />
         );
       })}
+      {/* The units themselves, inside the rim — the same glyphs, colors and
+          reading order as the dial, so this ring IS the selected circle. */}
+      {seq.map((unit, i) => {
+        const { x, y } = polar(i, n, LABEL_R);
+        const p = easeOutBack(laggedProgress(tDots, i, n, 0.5));
+        const inDomain = i < period;
+        return (
+          <text
+            key={`label-${i}`}
+            x={x}
+            y={y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="8.5"
+            fontWeight="bold"
+            fill={unitColor(unit, circle)}
+            opacity={0.9 * p * (arcActive && !inDomain ? 0.35 : 1)}
+            className="font-mono select-none"
+            // Prosodic symbols are written RTL like the script, so the raw
+            // string ('0//' = watid) shown in storage order IS the classical
+            // appearance: slashes to the right, read from the right. The
+            // bidi override pins that order in both language modes — the
+            // glyphs are direction-neutral and would otherwise flip with
+            // the page.
+            style={{
+              transition: 'opacity 180ms ease-out',
+              direction: 'ltr',
+              unicodeBidi: 'bidi-override',
+            }}
+          >
+            {unit}
+          </text>
+        );
+      })}
+      {/* On a successful landing every dot gets a brief gold halo: each
+          unit has been set down on its own kind. */}
+      {!trivial &&
+        flash > 0.01 &&
+        seq.map((_, i) => {
+          const { x, y } = pos(i);
+          return (
+            <circle
+              key={`halo-${i}`}
+              cx={x}
+              cy={y}
+              r={11}
+              fill="none"
+              stroke="var(--gold-bright, #E9C87E)"
+              strokeWidth="1.5"
+              opacity={0.55 * flash}
+            />
+          );
+        })}
+      {/* The ghost: a lifted copy of the very same units, performing the
+          rotation. SVG's transform attribute pivots on the viewBox origin
+          — the hub — by default. */}
+      {ghostOpacity > 0.01 && (
+        <g transform={`rotate(${ghostAngle})`} opacity={ghostOpacity}>
+          {seq.map((unit, i) => {
+            const { x, y } = pos(i);
+            return (
+              <circle
+                key={`ghost-${i}`}
+                cx={x}
+                cy={y}
+                r="4.5"
+                fill={unitColor(unit, circle)}
+                stroke={
+                  !trivial && flash > 0.05
+                    ? 'var(--gold-bright, #E9C87E)'
+                    : 'rgba(255,255,255,0.8)'
+                }
+                strokeWidth="1.2"
+              />
+            );
+          })}
+        </g>
+      )}
+      {/* The verdict of the landing. */}
+      {flash > 0.01 && (
+        <text
+          x={0}
+          y={0}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize="15"
+          fontWeight="bold"
+          fill={trivial ? '#9CA3AF' : 'var(--gold-bright, #E9C87E)'}
+          className="font-amiri"
+          opacity={flash}
+        >
+          {trivial ? t.math.symNoMatch : t.math.symIdentical}
+        </text>
+      )}
       {/* A trivial stabilizer has no chords at all. Name it in the middle
           so the empty ring reads as the answer, not a failed drawing. */}
       {trivial && (
@@ -185,7 +340,7 @@ const SymmetryStar: React.FC<{
           fontWeight="bold"
           fill="rgba(216,185,120,0.5)"
           className="font-inter"
-          opacity={smooth(subWindow(t, 0.3, 0.7))}
+          opacity={smooth(tC1)}
         >
           C₁
         </text>
@@ -219,6 +374,7 @@ const SymmetryStar: React.FC<{
 const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
   const { t, lang, dir } = useLanguage();
   const [circleId, setCircleId] = useState(ALL_CIRCLES[0].id);
+  const [starRun, setStarRun] = useState(0);
   const [domainTip, setDomainTip] = useState(false);
   /** What opened the arc tooltip last — a tap must not be read as a hover. */
   const pointerKind = useRef<string>('mouse');
@@ -287,17 +443,52 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
               find the payoff. The intro and the three terms sit beside it. */}
           <div className="grid md:grid-cols-[13rem_minmax(0,1fr)] gap-5 items-start mb-5">
             <div className="flex flex-col items-center">
-              {/* The stabilizer drawn: star polygon {n/p}. Keyed so the whole
-                  drawing replays whenever the circle changes. The arc's legend
-                  sits directly under it, and the tooltip hangs below them both. */}
+              {/* This ring IS the selected circle — say so above it. */}
+              <p
+                className="text-center text-[11px] font-kufi mb-0.5"
+                style={{ color: circle.visualTheme.primaryColor }}
+              >
+                {t.math.ringTitle(getCircleName(circle, lang))}
+              </p>
+              {/* The stabilizer performed on the circle's own units. Keyed so
+                  the whole scene replays on circle change or on ↻. The arc's
+                  legend sits directly under it; the tooltip hangs below both. */}
               <div className="relative w-52 flex flex-col items-center">
+                <button
+                  type="button"
+                  onClick={() => setStarRun((r) => r + 1)}
+                  aria-label={t.math.replayStar}
+                  title={t.math.replayStar}
+                  className="absolute top-0 start-0 z-10 p-1 text-base leading-none text-gray-500
+                             hover:text-amber-300 transition-colors"
+                >
+                  ↻
+                </button>
                 <SymmetryStar
-                  key={circle.id}
+                  key={`${circle.id}#${starRun}`}
                   circle={circle}
                   period={period}
                   arcActive={domainTip}
                   onArcHover={setDomainTip}
                 />
+                {/* What the colors are: the circle's own building blocks. */}
+                <div className="flex flex-wrap justify-center gap-x-3 gap-y-0.5 mt-1">
+                  {Array.from(new Set(circle.atomicSequence)).map((u) => (
+                    <span key={u} className="flex items-center gap-1">
+                      <span
+                        aria-hidden="true"
+                        className="w-2 h-2 rounded-full inline-block"
+                        style={{ backgroundColor: unitColor(u, circle) }}
+                      />
+                      <span className="text-[10px] font-amiri text-gray-400">
+                        {(t.math.units as Record<string, string>)[u] ?? u}
+                      </span>
+                      <span className="text-[9px] font-mono text-gray-500" dir="ltr">
+                        {u}
+                      </span>
+                    </span>
+                  ))}
+                </div>
                 {/* The arc can only be hovered, and the svg is decorative — so
                     the legend below carries the same tooltip, giving keyboard
                     and touch a way in. Reaching either lights up the arc.

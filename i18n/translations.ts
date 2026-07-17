@@ -228,8 +228,19 @@ export const ar = {
     orbitStabilizerReading: (orbit: string, stab: string, n: string) =>
       `${orbit} دورات مميزة × ${stab} تماثلات = ${n} وحدات`,
     starCaption: (p: string, n: string) =>
-      `مولِّد زمرة التماثل — الدوران بمقدار ${p} — يرسم النجمة {${n}/${p}}: التماثل نفسه الذي يزيّن الدوائر يزيّن القلادة.`,
-    starTrivialCaption: 'زمرة تماثل تافهة: لا أوتار — كل وحدة فريدة في موضعها، فكل دورة تولّد بحراً مختلفاً.',
+      `الدوران بمقدار ${p} يُطبِق الدائرة على نفسها: كل وحدةٍ تحطُّ على وحدةٍ مطابقةٍ لها. الأوتار الملوّنة آثار هذا الانطباق — وهي ترسم النجمة {${n}/${p}}.`,
+    starTrivialCaption:
+      'شاهد المحاولةَ تفشل: أدنى دورةٍ تُوقِع وحداتٍ على غير مثيلاتها (علامات ✕). لا تماثل داخلياً — الزمرة C₁ — ولهذا كانت كل دورةٍ بحراً قائماً بذاته.',
+    ringTitle: (name: string) => `وحدات ${name} على المحيط`,
+    symIdentical: 'تطابُق!',
+    symNoMatch: 'لا تطابُق',
+    replayStar: 'أعد عرض الرسم',
+    units: {
+      '0/': 'سبب خفيف',
+      '0//': 'وتد مجموع',
+      '/0/': 'وتد مفروق',
+      '0///': 'فاصلة صغرى',
+    },
     fundamentalDomain: (p: string, n: string) => `المجال الأساسي: ${arUnits(p)} من ${n}`,
     domainTipTitle: 'ما هذا القوس؟',
     domainTip: (p: string, n: string, stab: string) =>
@@ -489,8 +500,19 @@ export const en: Translations = {
     orbitStabilizerReading: (orbit: string, stab: string, n: string) =>
       `${orbit} distinct rotations × ${stab} symmetries = ${n} units`,
     starCaption: (p: string, n: string) =>
-      `The stabilizer's generator — rotation by ${p} — draws the star polygon {${n}/${p}}: the same symmetry that decorates the circles decorates the necklace.`,
-    starTrivialCaption: 'Trivial symmetry group: no chords — every unit is unique in its position, so all rotations yield different meters.',
+      `Rotating by ${p} lays the circle back onto itself: every unit lands on a unit identical to it. The colored chords trace those landings — drawing the star polygon {${n}/${p}}.`,
+    starTrivialCaption:
+      'Watch the attempt fail: even the smallest turn drops units onto unlike units (the ✕ marks). No internal symmetry — the group is C₁ — which is why every rotation is a meter of its own.',
+    ringTitle: (name: string) => `The units of ${name}, on the rim`,
+    symIdentical: 'Identical!',
+    symNoMatch: 'No match',
+    replayStar: 'Replay the drawing',
+    units: {
+      '0/': 'light sabab',
+      '0//': 'joined watid',
+      '/0/': 'split watid',
+      '0///': 'minor fasila',
+    },
     fundamentalDomain: (p: string, n: string) => `Fundamental domain: ${p} of ${n}`,
     domainTipTitle: 'What is this arc?',
     domainTip: (p: string, n: string, stab: string) =>
