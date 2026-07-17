@@ -3,6 +3,27 @@
  * derived from it forces the English dictionary to cover every key at
  * compile time.
  */
+
+/**
+ * Arabic counts its nouns: two is a dual word, not a numeral, and three
+ * through ten take a plural. Writing «٢ وحدات» the way English writes
+ * "2 units" is simply ungrammatical, and the periods in play (2, 3, 5)
+ * hit exactly that case. Beyond ten the numeral+singular form is right.
+ */
+const arUnits = (p: string): string =>
+  ({
+    '1': 'وحدةٌ واحدةٌ',
+    '2': 'وحدتان',
+    '3': 'ثلاثُ وحداتٍ',
+    '4': 'أربعُ وحداتٍ',
+    '5': 'خمسُ وحداتٍ',
+    '6': 'ستُّ وحداتٍ',
+    '7': 'سبعُ وحداتٍ',
+    '8': 'ثماني وحداتٍ',
+    '9': 'تسعُ وحداتٍ',
+    '10': 'عشرُ وحداتٍ',
+  })[p] ?? `${p} وحدةً`;
+
 export const ar = {
   hub: {
     title: 'دوائر الخليل العروضية',
@@ -209,7 +230,10 @@ export const ar = {
     starCaption: (p: string, n: string) =>
       `مولِّد زمرة التماثل — الدوران بمقدار ${p} — يرسم النجمة {${n}/${p}}: التماثل نفسه الذي يزيّن الدوائر يزيّن القلادة.`,
     starTrivialCaption: 'زمرة تماثل تافهة: لا أوتار — كل وحدة فريدة في موضعها، فكل دورة تولّد بحراً مختلفاً.',
-    fundamentalDomain: (p: string) => `المجال الأساسي: أول ${p} وحدات تولّد الدائرة كلها`,
+    fundamentalDomain: (p: string, n: string) => `المجال الأساسي: ${arUnits(p)} من ${n}`,
+    domainTipTitle: 'ما هذا القوس؟',
+    domainTip: (p: string, n: string, stab: string) =>
+      `يعلّم القوسُ أقصرَ مقطعٍ تُبنى منه الدائرةُ كلها. وما بعده تكرارٌ له لا غير (${p} × ${stab} = ${n})، ولهذا كانت دوراتُها المتمايزةُ ${p} لا ${n}.`,
     inverseLaw: 'القاعدة العكسية: كلما كبرت زمرة التماثل قلَّت البحور الممكنة — دائرة المتفق أكثر الدوائر تماثلاً (C₄) وأقلها بحوراً، ودائرة المشتبه بلا تماثل داخلي فكل دوراتها التسع متمايزة.',
     crossTableTitle: 'التماثل عبر الدوائر الخمس',
     thCircle: 'الدائرة',
@@ -467,7 +491,10 @@ export const en: Translations = {
     starCaption: (p: string, n: string) =>
       `The stabilizer's generator — rotation by ${p} — draws the star polygon {${n}/${p}}: the same symmetry that decorates the circles decorates the necklace.`,
     starTrivialCaption: 'Trivial symmetry group: no chords — every unit is unique in its position, so all rotations yield different meters.',
-    fundamentalDomain: (p: string) => `Fundamental domain: the first ${p} units generate the whole circle`,
+    fundamentalDomain: (p: string, n: string) => `Fundamental domain: ${p} of ${n}`,
+    domainTipTitle: 'What is this arc?',
+    domainTip: (p: string, n: string, stab: string) =>
+      `The arc marks the shortest stretch the whole circle is built from. Everything past it is a repeat of it (${p} × ${stab} = ${n}) — which is why this circle has ${p} distinct rotations, not ${n}.`,
     inverseLaw: 'The inverse law: the larger the symmetry group, the fewer the possible meters — al-Muttafiq is the most symmetric circle (C₄) with the fewest meters, while al-Mushtabih has no internal symmetry, so all nine of its rotations are distinct.',
     crossTableTitle: 'Symmetry across the five circles',
     thCircle: 'Circle',

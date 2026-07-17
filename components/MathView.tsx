@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ALL_CIRCLES, parseMeterPattern } from '../constants';
 import { CIRCLE_ROTATIONS, sequencePeriod, stabilizerOrder } from '../data/rotations';
 import { Circle, Meter } from '../types';
@@ -79,7 +79,13 @@ const GroupSymbol: React.FC<{ order: number }> = ({ order }) => (
  * Writes itself along its own length, then the fundamental-domain arc
  * sweeps in. Replays on every circle change (the host passes a key).
  */
-const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, period }) => {
+const SymmetryStar: React.FC<{
+  circle: Circle;
+  period: number;
+  /** True while the fundamental-domain arc is being explained. */
+  arcActive?: boolean;
+  onArcHover?: (over: boolean) => void;
+}> = ({ circle, period, arcActive = false, onArcHover }) => {
   const n = circle.atomicSequence.length;
   const step = 360 / n;
   const R = 82;
@@ -116,12 +122,13 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
           d={domain}
           fill="none"
           stroke={circle.visualTheme.primaryColor}
-          strokeOpacity="0.55"
-          strokeWidth="4"
+          strokeOpacity={arcActive ? 0.95 : 0.55}
+          strokeWidth={arcActive ? 5.5 : 4}
           strokeLinecap="round"
           pathLength={1}
           strokeDasharray={1}
           strokeDashoffset={1 - rushFrom(tDomain)}
+          style={{ transition: 'stroke-width 180ms ease-out, stroke-opacity 180ms ease-out' }}
         />
       )}
       {chords.map(([i, j], c) => {
@@ -148,6 +155,10 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
         const { x, y } = pos(i);
         // Dots land with an overshoot, one after another.
         const p = easeOutBack(laggedProgress(tDots, i, n, 0.5));
+        // While the arc is explained, ring the very units it spans and fade
+        // the rest: the arc's claim ("the first p units") becomes something
+        // you can count off the drawing.
+        const inDomain = i < period;
         return (
           <circle
             key={`dot-${i}`}
@@ -155,8 +166,10 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
             cy={y}
             r={7 * p}
             fill={unitColor(unit, circle)}
-            stroke="rgba(13,18,32,0.9)"
+            fillOpacity={arcActive && !inDomain ? 0.3 : 1}
+            stroke={arcActive && inDomain ? circle.visualTheme.primaryColor : 'rgba(13,18,32,0.9)'}
             strokeWidth="2"
+            style={{ transition: 'fill-opacity 180ms ease-out, stroke 180ms ease-out' }}
           />
         );
       })}
@@ -177,6 +190,28 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
           C₁
         </text>
       )}
+      {/* Hit target for the arc, last so nothing sits over it. The arc is a
+          4px stroke at r=98 and the dots reach r=89, so a 16px-wide grab
+          band widens it to the pointer without stealing their space.
+          Mouse only: a touch pointer is destroyed on lift, so pointerleave
+          would follow pointerenter within the same tap and merely flash the
+          tooltip. Touch gets at it through the legend button instead. */}
+      {domain && (
+        <path
+          d={domain}
+          fill="none"
+          stroke="transparent"
+          strokeWidth="16"
+          strokeLinecap="round"
+          className="cursor-help"
+          onPointerEnter={(e) => {
+            if (e.pointerType === 'mouse') onArcHover?.(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === 'mouse') onArcHover?.(false);
+          }}
+        />
+      )}
     </svg>
   );
 };
@@ -184,6 +219,9 @@ const SymmetryStar: React.FC<{ circle: Circle; period: number }> = ({ circle, pe
 const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
   const { t, lang, dir } = useLanguage();
   const [circleId, setCircleId] = useState(ALL_CIRCLES[0].id);
+  const [domainTip, setDomainTip] = useState(false);
+  /** What opened the arc tooltip last — a tap must not be read as a hover. */
+  const pointerKind = useRef<string>('mouse');
   const circle = ALL_CIRCLES.find((c) => c.id === circleId)!;
 
   const period = useMemo(() => sequencePeriod(circle.atomicSequence), [circle]);
@@ -250,21 +288,103 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
           <div className="grid md:grid-cols-[13rem_minmax(0,1fr)] gap-5 items-start mb-5">
             <div className="flex flex-col items-center">
               {/* The stabilizer drawn: star polygon {n/p}. Keyed so the whole
-                  drawing replays whenever the circle changes. */}
-              <SymmetryStar key={circle.id} circle={circle} period={period} />
+                  drawing replays whenever the circle changes. The arc's legend
+                  sits directly under it, and the tooltip hangs below them both. */}
+              <div className="relative w-52 flex flex-col items-center">
+                <SymmetryStar
+                  key={circle.id}
+                  circle={circle}
+                  period={period}
+                  arcActive={domainTip}
+                  onArcHover={setDomainTip}
+                />
+                {/* The arc can only be hovered, and the svg is decorative — so
+                    the legend below carries the same tooltip, giving keyboard
+                    and touch a way in. Reaching either lights up the arc.
+
+                    Three input modes, three triggers, each guarded so they
+                    don't cancel each other out: a tap fires a compatibility
+                    pointerenter, which would open the tooltip just in time for
+                    the click to toggle it shut again — hence the pointerType
+                    check. Likewise focus only opens it when focus-visible,
+                    i.e. from the keyboard and not from the tap itself. */}
+                {period < total && (
+                  <button
+                    type="button"
+                    aria-describedby={domainTip ? 'domain-tip' : undefined}
+                    onPointerDown={(e) => (pointerKind.current = e.pointerType)}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType === 'mouse') setDomainTip(true);
+                    }}
+                    onPointerLeave={(e) => {
+                      if (e.pointerType === 'mouse') setDomainTip(false);
+                    }}
+                    onFocus={(e) => {
+                      if (e.currentTarget.matches(':focus-visible')) setDomainTip(true);
+                    }}
+                    onBlur={() => setDomainTip(false)}
+                    onClick={() => {
+                      if (pointerKind.current !== 'mouse') setDomainTip((v) => !v);
+                    }}
+                    className="mt-1 flex items-center gap-1.5 rounded-lg px-2 py-0.5 cursor-help
+                               text-[11px] font-amiri leading-snug
+                               hover:bg-gray-900/60 focus:outline-none focus-visible:ring-1
+                               focus-visible:ring-amber-400/70 transition-colors"
+                    style={{ color: circle.visualTheme.primaryColor }}
+                  >
+                    {/* a swatch of the arc itself, so the words have a referent */}
+                    <span
+                      aria-hidden="true"
+                      className="w-4 h-1 rounded-full shrink-0"
+                      style={{ backgroundColor: circle.visualTheme.primaryColor, opacity: 0.75 }}
+                    />
+                    {t.math.fundamentalDomain(String(period), String(total))}
+                    <span aria-hidden="true" className="opacity-60">
+                      ⓘ
+                    </span>
+                  </button>
+                )}
+                {/* Hangs below the legend, tail pointing back up at it. Above
+                    the ring would be the natural place — the arc lives at the
+                    top — but only ~40px separate the ring from the panel
+                    heading, so it would spill out of the panel. Width matches
+                    the column, so it never spills sideways either.
+                    pointer-events-none so it can overlay the caption without
+                    stealing the hover that keeps it open. */}
+                {period < total && domainTip && (
+                  <div
+                    role="tooltip"
+                    id="domain-tip"
+                    className="absolute z-20 left-1/2 -translate-x-1/2 top-[calc(100%+0.45rem)]
+                               w-52 rounded-xl px-3 py-2 pointer-events-none
+                               bg-gray-950/95 backdrop-blur-sm shadow-2xl animate-view-fade"
+                    style={{ border: `1px solid ${circle.visualTheme.primaryColor}66` }}
+                  >
+                    <p
+                      className="font-kufi text-[11px] mb-1"
+                      style={{ color: circle.visualTheme.primaryColor }}
+                    >
+                      {t.math.domainTipTitle}
+                    </p>
+                    <p className="font-amiri text-[11px] leading-relaxed text-gray-300">
+                      {t.math.domainTip(String(period), String(total), String(stabilizer))}
+                    </p>
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-1/2 -top-[5px] -translate-x-1/2 w-2 h-2 rotate-45 bg-gray-950"
+                      style={{
+                        borderInlineStart: `1px solid ${circle.visualTheme.primaryColor}66`,
+                        borderBlockStart: `1px solid ${circle.visualTheme.primaryColor}66`,
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
               <p className="text-center text-xs text-gray-400 font-amiri mt-2 leading-relaxed">
                 {stabilizer === 1
                   ? t.math.starTrivialCaption
                   : t.math.starCaption(String(period), String(total))}
               </p>
-              {period < total && (
-                <p
-                  className="text-center text-[11px] font-amiri mt-1 leading-snug"
-                  style={{ color: circle.visualTheme.primaryColor }}
-                >
-                  {t.math.fundamentalDomain(String(period))}
-                </p>
-              )}
             </div>
 
             <div>
