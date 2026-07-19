@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<title>The Turn That Changes Nothing — Group Theory by Way of al-Khalīl's Circles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* ————— book tokens ————— */
+  :root {
+    --paper: #fbf8f1;
+    --paper-deep: #f3edde;
+    --ink: #26242c;
+    --muted: #6f6b76;
+    --faint: #98928d;
+    --gold: #a8842c;
+    --gold-soft: #d9cbaa;
+    --hairline: #e2d8c0;
+    /* per-circle print palette (darkened from the app's enamel) */
+    --c1: #0d9488; /* al-Mukhtalif — teal   */
+    --c2: #2563eb; /* al-Muʼtalif  — blue   */
+    --c3: #15803d; /* al-Mujtalab  — green  */
+    --c4: #dc4444; /* al-Mushtabih — red    */
+    --c5: #7c3aed; /* al-Muttafiq  — violet */
+    --sabab: #7a8494;
+    --mafruq: #b45309;
+    --fasila: #c2410c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #d8d2c4; }
+  body { font-family: 'EB Garamond', Georgia, serif; color: var(--ink); }
+
+  /* ————— the leaf ————— */
+  .page {
+    width: 576px;   /* 6 in  */
+    height: 864px;  /* 9 in  */
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+    padding: 60px 56px 58px;
+    margin: 0 auto;
+    page-break-after: always;
+    break-after: page;
+  }
+  @media screen { .page { margin: 14px auto; box-shadow: 0 2px 14px rgba(0,0,0,.25); } }
+
+  .folio {
+    position: absolute; bottom: 26px; left: 0; right: 0;
+    text-align: center; font-size: 9.5px; color: var(--faint);
+    font-variant-numeric: oldstyle-nums; letter-spacing: .12em;
+  }
+  .running {
+    position: absolute; top: 26px; left: 56px; right: 56px;
+    display: flex; justify-content: space-between;
+    font-size: 8px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ————— typography ————— */
+  p { font-size: 11.3px; line-height: 1.62; text-align: justify; hyphens: auto; }
+  p + p { text-indent: 1.35em; }
+  .noindent { text-indent: 0 !important; }
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+  h2 {
+    font-size: 19px; letter-spacing: .02em; margin: 4px 0 4px;
+    color: var(--ink);
+  }
+  h2 .no { color: var(--gold); font-weight: 700; margin-right: 8px; }
+  .rule { display: flex; align-items: center; gap: 8px; margin: 6px 0 14px; }
+  .rule::before, .rule::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold-soft)); }
+  .rule::after { background: linear-gradient(90deg, var(--gold-soft), transparent); }
+  .rule span { color: var(--gold); font-size: 9px; }
+  .cont { font-size: 8.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+
+  .dc::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px; font-weight: 600; color: var(--gold);
+    float: left; line-height: .82; padding: 4px 7px 0 0;
+  }
+
+  .ar { font-family: 'Amiri', serif; }
+  .sym {
+    font-family: 'IBM Plex Mono', monospace;
+    direction: ltr; unicode-bidi: bidi-override;
+    font-size: .92em; letter-spacing: .02em;
+  }
+  em { font-style: italic; }
+  .small-caps { font-variant: small-caps; letter-spacing: .06em; }
+
+  /* ————— figures ————— */
+  figure { margin: 14px 0; text-align: center; }
+  figcaption {
+    font-size: 9px; font-style: italic; color: var(--muted);
+    margin-top: 7px; line-height: 1.45; text-align: center; padding: 0 18px;
+  }
+  figcaption b { font-style: normal; color: var(--gold); font-weight: 600; }
+  svg text.sym { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ————— asides ————— */
+  .box {
+    background: var(--paper-deep);
+    border-left: 2px solid var(--gold);
+    padding: 10px 13px 11px;
+    margin: 13px 0;
+    font-size: 10.3px; line-height: 1.55;
+  }
+  .box h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 12.5px;
+    font-weight: 700; letter-spacing: .04em; color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .box p { font-size: 10.3px; text-align: left; hyphens: none; }
+  .box p + p { text-indent: 0; margin-top: 5px; }
+
+  /* ————— opener ————— */
+  .opener { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 108px; }
+  .opener .chap { font-size: 10px; letter-spacing: .38em; text-transform: uppercase; color: var(--gold); margin-bottom: 26px; }
+  .opener h1 { font-size: 34px; font-weight: 600; line-height: 1.14; margin-bottom: 14px; }
+  .opener .sub { font-size: 12.5px; font-style: italic; color: var(--muted); max-width: 380px; line-height: 1.55; }
+  .opener .orn { margin: 44px 0 40px; }
+  .orn-names { display: flex; gap: 26px; justify-content: center; margin-top: 8px; }
+  .orn-names span { font-size: 8.2px; color: var(--muted); letter-spacing: .04em; width: 56px; }
+  .epigraph { max-width: 360px; font-size: 11px; font-style: italic; color: var(--muted); line-height: 1.6; }
+  .epigraph .who { display: block; font-style: normal; font-size: 9.5px; margin-top: 8px; letter-spacing: .08em; color: var(--faint); }
+
+  /* ————— tiles, tables, chips ————— */
+  .tiles { display: flex; gap: 10px; justify-content: center; margin: 4px 0; }
+  .tile { width: 108px; border: 1px solid var(--hairline); border-radius: 7px; padding: 9px 6px 8px; background: #fffdf8; }
+  .tile .sym { display: block; font-size: 15px; font-weight: 600; }
+  .tile .nm { display: block; font-size: 9.6px; margin-top: 4px; color: var(--ink); }
+  .tile .arn { display: block; font-family: 'Amiri', serif; font-size: 12px; margin-top: 1px; }
+  .tile .gl { display: block; font-size: 8.2px; color: var(--muted); font-style: italic; margin-top: 3px; line-height: 1.35; }
+
+  table.cay { border-collapse: collapse; margin: 0 auto; font-size: 10.5px; }
+  table.cay th, table.cay td { border: 1px solid var(--hairline); padding: 6px 12px; text-align: center; }
+  table.cay th { background: var(--paper-deep); font-weight: 600; font-family: 'EB Garamond', serif; }
+  table.cay td.hi { background: #f6efdd; color: var(--gold); font-weight: 600; }
+
+  table.law { border-collapse: collapse; margin: 0 auto; font-size: 11px; }
+  table.law th, table.law td { padding: 6px 13px; text-align: center; border-bottom: 1px solid var(--hairline); }
+  table.law th { font-size: 8.6px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  table.law td.nm { text-align: left; }
+  table.law .ar { font-size: 13px; }
+  table.law td.eq { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; }
+
+  .strip { display: inline-flex; gap: 2px; direction: ltr; }
+  .cell {
+    width: 26px; height: 17px; border-radius: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 8.2px; font-weight: 600;
+    color: #fff;
+  }
+  .readings { width: 100%; display: flex; flex-direction: column; gap: 4px; margin: 2px 0; }
+  .reading { display: flex; align-items: center; gap: 9px; font-size: 10.6px; }
+  .reading .off { width: 15px; text-align: right; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .reading .nm { min-width: 148px; }
+  .reading .ar { font-size: 13px; }
+  .reading.ghosted { opacity: .55; }
+  .reading.ghosted .nm { font-style: italic; }
+
+  .catalog { display: flex; flex-direction: column; gap: 7px; align-items: center; }
+  .cat-row { display: flex; gap: 5px; align-items: center; }
+  .cat-row .lbl { width: 86px; text-align: right; margin-right: 6px; font-size: 9px; color: var(--muted); }
+  .cat-cell {
+    min-width: 39px; padding: 3.5px 5px; border-radius: 5px; text-align: center;
+    font-family: 'Amiri', serif; font-size: 11.5px; color: #fff; line-height: 1.25;
+  }
+  .cat-cell.mu { background: transparent !important; border: 1.4px dashed var(--faint); color: var(--muted); }
+
+  .ladders { display: flex; justify-content: center; gap: 54px; margin: 6px 0 2px; }
+  .ladder { display: flex; flex-direction: column-reverse; align-items: center; }
+  .ladder .rung {
+    min-width: 44px; text-align: center; padding: 3px 9px; border: 1px solid var(--gold-soft);
+    border-radius: 999px; font-size: 10.5px; background: #fffdf8;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .ladder .tie { width: 1px; height: 12px; background: var(--gold-soft); }
+  .ladder .cap { margin-top: 7px; font-size: 9px; color: var(--muted); font-style: italic; }
+
+  .piles { display: flex; gap: 12px; justify-content: center; margin: 4px 0; }
+  .pile { border: 1px dashed var(--gold-soft); border-radius: 8px; padding: 7px 8px 6px; text-align: center; background: #fffdf8; }
+  .pile .tok {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    padding: 2px 8px; margin: 3px 0; background: var(--paper-deep); border-radius: 4px;
+  }
+  .pile .cap { font-size: 8.4px; color: var(--muted); margin-top: 4px; display: block; }
+
+  .bars { display: flex; flex-direction: column; gap: 9px; max-width: 380px; margin: 0 auto; }
+  .bar-row { display: flex; align-items: center; gap: 9px; font-size: 10.2px; }
+  .bar-row .who { width: 118px; text-align: right; color: var(--muted); }
+  .bar-row .who b { color: var(--ink); font-weight: 600; font-family: 'IBM Plex Mono', monospace; font-size: 9.6px; }
+  .bar { height: 13px; border-radius: 3px; }
+  .bar-row .n { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+  .glossary { column-count: 2; column-gap: 26px; font-size: 9.8px; line-height: 1.5; }
+  .glossary dt { font-weight: 600; margin-top: 7px; break-after: avoid-column; }
+  .glossary dd { break-inside: avoid-column; }
+  .glossary dt .ar { font-weight: 400; font-size: 11.5px; }
+  .glossary dd { color: #4d4a55; }
+  .colophon { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--hairline); font-size: 8.8px; color: var(--muted); line-height: 1.55; }
+
+  @page { size: 6in 9in; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ page 1 · opener ═══════════════════════ -->
+<div class="page">
+  <div class="opener">
+    <div class="chap">A Chapter in Pictures</div>
+    <h1>The Turn That<br/>Changes Nothing</h1>
+    <div class="sub">an intuitive introduction to group theory, by way of
+      al-Khalīl&rsquo;s circles of Arabic poetry</div>
+    <div class="orn">
+      <div style="display:flex; gap:26px; justify-content:center;">
+        <svg data-ring='{"circle":1,"size":56,"dot":4.2}'></svg>
+        <svg data-ring='{"circle":2,"size":56,"dot":4.2}'></svg>
+        <svg data-ring='{"circle":3,"size":56,"dot":4.2}'></svg>
+        <svg data-ring='{"circle":4,"size":56,"dot":4.2}'></svg>
+        <svg data-ring='{"circle":5,"size":56,"dot":4.2}'></svg>
+      </div>
+      <div class="orn-names">
+        <span>al-Mukhtalif</span><span>al-Muʼtalif</span><span>al-Mujtalab</span><span>al-Mushtabih</span><span>al-Muttafiq</span>
+      </div>
+    </div>
+    <div class="epigraph">
+      “Symmetry, as wide or as narrow as you may define its meaning, is one idea by
+      which man through the ages has tried to comprehend and create order, beauty
+      and perfection.”
+      <span class="who">— HERMANN WEYL, <i>Symmetry</i> (1952)</span>
+    </div>
+  </div>
+  <div class="folio">· 1 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 2 · §1 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§1</span></div>
+  <h2><span class="no">§1</span>The Move You Cannot See</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Ask a friend to close their eyes. On the ceiling above you
+  hangs a fan with three identical blades. While they are not looking, you reach up
+  and turn it — exactly one third of a full circle — and then you ask them to look
+  again and say what changed.</p>
+  <p>They cannot. Not because they are careless, but because <em>nothing visible
+  changed</em>. Each blade has moved into the position of its neighbour, and since
+  the blades are indistinguishable, the fan as a whole looks untouched. You
+  performed a real physical act, and the world kept no record of it.</p>
+
+  <figure>
+    <svg id="fig-fan" width="356" height="128" viewBox="0 0 356 128"></svg>
+    <figcaption><b>Fig. 1</b> — The same third-of-a-turn, twice. Unmarked (left), the move is
+    invisible: this is what it means to be a symmetry. Mark one blade (right) and
+    the very same move becomes plain to see.</figcaption>
+  </figure>
+
+  <p class="noindent">This is the whole idea, and it is worth saying carefully:</p>
+  <p class="noindent" style="text-align:center; margin:8px 0; font-size:12px;">
+    <em>A <b>symmetry</b> of a thing is a move that leaves it looking exactly as it was.</em>
+  </p>
+  <p class="noindent">Notice what kind of definition this is. It does not say a symmetric
+  thing is “balanced” or “even” or “pretty.” It talks about <em>moves</em> — acts you
+  can perform — and it selects the special ones the thing cannot detect. A snowflake
+  has the symmetries of a sixth-turn; a square has quarter-turns and flips; a human
+  face has, roughly, one mirror. To say what symmetry something has is to list the
+  moves it fails to notice.</p>
+  <p>That shift — from symmetry as a property you admire to symmetry as a
+  collection of moves you perform — is the founding act of group theory. Everything
+  in this chapter unfolds from it.</p>
+  <div class="folio">· 2 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 3 · §1 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§1</span></div>
+  <div class="cont">§1 · continued</div>
+
+  <p class="noindent">Once you think in moves, three small observations follow — so small
+  they feel like nothing at all.</p>
+  <p><em>First: doing nothing counts.</em> Leaving the fan alone certainly leaves it
+  looking as it was. It is the laziest symmetry, but it is one, and we will need it
+  the way arithmetic needs zero.</p>
+  <p><em>Second: every move can be undone.</em> If a third-turn clockwise leaves the fan
+  unchanged, so does a third-turn back. Whatever a symmetry does, the reverse move
+  is also a symmetry.</p>
+  <p><em>Third: two moves in a row make a move.</em> Turn by a third, then by a third
+  again: the result is a two-thirds turn, and the fan noticed neither. Combining
+  symmetries can never produce anything but a symmetry — there is no way out of
+  the collection by staying inside it.</p>
+
+  <figure>
+    <svg id="fig-compose" width="380" height="120" viewBox="0 0 380 120"></svg>
+    <figcaption><b>Fig. 2</b> — Moves compose. A third-turn followed by a third-turn is the
+    two-thirds turn; a third-turn followed by a two-thirds turn brings every blade
+    home — the do-nothing move.</figcaption>
+  </figure>
+
+  <p class="noindent">These three remarks — a do-nothing move exists, every move reverses,
+  moves compose — are not decoration. They are the <em>entire</em> definition of the
+  central object of this chapter. Any collection of moves obeying them is called a
+  <b>group</b>, and the study of such collections is group theory.</p>
+  <p>It seems impossible that so slight a definition could carry any weight. The
+  surprise of the subject — the reason it sits at the heart of modern physics,
+  chemistry, and cryptography — is how much follows from so little. We will watch
+  it happen on a small stage: five circles drawn in Basra in the eighth century,
+  to hold the metres of Arabic poetry.</p>
+  <div class="folio">· 3 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 4 · §2 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§2</span></div>
+  <h2><span class="no">§2</span>A Group, Properly Met</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Let us be formally introduced to the fan&rsquo;s symmetries. There
+  are exactly three moves it cannot detect: <em>stay</em> (do nothing), a <em>⅓ turn</em>,
+  and a <em>⅔ turn</em>. A quarter-turn is not among them — it would leave the blades
+  visibly askew — and a full turn is just <em>stay</em> wearing a costume.</p>
+  <p>Because two moves in a row always make a third, we can record the whole
+  society in a little marriage-table: pick a row-move, follow it by a column-move,
+  and read off which single move equals the pair.</p>
+
+  <figure>
+    <table class="cay">
+      <tr><th>then&nbsp;→<br/>first&nbsp;↓</th><th>stay</th><th>⅓ turn</th><th>⅔ turn</th></tr>
+      <tr><th>stay</th><td>stay</td><td>⅓ turn</td><td>⅔ turn</td></tr>
+      <tr><th>⅓ turn</th><td>⅓ turn</td><td>⅔ turn</td><td class="hi">stay</td></tr>
+      <tr><th>⅔ turn</th><td>⅔ turn</td><td class="hi">stay</td><td>⅓ turn</td></tr>
+    </table>
+    <figcaption><b>Fig. 3</b> — The composition table of the fan&rsquo;s three symmetries.
+    Every entry stays inside the collection; <em>stay</em> runs along the edges like a
+    zero; the highlighted cells show each turn meeting its undo.</figcaption>
+  </figure>
+
+  <p class="noindent">Look at what the table quietly certifies. Every combination lands
+  back in the collection (<em>closure</em>). The <em>stay</em> row and column copy their
+  headers, the way adding zero copies a number (<em>identity</em>). Each move finds a
+  partner returning it to <em>stay</em>: ⅓ and ⅔ undo one another, and <em>stay</em> undoes
+  itself (<em>inverses</em>). And since each entry is itself a move, chains like
+  “⅓ then ⅓ then ⅔” can be worked out in any grouping you please — the result is
+  the same walk around the circle (<em>associativity</em>).</p>
+  <p>Those four certified properties are the axioms of a group — the fine print
+  beneath the three observations of §1. This particular group, the turns of a
+  three-fold wheel, is called the <b>cyclic group of order 3</b>, written
+  <b>C<sub>3</sub></b>: <em>cyclic</em> because one move (the ⅓ turn), repeated,
+  generates everything; <em>order 3</em> because there are three moves in all.</p>
+  <div class="folio">· 4 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 5 · §2 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§2</span></div>
+  <div class="cont">§2 · continued</div>
+
+  <p class="noindent">You already operate one cyclic group every day. A clock face is a
+  twelve-fold wheel, and “five hours after nine o&rsquo;clock” is the move
+  <em>advance&nbsp;5</em> composed with the move <em>advance&nbsp;9</em>: fourteen steps, which the
+  wheel cannot tell from two. Clock arithmetic — where 9&nbsp;+&nbsp;5&nbsp;=&nbsp;2 — is the cyclic
+  group <b>C<sub>12</sub></b> doing business under an assumed name.</p>
+
+  <figure>
+    <svg id="fig-clock" width="360" height="168" viewBox="0 0 360 168"></svg>
+    <figcaption><b>Fig. 4</b> — Two wheels, one idea. On twelve marks, advancing 9 then 5
+    lands on 2: the wheel forgets full revolutions. Any count that wraps — hours,
+    weekdays, drumbeats — is run by a cyclic group <b>C<sub>n</sub></b>.</figcaption>
+  </figure>
+
+  <p class="noindent">The general recipe: put <em>n</em> marks evenly on a wheel; the moves
+  are <em>advance by k</em> for k&nbsp;=&nbsp;0,&nbsp;1,&nbsp;…,&nbsp;n−1; composition is addition that wraps
+  at <em>n</em>. This is <b>C<sub>n</sub></b>, the cyclic group of order <em>n</em> — the
+  complete symmetry inventory of anything that repeats in a loop.</p>
+  <p>Cyclic groups are the gentlest members of the group family, which is exactly
+  why they make the right first classroom. Nothing here requires slanted algebra:
+  a wheel, a count, a wrap. Yet they already exhibit the deep phenomena — actions,
+  orbits, stabilizers, conservation laws — that organise far wilder groups, the
+  ones that shuffle molecules and encrypt your messages.</p>
+  <p>And here our story proper begins. Eleven centuries before anyone wrote the
+  word <em>group</em>, a lexicographer in Basra built five such wheels — not from brass
+  or hours, but from the sounds of poetry — and used them to answer, completely, a
+  question of the form group theory would later claim as its own: <em>how many
+  genuinely different metres can Arabic verse possess?</em></p>
+  <div class="folio">· 5 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 6 · §3 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§3</span></div>
+  <h2><span class="no">§3</span>The Poet&rsquo;s Raw Material</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Arabic verse is quantitative: a line is music before it is
+  meaning, a fixed procession of long and short. The tradition writes this rhythm
+  with two marks. A <b>struck note</b> <span class="sym">/</span> is a consonant carrying
+  a vowel — a syllable&rsquo;s beating heart. A <b>rest</b> <span class="sym">0</span> is an
+  unvowelled letter that closes a syllable. Like Arabic itself, the marks are read
+  <em>from the right</em>.</p>
+  <p>From these two sounds the prosodists built a tiny alphabet of rhythmic
+  bricks — the pegs and cords from which every metre is assembled:</p>
+
+  <figure>
+    <div class="tiles">
+      <div class="tile" style="border-top: 3px solid var(--sabab);">
+        <span class="sym" style="color:var(--sabab)">0/</span>
+        <span class="nm">light cord</span><span class="arn">سببٌ خفيف</span>
+        <span class="gl">strike, rest — a light two-step</span>
+      </div>
+      <div class="tile" style="border-top: 3px solid var(--c1);">
+        <span class="sym" style="color:var(--c1)">0//</span>
+        <span class="nm">joined peg</span><span class="arn">وتدٌ مجموع</span>
+        <span class="gl">strike, strike, rest — the spine of most metres</span>
+      </div>
+      <div class="tile" style="border-top: 3px solid var(--mafruq);">
+        <span class="sym" style="color:var(--mafruq)">/0/</span>
+        <span class="nm">split peg</span><span class="arn">وتدٌ مفروق</span>
+        <span class="gl">strike, rest, strike — rare, and fateful in §8</span>
+      </div>
+      <div class="tile" style="border-top: 3px solid var(--fasila);">
+        <span class="sym" style="color:var(--fasila)">0///</span>
+        <span class="nm">little cluster</span><span class="arn">فاصلة صغرى</span>
+        <span class="gl">three strikes, rest — a quick drum-roll</span>
+      </div>
+    </div>
+    <figcaption><b>Fig. 5</b> — The four atomic units of Arabic prosody. Read each symbol
+    from the right: <span class="sym">0//</span> is strike–strike–rest. The colours
+    follow these units through every figure of this chapter.</figcaption>
+  </figure>
+
+  <div class="box">
+    <h4>Al-Khalīl ibn Aḥmad al-Farāhīdī <span class="ar">(الخليل بن أحمد الفراهيدي)</span></h4>
+    <p>Born in Oman around 718 CE, working in Basra until his death around 786,
+    al-Khalīl compiled the first dictionary of Arabic (<i>Kitāb al-ʿAyn</i>),
+    organised by where in the mouth each sound is made; taught Sībawayh, author of
+    the foundational Arabic grammar; and single-handedly founded <i>ʿilm
+    al-ʿarūḍ</i>, the science of metre. Tradition says the system came to him from
+    the rhythm of a coppersmith&rsquo;s hammer in the market. What he did with it, the
+    next pages unfold.</p>
+  </div>
+  <div class="folio">· 6 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 7 · §3 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§3</span></div>
+  <div class="cont">§3 · continued</div>
+
+  <p class="noindent">Take the most beloved metre of classical poetry, <span class="ar">الطويل</span>
+  (<i>aṭ-Ṭawīl</i>, “the long one”). Its half-line is the chant
+  <span class="ar">فَعُولُنْ مَفَاعِيلُنْ فَعُولُنْ مَفَاعِيلُنْ</span> — in our marks, the ten-unit
+  procession <span class="sym">0// 0/ 0// 0/ 0/</span> repeated twice. Verse after
+  verse, line after line, the same procession returns. The pattern is a loop
+  pretending to be a line.</p>
+  <p>Al-Khalīl&rsquo;s decisive act was to stop pretending: <em>roll it up</em>. Bend the
+  repeating tape until its end meets its beginning, and the metre becomes a
+  necklace of ten beads.</p>
+
+  <figure>
+    <svg id="fig-roll" width="430" height="252" viewBox="0 0 430 252"></svg>
+    <figcaption><b>Fig. 6</b> — Rolling the repeating line into a circle. The tape&rsquo;s
+    endless repetition becomes a single loop of ten units — teal joined pegs,
+    grey light cords. A mathematician calls this a <em>quotient</em>: the infinite
+    line <em>divided by</em> its own repetition.</figcaption>
+  </figure>
+
+  <p class="noindent">This rolling-up is itself a mathematical construction, and a deep
+  one. Whenever a pattern repeats every <em>n</em> steps, positions that differ by
+  <em>n</em> are “the same,” and gluing all the sames together turns the infinite line
+  of integers into a wheel with <em>n</em> marks — the very wheel of Fig.&nbsp;4. The
+  circle is not a picture of the metre; it <em>is</em> the metre, with the bookkeeping
+  of repetition thrown away.</p>
+  <p>Five such necklaces, al-Khalīl found, suffice for all of Arabic poetry. The
+  first — the one above, called <span class="ar">دائرة المختلف</span>, <em>the circle of the
+  differing</em> — will be our specimen. It has ten beads: three teal pegs, seven
+  grey cords. And a wheel with ten marks has, waiting in the wings, a group.</p>
+  <div class="folio">· 7 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 8 · §4 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§4</span></div>
+  <h2><span class="no">§4</span>One Necklace, Many Clasps</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">A necklace has no beginning. To recite a metre, though, you must
+  start somewhere — you need to place a <em>clasp</em>, an opening point, and read the
+  beads from there around the loop. And now the group arrives on stage:
+  <b>C<sub>10</sub></b>, the ten rotations of a ten-bead wheel, <em>acts</em> on the
+  necklace. Each rotation carries the clasp to a new bead.</p>
+
+  <figure>
+    <svg data-ring='{"circle":1,"size":268,"dot":9,"labels":true,"start":true}'></svg>
+    <figcaption><b>Fig. 7</b> — The circle of the differing (<span class="ar">دائرة المختلف</span>),
+    beads labelled and coloured, read counter-clockwise from the marked clasp at the
+    top. Reading from the top bead yields
+    <span class="ar">فعولن مفاعيلن</span>&nbsp;… — the metre <i>aṭ-Ṭawīl</i>.</figcaption>
+  </figure>
+
+  <p class="noindent">Here is the beautiful part. Move the clasp one bead onward and read
+  again: the same beads, in the same cyclic order, deliver a <em>different
+  metre</em> — different feet, a different music, a different name in the anthologies.
+  The rotation did not merely relabel the necklace; it changed which poem you are
+  hearing.</p>
+  <p>When a group&rsquo;s moves are applied to an object this way, mathematicians say
+  the group <b>acts</b> on the object, and each move-result is a fresh point of
+  view on the same underlying thing. Al-Khalīl&rsquo;s insight, translated forward
+  eleven centuries, is exactly this: <em>the metres of Arabic poetry are not
+  sixteen separate inventions. They are a handful of necklaces, viewed through
+  the rotations of cyclic groups.</em></p>
+  <p>So — ten rotations, ten possible clasps. Do we get ten metres from this
+  circle? Turn the page; the answer is the first genuine surprise, and the
+  hinge of the whole chapter.</p>
+  <div class="folio">· 8 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 9 · §4 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§4</span></div>
+  <div class="cont">§4 · continued</div>
+
+  <p class="noindent">Let us do it honestly: place the clasp at each of the ten beads in
+  turn, read off the pattern, and check it against the poets&rsquo; repertoire.</p>
+
+  <figure>
+    <div class="readings">
+      <div class="reading"><span class="off">0</span><span class="strip" id="strip-0"></span><span class="nm"><span class="ar">الطويل</span> · aṭ-Ṭawīl, “the long”</span></div>
+      <div class="reading"><span class="off">1</span><span class="strip" id="strip-1"></span><span class="nm"><span class="ar">المديد</span> · al-Madīd, “the protracted”</span></div>
+      <div class="reading ghosted"><span class="off">2</span><span class="strip" id="strip-2"></span><span class="nm"><span class="ar">المستطيل</span> · al-Mustaṭīl — possible, unused</span></div>
+      <div class="reading"><span class="off">3</span><span class="strip" id="strip-3"></span><span class="nm"><span class="ar">البسيط</span> · al-Basīṭ, “the outspread”</span></div>
+      <div class="reading ghosted"><span class="off">4</span><span class="strip" id="strip-4"></span><span class="nm"><span class="ar">الممتد</span> · al-Mumtadd — possible, unused</span></div>
+      <div class="reading" style="opacity:.45"><span class="off">5–9</span><span style="font-size:10px; font-style:italic; color:var(--muted)">the same five readings again, in the same order — nothing new appears</span></div>
+    </div>
+    <figcaption><b>Fig. 8</b> — All ten clasp positions of the first circle. Five distinct
+    readings emerge — three canonical metres and two lawful strangers — and then
+    the list <em>repeats itself</em>.</figcaption>
+  </figure>
+
+  <p class="noindent">Two things on this list demand explanation, and each gets its own
+  section.</p>
+  <p><em>The list is short.</em> Ten rotations produced only five readings: clasp
+  position 5 sounds exactly like position 0, position 6 like 1, and so on. Some
+  rotations changed nothing at all. Why five, and not ten or seven? That is §5
+  and §6 — orbits and stabilizers.</p>
+  <p><em>The list is too long.</em> The poets use three of these five:
+  <span class="ar">الطويل، المديد، البسيط</span>. The other two are perfectly
+  well-formed rhythms that classical poetry simply never adopted. Al-Khalīl did
+  not discard them; he named them and set them aside. Their story — the empty
+  cells of the catalogue — is §9.</p>
+  <div class="folio">· 9 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 10 · §5 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§5</span></div>
+  <h2><span class="no">§5</span>The Orbit: What Is Genuinely Different</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Collect the distinct readings a necklace offers — one for each
+  <em>genuinely different</em> clasp position — and you have what group theory calls
+  the <b>orbit</b> of the necklace under rotation: every place the object can be
+  carried by the group&rsquo;s moves, counted without repetition.</p>
+
+  <figure>
+    <svg id="fig-collapse" width="440" height="238" viewBox="0 0 440 238"></svg>
+    <figcaption><b>Fig. 9</b> — The ten rotations of circle&nbsp;1, dealt into piles that sound
+    identical. Ten readings collapse into five piles of exactly two. The orbit has
+    five members; the pile-height — here, two — will get its own name overleaf.</figcaption>
+  </figure>
+
+  <p class="noindent">The orbit is the honest inventory. The group has ten moves, but
+  moves are labour, not merchandise: what the necklace actually <em>yields</em> is five
+  rhythms. In the same spirit, all five of al-Khalīl&rsquo;s circles can be audited.
+  The bead-counts differ, the units differ, and the yields differ strikingly:</p>
+
+  <figure>
+    <table class="law">
+      <tr><th>circle</th><th>beads n</th><th>orbit (distinct readings)</th></tr>
+      <tr><td class="nm"><span class="ar">المختلف</span> · the differing</td><td>10</td><td style="color:var(--c1); font-weight:600">5</td></tr>
+      <tr><td class="nm"><span class="ar">المؤتلف</span> · the concordant</td><td>6</td><td style="color:var(--c2); font-weight:600">2</td></tr>
+      <tr><td class="nm"><span class="ar">المجتلب</span> · the brought-in</td><td>9</td><td style="color:var(--c3); font-weight:600">3</td></tr>
+      <tr><td class="nm"><span class="ar">المشتبه</span> · the resembling</td><td>9</td><td style="color:var(--c4); font-weight:600">9</td></tr>
+      <tr><td class="nm"><span class="ar">المتفق</span> · the agreeing</td><td>8</td><td style="color:var(--c5); font-weight:600">2</td></tr>
+    </table>
+    <figcaption><b>Fig. 10</b> — Five necklaces, audited. The orbits sum to
+    5+2+3+9+2&nbsp;=&nbsp;21 possible readings in the whole system. Note the two
+    nine-bead circles with wildly different yields: 3 against 9. Explaining
+    <em>that</em> is where the theory earns its keep.</figcaption>
+  </figure>
+  <div class="folio">· 10 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 11 · §6 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§6</span></div>
+  <h2><span class="no">§6</span>The Stabilizer: The Necklace&rsquo;s Own Symmetry</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Why did clasp position 5 sound exactly like position 0? Look at
+  the first circle&rsquo;s beads: <span class="sym">0// 0/ 0// 0/ 0/</span> — and then the
+  same five again. The sequence is built of two identical halves. So the rotation
+  by five beads carries every peg onto a peg and every cord onto a cord: it is a
+  move the <em>necklace itself</em> cannot detect. The fan of §1 has returned, wearing
+  beads.</p>
+
+  <figure>
+    <div style="display:flex; gap:26px; justify-content:center; align-items:flex-start;">
+      <div>
+        <svg data-ring='{"circle":1,"size":176,"dot":6.5,"ghost":-90,"dim":0.45}'></svg>
+        <div style="font-size:8.6px; color:var(--muted); font-style:italic; margin-top:2px;">mid-turn: a lifted copy, rotating…</div>
+      </div>
+      <div>
+        <svg data-ring='{"circle":1,"size":176,"dot":6.5,"ghost":-180,"halos":true,"dim":0.45}'></svg>
+        <div style="font-size:8.6px; color:var(--gold); font-style:italic; margin-top:2px;">…lands five beads on: every bead on its own kind.</div>
+      </div>
+    </div>
+    <figcaption><b>Fig. 11</b> — The turn that changes nothing, performed. A ghost copy of
+    the necklace rotates by five positions and settles exactly onto the original —
+    peg on peg, cord on cord.</figcaption>
+  </figure>
+
+  <p class="noindent">The moves that leave an object looking untouched form a little group
+  of their own inside the big one (compose two undetectable moves, or undo one,
+  and the object still detects nothing). This inner circle is called the
+  <b>stabilizer</b> of the object — its private symmetry group. For circle&nbsp;1 the
+  stabilizer is {&nbsp;stay,&nbsp;turn-by-5&nbsp;}: a copy of <b>C<sub>2</sub></b>, two moves
+  strong.</p>
+  <p>And now the shortness of Fig.&nbsp;8&rsquo;s list explains itself. Start from any clasp
+  position and apply a stabilizer move: the reading cannot change — that is what
+  “undetectable” means. Ten clasp positions, sorted two-and-two by the stabilizer,
+  give five genuinely different readings. The orbit is small precisely
+  <em>because</em> the necklace is symmetric.</p>
+  <div class="folio">· 11 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 12 · §6 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§6</span></div>
+  <div class="cont">§6 · continued</div>
+
+  <p class="noindent">A symmetry can be <em>drawn</em>. On each circle, join every bead to
+  the bead its stabilizer-turn sends it to. The chords trace a star polygon — and
+  because an undetectable move must send each bead to a bead of the same kind,
+  every chord joins two beads of one colour.</p>
+
+  <figure>
+    <div style="display:flex; gap:18px; justify-content:center; align-items:center;">
+      <div style="text-align:center">
+        <svg data-ring='{"circle":1,"size":112,"dot":4.6,"chords":5}'></svg>
+        <div style="font-size:8.4px; color:var(--muted); margin-top:2px;">{10/5} · five diameters</div>
+      </div>
+      <div style="text-align:center">
+        <svg data-ring='{"circle":2,"size":112,"dot":4.6,"chords":2}'></svg>
+        <div style="font-size:8.4px; color:var(--muted); margin-top:2px;">{6/2} · two triangles</div>
+      </div>
+      <div style="text-align:center">
+        <svg data-ring='{"circle":3,"size":112,"dot":4.6,"chords":3}'></svg>
+        <div style="font-size:8.4px; color:var(--muted); margin-top:2px;">{9/3} · three triangles</div>
+      </div>
+      <div style="text-align:center">
+        <svg data-ring='{"circle":5,"size":112,"dot":4.6,"chords":2}'></svg>
+        <div style="font-size:8.4px; color:var(--muted); margin-top:2px;">{8/2} · two squares</div>
+      </div>
+    </div>
+    <figcaption><b>Fig. 12</b> — Four circles, their stabilizers drawn as stars. In the
+    concordant circle the hexagram splits into a blue peg-triangle and a rust
+    cluster-triangle: the symmetry literally sorts the beads by kind. One circle
+    is missing from this gallery — it draws no star at all, and it is the
+    subject of §8.</figcaption>
+  </figure>
+
+  <div class="box">
+    <h4>The shepherd&rsquo;s theorem</h4>
+    <p>A shepherd counts forty legs and announces ten sheep. It works because every
+    sheep contributes <em>exactly the same number</em> of legs: divide the easy count by
+    the per-item redundancy to get the honest one. Keep this trick in hand; on the
+    next page it becomes, almost word for word, a theorem of group theory.</p>
+  </div>
+
+  <p class="noindent">One habit of mind before moving on: the stabilizer measures
+  <em>self</em>-symmetry. The group C<sub>10</sub> belongs to the wheel — to the ten
+  positions. The stabilizer belongs to the <em>beading</em>: thread the same wheel
+  differently and its stabilizer changes. Symmetry is not in the stage; it is in
+  what stands on it.</p>
+  <div class="folio">· 12 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 13 · §7 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§7</span></div>
+  <h2><span class="no">§7</span>A Conservation Law</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">We have counted three different things on the first circle: the
+  group&rsquo;s moves (ten), the orbit&rsquo;s readings (five), the stabilizer&rsquo;s undetectable
+  turns (two). Set them side by side:</p>
+  <p class="noindent" style="text-align:center; font-size:14px; margin: 6px 0 10px;">
+    10&nbsp;&nbsp;=&nbsp;&nbsp;5&nbsp;&nbsp;×&nbsp;&nbsp;2
+    <span style="display:block; font-size:9px; color:var(--muted); margin-top:3px; letter-spacing:.08em;">
+      moves&nbsp;&nbsp;=&nbsp;&nbsp;distinct readings&nbsp;&nbsp;×&nbsp;&nbsp;symmetries</span>
+  </p>
+  <p class="noindent">This is no coincidence of the number ten, and the shepherd already
+  told us why. Deal the ten rotations into piles according to <em>which reading they
+  produce</em>. Every pile has exactly the stabilizer&rsquo;s size: if two rotations give
+  the same reading, they differ by an undetectable move, and each reading&rsquo;s pile
+  is just the stabilizer shifted over — same size, different sheep.</p>
+
+  <figure>
+    <div class="piles">
+      <div class="pile"><span class="tok">turn 0</span><span class="tok">turn 5</span><span class="cap"><span class="ar" style="font-size:11px">الطويل</span></span></div>
+      <div class="pile"><span class="tok">turn 1</span><span class="tok">turn 6</span><span class="cap"><span class="ar" style="font-size:11px">المديد</span></span></div>
+      <div class="pile"><span class="tok">turn 2</span><span class="tok">turn 7</span><span class="cap"><span class="ar" style="font-size:11px">المستطيل</span></span></div>
+      <div class="pile"><span class="tok">turn 3</span><span class="tok">turn 8</span><span class="cap"><span class="ar" style="font-size:11px">البسيط</span></span></div>
+      <div class="pile"><span class="tok">turn 4</span><span class="tok">turn 9</span><span class="cap"><span class="ar" style="font-size:11px">الممتد</span></span></div>
+    </div>
+    <figcaption><b>Fig. 13</b> — The ten moves of C<sub>10</sub>, dealt by the reading they
+    produce. Five piles, each of height exactly two — the stabilizer&rsquo;s size. Equal
+    piles are the whole proof: 10&nbsp;=&nbsp;5&nbsp;piles&nbsp;×&nbsp;2&nbsp;per&nbsp;pile.</figcaption>
+  </figure>
+
+  <p class="noindent">Stated in full generality, this is the <b>orbit–stabilizer
+  theorem</b>: for a finite group acting on an object,</p>
+  <p class="noindent" style="text-align:center; font-style:italic; font-size:12px; margin:7px 0;">
+    size of group&nbsp;&nbsp;=&nbsp;&nbsp;size of orbit&nbsp;&nbsp;×&nbsp;&nbsp;size of stabilizer.</p>
+  <p class="noindent">It has the shape of a conservation law. A necklace cannot be both
+  rich in symmetry and rich in readings: their product is pinned to the size of
+  the group, so whatever one gains, the other must surrender. Variety and
+  symmetry are two spendings of a single budget.</p>
+  <div class="folio">· 13 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 14 · §7 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§7</span></div>
+  <div class="cont">§7 · continued</div>
+
+  <p class="noindent">A law is only as good as its audits. Here are all five circles,
+  each row an independent test the eighth-century data must pass:</p>
+
+  <figure>
+    <table class="law">
+      <tr><th>circle</th><th>beads</th><th>orbit</th><th>stabilizer</th><th>the law</th></tr>
+      <tr><td class="nm"><span class="ar">المختلف</span></td><td>10</td><td style="color:var(--c1)">5</td><td>C<sub>2</sub></td><td class="eq" style="color:var(--c1)">10 = 5 × 2</td></tr>
+      <tr><td class="nm"><span class="ar">المؤتلف</span></td><td>6</td><td style="color:var(--c2)">2</td><td>C<sub>3</sub></td><td class="eq" style="color:var(--c2)">6 = 2 × 3</td></tr>
+      <tr><td class="nm"><span class="ar">المجتلب</span></td><td>9</td><td style="color:var(--c3)">3</td><td>C<sub>3</sub></td><td class="eq" style="color:var(--c3)">9 = 3 × 3</td></tr>
+      <tr><td class="nm"><span class="ar">المشتبه</span></td><td>9</td><td style="color:var(--c4)">9</td><td>C<sub>1</sub></td><td class="eq" style="color:var(--c4)">9 = 9 × 1</td></tr>
+      <tr><td class="nm"><span class="ar">المتفق</span></td><td>8</td><td style="color:var(--c5)">2</td><td>C<sub>4</sub></td><td class="eq" style="color:var(--c5)">8 = 2 × 4</td></tr>
+    </table>
+    <figcaption><b>Fig. 14</b> — One theorem, five costumes. Every circle of the classical
+    system satisfies <em>beads&nbsp;=&nbsp;orbit&nbsp;×&nbsp;stabilizer</em> exactly — no slack, no
+    exception. (All counts in this chapter are verified by exhaustive computation;
+    see the colophon.)</figcaption>
+  </figure>
+
+  <p class="noindent">Read the table twice, in opposite directions. Downward, it is
+  bookkeeping: five instances of a multiplication. Across, it is a see-saw. The
+  concordant and agreeing circles carry the largest stabilizers in the system —
+  C<sub>3</sub> on six beads, C<sub>4</sub> on eight — and are duly the poorest,
+  two readings apiece. The resembling circle carries no symmetry at all and is
+  the richest: all nine of its rotations sound distinct.</p>
+  <p>Hold on to the two middle rows. Nine beads twice over — yet one nine-bead
+  necklace yields three readings and the other yields nine. Same wheel, same
+  group C<sub>9</sub>, same bead-count; only the <em>threading</em> differs. Whatever
+  separates those two rows is not arithmetic but structure, and it is the finest
+  story in the whole system. It is next.</p>
+  <div class="folio">· 14 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 15 · §8 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§8</span></div>
+  <h2><span class="no">§8</span>Symmetry Comes in Steps, Not Slopes</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Before comparing the two nine-bead circles, one more gift from the
+  equal piles. The stabilizer&rsquo;s size always divides the group&rsquo;s size exactly —
+  piles of equal height must share the total with no remainder. (This is
+  <b>Lagrange&rsquo;s theorem</b>, and it governs every subgroup of every finite group.)
+  The consequence deserves a slow reading: <em>the sizes of possible symmetry are
+  not a dial; they are a short ladder of divisors.</em></p>
+
+  <figure>
+    <div class="ladders">
+      <div class="ladder">
+        <div class="rung">C1</div><div class="tie"></div>
+        <div class="rung">C2</div><div class="tie"></div>
+        <div class="rung">C4</div><div class="tie"></div>
+        <div class="rung">C8</div>
+        <div class="cap">8 beads</div>
+      </div>
+      <div class="ladder">
+        <div class="rung">C1</div><div class="tie"></div>
+        <div class="rung">C3</div><div class="tie"></div>
+        <div class="rung">C9</div>
+        <div class="cap">9 beads</div>
+      </div>
+      <div class="ladder">
+        <div class="rung">C1</div><div class="tie"></div>
+        <div class="rung">C2</div><div class="tie"></div>
+        <div class="rung">C5</div><div class="tie"></div>
+        <div class="rung">C10</div>
+        <div class="cap">10 beads</div>
+      </div>
+    </div>
+    <figcaption><b>Fig. 15</b> — The only symmetries a necklace may have, by Lagrange:
+    divisor ladders. On nine beads nothing exists between C<sub>3</sub> and
+    C<sub>1</sub> — there is no such thing as “almost” threefold symmetry.
+    (The top rung, all beads identical, occurs in no real circle.)</figcaption>
+  </figure>
+
+  <p class="noindent">On nine beads, then, the choices are stark: full ninefold sameness
+  (impossible unless every bead is identical), threefold symmetry, or none. No
+  seven-eighths symmetry, no gentle degradation. A nine-bead necklace that loses
+  its C<sub>3</sub> does not slip to something slightly weaker — <em>there is nothing
+  slightly weaker</em>. It falls the whole way to C<sub>1</sub>, the trivial group
+  whose only member is <em>stay</em>.</p>
+  <p>Which is exactly the cliff-edge on which the two nine-bead circles stand,
+  one on each side.</p>
+  <div class="folio">· 15 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 16 · §8 cont ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§8</span></div>
+  <div class="cont">§8 · continued</div>
+
+  <p class="noindent">Lay the two nine-bead circles out flat and compare, bead by bead:</p>
+
+  <figure>
+    <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:9px; color:var(--muted); width:70px; text-align:right;"><span class="ar" style="font-size:12px">المجتلب</span></span>
+        <span class="strip" id="strip-c3"></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:9px; color:var(--muted); width:70px; text-align:right;"><span class="ar" style="font-size:12px">المشتبه</span></span>
+        <span class="strip" id="strip-c4"></span>
+      </div>
+    </div>
+    <div style="display:flex; gap:30px; justify-content:center; align-items:center; margin-top:12px;">
+      <svg data-ring='{"circle":3,"size":128,"dot":5,"chords":3}'></svg>
+      <svg data-ring='{"circle":4,"size":128,"dot":5,"crosses":[0,1,3,4,6,7]}'></svg>
+    </div>
+    <figcaption><b>Fig. 16</b> — One bead of difference. The brought-in circle repeats
+    peg–cord–cord three times: symmetry C<sub>3</sub>, three readings. The resembling
+    circle replaces the middle peg with the rare <em>split</em> peg
+    <span class="sym" style="color:var(--mafruq)">/0/</span> — and the smallest turn now sets
+    six beads on unlike beads (the ✕ marks). Symmetry: none. Readings: all nine.</figcaption>
+  </figure>
+
+  <p class="noindent">One bead out of nine — the least possible alteration — and by the
+  ladder of Fig.&nbsp;15 the collapse is total: C<sub>3</sub> to C<sub>1</sub>, orbit
+  three to orbit nine. The most similar pair of circles in the system sit at the
+  greatest possible distance in symmetry. Al-Khalīl&rsquo;s tradition named the second
+  circle <span class="ar">المشتبه</span> — <em>the resembling</em>, and in the same breath
+  <em>the confusable</em>, for in Arabic the two are one word: things that resemble
+  each other closely enough defeat telling-apart. Its rotations are near-misses
+  of one another, and its six metres are precisely the ones students of prosody
+  perennially mix up.</p>
+  <p>There is a quiet lesson here about invariants. The stabilizer records
+  <em>that</em> symmetry is absent — it says C<sub>1</sub>, exactly as it would for
+  random noise. It cannot say <em>how narrowly</em> symmetry was missed; the group
+  forgets the nearness. The old name remembers what the invariant forgets. A good
+  measurement, one might say, and a better ear.</p>
+  <div class="folio">· 16 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 17 · §9 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§9</span></div>
+  <h2><span class="no">§9</span>The Catalogue and Its Gaps</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Add the orbits: 5&nbsp;+&nbsp;2&nbsp;+&nbsp;3&nbsp;+&nbsp;9&nbsp;+&nbsp;2&nbsp;=&nbsp;21. The five circles
+  offer twenty-one genuinely different readings. The poets, across the whole
+  classical corpus, used sixteen. Al-Khalīl saw both numbers — and refused to
+  trim his theory to fit the evidence.</p>
+
+  <figure>
+    <div class="catalog" id="fig-catalog"></div>
+    <figcaption><b>Fig. 17</b> — The complete theoretical catalogue: 21 cells, one per
+    distinct reading, row by circle. Sixteen are inhabited by the classical metres.
+    Five are empty (dashed) — lawful rhythms no poet adopted. Al-Khalīl named the
+    first circle&rsquo;s two vacancies; the resembling circle&rsquo;s three were left
+    nameless.</figcaption>
+  </figure>
+
+  <p class="noindent">Those dashed cells are the most modern thing in this chapter. A
+  catalogue built from evidence alone lists what occurs. A catalogue built from a
+  <em>group action</em> lists what is possible — the orbit does not care what happens
+  to be attested. The five vacancies are predictions: here are rhythms the
+  language permits, whether or not anyone has sung them. And absence itself
+  becomes a fact in need of explanation — metrical, aesthetic, historical — where
+  before there was nothing to explain.</p>
+  <p>Eleven centuries later, Mendeleev would do exactly this with the elements:
+  trust the structure, print the empty boxes, and let gallium and germanium
+  arrive to fill them. Al-Khalīl&rsquo;s empty boxes are still empty — poets are not
+  obliged to oblige — but later experimenters did try the vacant metres, and
+  <span class="ar">المستطيل</span> and <span class="ar">الممتد</span> live on as curiosities
+  in the manuals, wearing the names he gave to rhythms nobody used. Note, too,
+  <em>where</em> the gaps fall: all five sit in the two least symmetric circles, the
+  only ones whose orbits offered more than the tradition cared to take.</p>
+  <div class="folio">· 17 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 18 · §10 ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§10</span></div>
+  <h2><span class="no">§10</span>The Price of Symmetry</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">One law has been running beneath every page, and it deserves to
+  be seen whole. The orbit–stabilizer theorem fixes the product
+  <em>orbit&nbsp;×&nbsp;stabilizer</em>; so across the five circles, symmetry and variety
+  must trade against each other exactly:</p>
+
+  <figure>
+    <div class="bars">
+      <div class="bar-row"><span class="who"><span class="ar" style="font-size:12px">المتفق</span> · <b>C4</b></span><span class="bar" style="width:56px; background:var(--c5)"></span><span class="n">2 readings</span></div>
+      <div class="bar-row"><span class="who"><span class="ar" style="font-size:12px">المؤتلف</span> · <b>C3</b></span><span class="bar" style="width:56px; background:var(--c2)"></span><span class="n">2 readings</span></div>
+      <div class="bar-row"><span class="who"><span class="ar" style="font-size:12px">المجتلب</span> · <b>C3</b></span><span class="bar" style="width:84px; background:var(--c3)"></span><span class="n">3 readings</span></div>
+      <div class="bar-row"><span class="who"><span class="ar" style="font-size:12px">المختلف</span> · <b>C2</b></span><span class="bar" style="width:140px; background:var(--c1)"></span><span class="n">5 readings</span></div>
+      <div class="bar-row"><span class="who"><span class="ar" style="font-size:12px">المشتبه</span> · <b>C1</b></span><span class="bar" style="width:252px; background:var(--c4)"></span><span class="n">9 readings</span></div>
+    </div>
+    <figcaption><b>Fig. 18</b> — The inverse law, drawn. Circles sorted by symmetry, from
+    the most symmetric (C<sub>4</sub>) to the least (C<sub>1</sub>): the yield of
+    distinct readings runs the other way. The most symmetric circle is the
+    poorest; the one with no symmetry at all is the richest in the system.</figcaption>
+  </figure>
+
+  <p class="noindent">Everyday speech treats symmetry as wealth — the more, the better.
+  Group theory&rsquo;s ledger reads the opposite way: <em>symmetry is sameness, and
+  sameness collapses possibility</em>. Every undetectable turn a necklace keeps is a
+  clasp position it forfeits; perfect symmetry would mean a single reading,
+  perfect monotony. It is the breaking of symmetry that creates distinct things.</p>
+  <p>Physics tells the same story at other scales — the early universe cooling
+  through broken symmetries into the zoo of particles; a crystal&rsquo;s perfect
+  lattice hosting one pattern where a disordered glass hosts endlessly many. The
+  circles of al-Khalīl tell it in nine beads: the concordant circle, most
+  symmetric, sings two songs; the resembling circle, symmetric not at all, sings
+  nine — and confuses everyone.</p>
+  <div class="folio">· 18 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 19 · closing ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>§10</span></div>
+  <div class="cont">§10 · closing</div>
+
+  <p class="noindent">Step back and count what has been assembled, because it is more than
+  a stack of definitions. A collection of objects (rhythms); a group of moves
+  acting on them (rotations); a rule declaring two objects <em>the same</em> when a
+  move joins them; the same-classes tallied (orbits — the metres); each object&rsquo;s
+  private symmetry measured (stabilizers); a conservation law binding the counts;
+  an exhaustive catalogue derived rather than collected; and vacancies in the
+  catalogue treated as predictions. That list is a complete description of the
+  classification method that carries modern mathematics — and every item on it
+  was executed, by ear, in eighth-century Basra, eleven hundred years before
+  Galois gave the subject its name in the 1830s.</p>
+  <p>This is the deepest thing the circles teach about group theory: that it is
+  not, at bottom, a notation. It is a discipline for a question every careful
+  practice eventually asks — <em>when are two things genuinely the same, and how
+  many genuinely different things are there?</em> Ask it honestly enough, of
+  molecules or ciphers or verse, and orbits and stabilizers assemble themselves
+  in your hands, whether or not anyone has told you their names. The formalism
+  did not invent the symmetry of poetry. It arrived late, and politely gave a
+  name to what a lexicographer had already heard.</p>
+
+  <div class="box" style="margin-top:16px;">
+    <h4>Hear it for yourself</h4>
+    <p>Every figure in this chapter is a still from a living instrument: the
+    <em>Interactive Arud Explorer</em> at <b>arudi.midadalfikr.com</b>. There you can
+    turn each circle&rsquo;s dial with a finger and watch metres change at every détente;
+    perform the ghost-rotation of Fig.&nbsp;11 and see the stars of Fig.&nbsp;12 draw
+    themselves; collapse the ten rotations into their five piles; and — best of
+    all — press play, and <em>listen</em> to a necklace as a drum pattern, moving the
+    clasp while it sounds. The mathematics of this chapter is entirely contained
+    in what your ear will notice.</p>
+  </div>
+
+  <p class="noindent" style="margin-top:14px;">And the next time you turn something and
+  no one can tell — a fan, a bolt, a phrase — remember that you have performed an
+  element of a stabilizer, and that a poet could have told you which one.</p>
+  <div class="folio">· 19 ·</div>
+</div>
+
+<!-- ═══════════════════════ page 20 · glossary ═══════════════════════ -->
+<div class="page">
+  <div class="running"><span>The Turn That Changes Nothing</span><span>Glossary</span></div>
+  <h2 style="font-size:16px;">Glossary &amp; Notes</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <dl class="glossary">
+    <dt>symmetry</dt><dd>a move that leaves a thing looking exactly as it was (§1).</dd>
+    <dt>group</dt><dd>a collection of moves containing <i>do-nothing</i>, closed under composition, with every move undoable (§2).</dd>
+    <dt>cyclic group C<sub>n</sub></dt><dd>the n rotations of an n-mark wheel; clock arithmetic (§2).</dd>
+    <dt>action</dt><dd>a group applied to an object, each move giving a new view of it (§4).</dd>
+    <dt>orbit</dt><dd>everything an object becomes under the group&rsquo;s moves, counted without repetition — here, the distinct metres of a circle (§5).</dd>
+    <dt>stabilizer</dt><dd>the moves an object cannot detect; its private symmetry group (§6).</dd>
+    <dt>orbit–stabilizer theorem</dt><dd>group size = orbit × stabilizer (§7).</dd>
+    <dt>Lagrange&rsquo;s theorem</dt><dd>a subgroup&rsquo;s size divides the group&rsquo;s size; symmetry comes in divisor steps (§8).</dd>
+    <dt>quotient</dt><dd>gluing together positions declared “the same” — rolling the repeating line into the circle (§3).</dd>
+    <dt>ʿarūḍ <span class="ar">عَروض</span></dt><dd>the science of Arabic metre, founded by al-Khalīl (§3).</dd>
+    <dt>sabab <span class="ar">سبب</span>, watid <span class="ar">وتد</span>, fāṣila <span class="ar">فاصلة</span></dt><dd>cord, peg, and cluster — the atomic rhythm units (Fig.&nbsp;5).</dd>
+    <dt>muhmal <span class="ar">مُهمَل</span></dt><dd>“neglected”: a lawful reading no poet adopted — the catalogue&rsquo;s empty cells (§9).</dd>
+    <dt>the five circles</dt><dd><span class="ar">المختلف</span> the differing (10 beads),
+      <span class="ar">المؤتلف</span> the concordant (6), <span class="ar">المجتلب</span> the
+      brought-in (9), <span class="ar">المشتبه</span> the resembling (9),
+      <span class="ar">المتفق</span> the agreeing (8).</dd>
+    <dt>the sixteen metres</dt><dd><span class="ar">الطويل، المديد، البسيط</span> ·
+      <span class="ar">الوافر، الكامل</span> · <span class="ar">الهزج، الرجز، الرمل</span> ·
+      <span class="ar">السريع، المنسرح، الخفيف، المضارع، المقتضب، المجتث</span> ·
+      <span class="ar">المتقارب، المتدارك</span>.</dd>
+  </dl>
+
+  <div class="colophon">
+    <p class="noindent" style="font-size:8.8px; text-align:left;">
+    <span class="small-caps">Further reading.</span> H.&nbsp;Weyl, <i>Symmetry</i> (1952) — the
+    classic meditation; M.&nbsp;A.&nbsp;Armstrong, <i>Groups and Symmetry</i> (1988) — a first
+    formal course; and any classical manual of <i>ʿilm al-ʿarūḍ</i> for the circles as
+    the tradition drew them.<br/><br/>
+    <span class="small-caps">Colophon.</span> Set in EB Garamond, Cormorant Garamond, Amiri,
+    and IBM Plex Mono. All counts used in this chapter — orbits 5,&nbsp;2,&nbsp;3,&nbsp;9,&nbsp;2;
+    stabilizers C<sub>2</sub>,&nbsp;C<sub>3</sub>,&nbsp;C<sub>3</sub>,&nbsp;C<sub>1</sub>,&nbsp;C<sub>4</sub>;
+    21&nbsp;=&nbsp;16&nbsp;+&nbsp;5 — were verified by exhaustive computation against the sequence
+    data of the Interactive Arud Explorer. Prosodic symbols appear in classical
+    right-to-left order throughout: <span class="sym">0//</span> is read strike–strike–rest,
+    from the right.</p>
+  </div>
+  <div class="folio">· 20 ·</div>
+</div>
+
+<script>
+/* ————— figure renderer: rings drawn from the app's real sequence data ————— */
+const CIRCLES = {
+  1: { seq: ['0//','0/','0//','0/','0/','0//','0/','0//','0/','0/'], color: '#0d9488' },
+  2: { seq: ['0//','0///','0//','0///','0//','0///'],                 color: '#2563eb' },
+  3: { seq: ['0//','0/','0/','0//','0/','0/','0//','0/','0/'],        color: '#15803d' },
+  4: { seq: ['0//','0/','0/','/0/','0/','0/','0//','0/','0/'],        color: '#dc4444' },
+  5: { seq: ['0//','0/','0//','0/','0//','0/','0//','0/'],            color: '#7c3aed' },
+};
+const UNIT_FIXED = { '0/': '#7a8494', '/0/': '#b45309', '0///': '#c2410c' };
+const uColor = (u, c) => (u === '0//' ? CIRCLES[c].color : UNIT_FIXED[u]);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (name, attrs, parent) => {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const polar = (i, n, r) => {
+  const a = (-90 - (i * 360) / n) * Math.PI / 180;
+  return [Math.cos(a) * r, Math.sin(a) * r];
+};
+
+document.querySelectorAll('svg[data-ring]').forEach((svg) => {
+  const o = JSON.parse(svg.dataset.ring);
+  const { seq } = CIRCLES[o.circle];
+  const n = seq.length;
+  const pad = o.labels ? 16 : o.crosses ? 14 : 6;
+  const S = o.size, R = S / 2 - pad, C = S / 2;
+  svg.setAttribute('width', S); svg.setAttribute('height', S);
+  svg.setAttribute('viewBox', `${-C} ${-C} ${S} ${S}`);
+  el('circle', { r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, svg);
+  if (o.chords) {
+    const seen = new Set();
+    for (let i = 0; i < n; i++) {
+      const j = (i + o.chords) % n;
+      const key = i < j ? i + '-' + j : j + '-' + i;
+      if (i === j || seen.has(key)) continue;
+      seen.add(key);
+      const [x1, y1] = polar(i, n, R), [x2, y2] = polar(j, n, R);
+      el('line', { x1, y1, x2, y2, stroke: uColor(seq[i], o.circle), 'stroke-width': 1.1, 'stroke-opacity': .6 }, svg);
+    }
+  }
+  (o.crosses || []).forEach((b) => {
+    const [x, y] = polar(b, n, R + (o.size > 120 ? 9 : 7));
+    const s = 2.6;
+    el('line', { x1: x - s, y1: y - s, x2: x + s, y2: y + s, stroke: '#8a8580', 'stroke-width': 1.3 }, svg);
+    el('line', { x1: x - s, y1: y + s, x2: x + s, y2: y - s, stroke: '#8a8580', 'stroke-width': 1.3 }, svg);
+  });
+  seq.forEach((u, i) => {
+    const [x, y] = polar(i, n, R);
+    if (o.halos) el('circle', { cx: x, cy: y, r: o.dot + 3.4, fill: 'none', stroke: '#a8842c', 'stroke-width': 1.1, 'stroke-opacity': .75 }, svg);
+    el('circle', { cx: x, cy: y, r: o.dot, fill: uColor(u, o.circle), 'fill-opacity': o.dim || 1, stroke: '#fbf8f1', 'stroke-width': 1.2 }, svg);
+  });
+  if (o.labels) seq.forEach((u, i) => {
+    const [x, y] = polar(i, n, R - 21);
+    const t = el('text', { x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central',
+      'font-size': 10, 'font-weight': 600, fill: uColor(u, o.circle), class: 'sym' }, svg);
+    t.style.direction = 'ltr'; t.style.unicodeBidi = 'bidi-override';
+    t.textContent = u;
+  });
+  if (o.ghost !== undefined) {
+    const g = el('g', { transform: `rotate(${o.ghost})` }, svg);
+    seq.forEach((u, i) => {
+      const [x, y] = polar(i, n, R);
+      el('circle', { cx: x, cy: y, r: o.dot * .62, fill: uColor(u, o.circle), stroke: '#ffffff', 'stroke-width': 1 }, g);
+    });
+  }
+  if (o.start) {
+    el('path', { d: `M0,${-R - 14} L-5,${-R - 5.5} L5,${-R - 5.5} Z`, fill: '#a8842c' }, svg);
+  }
+});
+
+/* fan figure: two three-blade fans, one with a marked blade */
+(() => {
+  const svg = document.getElementById('fig-fan');
+  if (!svg) return;
+  const blade = 'M 0 -4 C -10 -13, -11 -30, 0 -39 C 11 -30, 10 -13, 0 -4 Z';
+  const fan = (cx, rot, marked) => {
+    const g = el('g', { transform: `translate(${cx},64)` }, svg);
+    el('circle', { r: 44, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+    const wheel = el('g', { transform: `rotate(${rot})` }, g);
+    for (let i = 0; i < 3; i++) {
+      const b = el('g', { transform: `rotate(${i * 120})` }, wheel);
+      el('path', { d: blade, fill: '#c9a961', 'fill-opacity': .8, stroke: '#a8842c', 'stroke-width': .8 }, b);
+      if (marked && i === 0) el('circle', { cy: -28, r: 4, fill: '#0d9488' }, b);
+    }
+    el('circle', { r: 4.5, fill: '#fbf8f1', stroke: '#a8842c', 'stroke-width': 1.4 }, g);
+  };
+  fan(58, 0); fan(143, 120);
+  fan(213, 0, true); fan(298, 120, true);
+  const lbl = (x, t) => { const e = el('text', { x, y: 124, 'text-anchor': 'middle', 'font-size': 8.5, fill: '#6f6b76', 'font-style': 'italic', 'font-family': "'EB Garamond', serif" }, svg); e.textContent = t; };
+  lbl(100, 'unmarked: the turn is invisible'); lbl(255, 'marked: the same turn, exposed');
+  const arr = (x) => { const e = el('text', { x, y: 66, 'text-anchor': 'middle', 'font-size': 12, fill: '#a8842c' }, svg); e.textContent = '⅓⟳'; };
+  arr(100.5); arr(255.5);
+})();
+
+/* composition figure: three fans joined by arrows */
+(() => {
+  const svg = document.getElementById('fig-compose');
+  if (!svg) return;
+  const blade = 'M 0 -3 C -8 -10, -9 -24, 0 -31 C 9 -24, 8 -10, 0 -3 Z';
+  const fan = (cx, rot) => {
+    const g = el('g', { transform: `translate(${cx},52)` }, svg);
+    el('circle', { r: 35, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+    const wheel = el('g', { transform: `rotate(${rot})` }, g);
+    for (let i = 0; i < 3; i++) {
+      const b = el('g', { transform: `rotate(${i * 120})` }, wheel);
+      el('path', { d: blade, fill: '#c9a961', 'fill-opacity': .8, stroke: '#a8842c', 'stroke-width': .8 }, b);
+      if (i === 0) el('circle', { cy: -22, r: 3.2, fill: '#0d9488' }, b);
+    }
+    el('circle', { r: 3.6, fill: '#fbf8f1', stroke: '#a8842c', 'stroke-width': 1.2 }, g);
+  };
+  fan(60, 0); fan(190, 120); fan(320, 240);
+  const arrow = (x, t) => {
+    el('line', { x1: x, y1: 52, x2: x + 34, y2: 52, stroke: '#a8842c', 'stroke-width': 1 }, svg);
+    el('path', { d: `M${x + 34},52 l-5,-3 v6 Z`, fill: '#a8842c' }, svg);
+    const e = el('text', { x: x + 17, y: 42, 'text-anchor': 'middle', 'font-size': 9, fill: '#a8842c', 'font-family': "'EB Garamond', serif" }, svg);
+    e.textContent = t;
+  };
+  arrow(98, '⅓ turn'); arrow(228, '⅓ turn');
+  const cap = (x, t) => { const e = el('text', { x, y: 104, 'text-anchor': 'middle', 'font-size': 8.5, fill: '#6f6b76', 'font-style': 'italic', 'font-family': "'EB Garamond', serif" }, svg); e.textContent = t; };
+  cap(60, 'start'); cap(190, 'after ⅓'); cap(320, 'after ⅔ — one more ⅓ = home');
+})();
+
+/* clock figure: 12-wheel with 9+5≡2, and a bare 10-wheel */
+(() => {
+  const svg = document.getElementById('fig-clock');
+  if (!svg) return;
+  const wheel = (cx, n, R, hi) => {
+    const g = el('g', { transform: `translate(${cx},78)` }, svg);
+    el('circle', { r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+    for (let i = 0; i < n; i++) {
+      const [x, y] = polar(i, n, R);
+      el('circle', { cx: x, cy: y, r: (hi && hi.includes(i)) ? 5 : 3, fill: (hi && hi.includes(i)) ? '#a8842c' : '#7a8494' }, g);
+      if (n === 12) {
+        const [lx, ly] = polar(i, n, R - 14);
+        const t = el('text', { x: lx, y: ly, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 8, fill: '#98928d', 'font-family': "'EB Garamond', serif" }, g);
+        t.textContent = i === 0 ? '12' : String(12 - i);
+      }
+    }
+    return g;
+  };
+  /* clock numerals run clockwise; our polar runs CCW, so label 12−i */
+  const g1 = wheel(88, 12, 62, [3, 10]); /* 9 o'clock = CCW index 3; 2 o'clock = index 10 */
+  const a0 = (-90 - 3 * 30) * Math.PI / 180, a1 = (-90 - 10 * 30) * Math.PI / 180;
+  el('path', { d: `M ${Math.cos(a0) * 47} ${Math.sin(a0) * 47} A 47 47 0 0 0 ${Math.cos(a1) * 47} ${Math.sin(a1) * 47}`,
+    fill: 'none', stroke: '#a8842c', 'stroke-width': 1.6, 'stroke-dasharray': '3 3' }, g1);
+  const t1 = el('text', { x: 88, y: 160, 'text-anchor': 'middle', 'font-size': 9, fill: '#6f6b76', 'font-style': 'italic', 'font-family': "'EB Garamond', serif" }, svg);
+  t1.textContent = 'twelve marks: 9 + 5 ≡ 2';
+  wheel(268, 10, 62);
+  const t2 = el('text', { x: 268, y: 160, 'text-anchor': 'middle', 'font-size': 9, fill: '#6f6b76', 'font-style': 'italic', 'font-family': "'EB Garamond', serif" }, svg);
+  t2.textContent = 'ten marks: the wheel poetry will need';
+})();
+
+/* roll figure: tape of circle-1 units + arrow + the ring */
+(() => {
+  const svg = document.getElementById('fig-roll');
+  if (!svg) return;
+  const seq = CIRCLES[1].seq;
+  const W = 34, H = 22, x0 = (430 - 10 * W - 18) / 2;
+  seq.forEach((u, i) => {
+    const x = x0 + i * (W + 2);
+    el('rect', { x, y: 16, width: W, height: H, rx: 4, fill: uColor(u, 1), 'fill-opacity': .16, stroke: uColor(u, 1), 'stroke-width': 1 }, svg);
+    const t = el('text', { x: x + W / 2, y: 27.5, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 9.5, 'font-weight': 600, fill: uColor(u, 1), class: 'sym' }, svg);
+    t.style.direction = 'ltr'; t.style.unicodeBidi = 'bidi-override';
+    t.textContent = u;
+  });
+  const e1 = el('text', { x: x0 - 8, y: 27.5, 'text-anchor': 'end', 'font-size': 11, fill: '#98928d', 'dominant-baseline': 'central' }, svg); e1.textContent = '…';
+  const e2 = el('text', { x: x0 + 10 * (W + 2) + 6, y: 27.5, 'font-size': 11, fill: '#98928d', 'dominant-baseline': 'central' }, svg); e2.textContent = '…';
+  el('path', { d: 'M 215 48 C 232 66, 232 84, 215 96', fill: 'none', stroke: '#a8842c', 'stroke-width': 1.2 }, svg);
+  el('path', { d: 'M 215 96 l 6.5,-2.5 l -1.5,6.5 Z', fill: '#a8842c' }, svg);
+  const cap = el('text', { x: 244, y: 76, 'font-size': 9, 'font-style': 'italic', fill: '#a8842c', 'font-family': "'EB Garamond', serif" }, svg);
+  cap.textContent = 'roll it up';
+  const g = el('g', { transform: 'translate(215,180)' }, svg);
+  const R = 62;
+  el('circle', { r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+  seq.forEach((u, i) => {
+    const [x, y] = polar(i, 10, R);
+    el('circle', { cx: x, cy: y, r: 7.5, fill: uColor(u, 1), stroke: '#fbf8f1', 'stroke-width': 1.2 }, g);
+  });
+  el('path', { d: `M0,${-R - 12} L-4.5,${-R - 4.5} L4.5,${-R - 4.5} Z`, fill: '#a8842c' }, g);
+})();
+
+/* unit strips for the readings list & the c3/c4 comparison */
+const strip = (id, circle, offset, hiIndex) => {
+  const host = document.getElementById(id);
+  if (!host) return;
+  const { seq } = CIRCLES[circle];
+  const n = seq.length;
+  for (let k = 0; k < n; k++) {
+    const u = seq[(offset + k) % n];
+    const c = document.createElement('span');
+    c.className = 'cell';
+    c.style.background = uColor(u, circle);
+    if (hiIndex === k) c.style.boxShadow = '0 0 0 2.2px #26242c';
+    const s = document.createElement('span');
+    s.className = 'sym'; s.textContent = u;
+    c.appendChild(s);
+    host.appendChild(c);
+  }
+};
+for (let off = 0; off < 5; off++) strip('strip-' + off, 1, off);
+strip('strip-c3', 3, 0, 3);
+strip('strip-c4', 4, 0, 3);
+
+/* collapse figure: 10 rotation strips funnelling into 5 piles of 2 */
+(() => {
+  const svg = document.getElementById('fig-collapse');
+  if (!svg) return;
+  const seq = CIRCLES[1].seq, n = 10;
+  const mini = (x, y, off, w, h, op) => {
+    for (let k = 0; k < n; k++) {
+      const u = seq[(off + k) % n];
+      el('rect', { x: x + k * (w + 1), y, width: w, height: h, rx: 1.5, fill: uColor(u, 1), 'fill-opacity': op || 1 }, svg);
+    }
+  };
+  const names = ['الطويل', 'المديد', 'المستطيل', 'البسيط', 'الممتد'];
+  for (let off = 0; off < 10; off++) {
+    const y = 8 + off * 21;
+    const t = el('text', { x: 22, y: y + 7, 'text-anchor': 'end', 'font-size': 8, fill: '#98928d', 'font-family': "'IBM Plex Mono', monospace" }, svg);
+    t.textContent = 'r' + off;
+    mini(28, y, off, 9, 13, off < 5 ? 1 : .55);
+  }
+  for (let p = 0; p < 5; p++) {
+    const y = 16 + p * 42;
+    el('path', { d: `M 136 ${8 + p * 21 + 7} C 190 ${8 + p * 21 + 7}, 200 ${y + 10}, 246 ${y + 10}`, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, svg);
+    el('path', { d: `M 136 ${8 + (p + 5) * 21 + 7} C 200 ${8 + (p + 5) * 21 + 7}, 205 ${y + 16}, 246 ${y + 16}`, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9, 'stroke-dasharray': '2.5 2.5' }, svg);
+    mini(252, y + 3, p, 8, 11);
+    mini(255, y + 7, p, 8, 11, .5);
+    const t = el('text', { x: 348, y: y + 15, 'font-size': 12, fill: '#26242c', 'font-family': "'Amiri', serif" }, svg);
+    t.textContent = names[p];
+    const c = el('text', { x: 396, y: y + 15, 'font-size': 8, fill: '#98928d', 'font-family': "'EB Garamond', serif", 'font-style': 'italic' }, svg);
+    c.textContent = '× 2';
+  }
+})();
+
+/* catalogue figure: 21 cells, 16 inhabited, 5 dashed */
+(() => {
+  const host = document.getElementById('fig-catalog');
+  if (!host) return;
+  const rows = [
+    { c: 1, lbl: 'المختلف · 10', cells: ['الطويل', 'المديد', null, 'البسيط', null] },
+    { c: 2, lbl: 'المؤتلف · 6', cells: ['الوافر', 'الكامل'] },
+    { c: 3, lbl: 'المجتلب · 9', cells: ['الهزج', 'الرجز', 'الرمل'] },
+    { c: 4, lbl: 'المشتبه · 9', cells: ['المضارع', 'المقتضب', 'المجتث', null, 'السريع', null, null, 'المنسرح', 'الخفيف'] },
+    { c: 5, lbl: 'المتفق · 8', cells: ['المتقارب', 'المتدارك'] },
+  ];
+  const named = { 1: ['المستطيل', 'الممتد'] };
+  rows.forEach((r) => {
+    const row = document.createElement('div');
+    row.className = 'cat-row';
+    const lbl = document.createElement('span');
+    lbl.className = 'lbl ar'; lbl.textContent = r.lbl;
+    row.appendChild(lbl);
+    let muIdx = 0;
+    r.cells.forEach((nm) => {
+      const cell = document.createElement('span');
+      cell.className = 'cat-cell' + (nm ? '' : ' mu');
+      cell.style.background = CIRCLES[r.c].color;
+      cell.textContent = nm || (named[r.c] ? named[r.c][muIdx++] : '—');
+      row.appendChild(cell);
+    });
+    host.appendChild(row);
+  });
+})();
+</script>
+</body>
+</html>
