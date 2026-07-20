@@ -7,6 +7,7 @@ import CircleView from './components/CircleView';
 import CompareView from './components/CompareView';
 import DialView from './components/DialView';
 import ExploreView from './components/ExploreView';
+import TadakhulView from './components/TadakhulView';
 import MathView from './components/MathView';
 import ScanView from './components/ScanView';
 import InfoCard from './components/InfoCard';
@@ -49,7 +50,7 @@ const App: React.FC = () => {
     setAppState({ currentView: 'compare', selectedCircleId: undefined, selectedMeterIndex: 0 });
   }, []);
 
-  const handleShowView = useCallback((view: 'dial' | 'math' | 'scan' | 'explore') => {
+  const handleShowView = useCallback((view: 'dial' | 'math' | 'scan' | 'explore' | 'tadakhul') => {
     setAppState({ currentView: view, selectedCircleId: undefined, selectedMeterIndex: 0 });
   }, []);
 
@@ -142,6 +143,10 @@ const App: React.FC = () => {
       ) : appState.currentView === 'explore' ? (
         <div key="explore" className="animate-view-fade w-full">
           <ExploreView onBackToHub={handleBackToHub} />
+        </div>
+      ) : appState.currentView === 'tadakhul' ? (
+        <div key="tadakhul" className="animate-view-fade w-full">
+          <TadakhulView onBackToHub={handleBackToHub} />
         </div>
       ) : selectedCircle ? (
         <div key={selectedCircle.id} className="animate-view-fade w-full">

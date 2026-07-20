@@ -270,6 +270,46 @@ export const ar = {
     glossFanMoved: 'بالعلامة ترى الدوران؛ وبدونها لا فرق.',
     back: 'العودة إلى الدوائر',
   },
+  tadakhul: {
+    entry: 'خريطة التداخل',
+    title: 'خريطة التداخل',
+    subtitle:
+      'الدوائر تقول متى يكون البحران شيئاً واحداً (بالدوران — وهو دقيقٌ لا يُلبِس)؛ وهذه الخريطة تقول متى يكاد البحران «يُسمعان» شيئاً واحداً (بالزحاف — وهو فقدٌ يُلبِس). فالدوران يحفظ كل شيء ويحرّك البداية، والزحاف يحفظ البداية ويُفقد شيئاً — والأذن راسيةٌ على البدايات.',
+    back: 'العودة إلى الدوائر',
+    bridgeTitle: 'الجسر بين الدائرتين',
+    bridgeIntro:
+      'أشهرُ اشتباهين في العروض — الكاملُ يُسمَع رجزاً بالإضمار، والوافرُ يُسمَع هزجاً بالعصب — هما في الحقيقة عمليةٌ واحدة: فاصلةٌ تنطوي إلى سببين. طبِّق هذا الانطواء على قلادة المؤتلف كلِّها تحصل على قلادة المجتلب حرفاً بحرف:',
+    bridgeWafir: 'ابدأ من الوتد: مفاعلتن → مفاعيلن — الوافر يهبط على الهزج',
+    bridgeKamil: 'ابدأ من الفاصلة: متفاعلن → مستفعلن — الكامل يهبط على الرجز',
+    bridgeRamal:
+      'ويبقى فضلُ قراءةٍ ثالثة: الانطواء يفتح مقطعاً جديداً بين السببين لم يكن موجوداً في المؤتلف — والقراءة التي تبدأ منه هي الرمل. لهذا كان مدار المجتلب ثلاثةً ومدار المؤتلف اثنين.',
+    bridgeReplay: 'أعد العرض',
+    mapTitle: 'الخريطة',
+    mapHint: 'انقر أيَّ وترٍ لتفصيله. السهم يجري من الفرع (الصورة المزاحفة) إلى الأصل الذي تحطّ عليه.',
+    kindCollapse: 'انطواء الفاصلة',
+    kindLossy: 'طيٌّ وكسفٌ ونهك',
+    kindRotation: 'دورانٌ قصُرت مرساتُه',
+    rajazNote:
+      'لاحظ المصبّ: ثلاثةُ أوتارٍ كلُّها تصبّ في الرجز. مستفعلن أفقرُ التفاعيل مادةً — سببان ووتد — فكلُّ فقدٍ يقرِّب منها. الرجز «الحالة الأرضية» التي تنحدر إليها الأوزان إذا زوحفت.',
+    isolatedTitle: 'الجزر الآمنة',
+    isolatedNote:
+      'ثمانية بحورٍ لا يمسّها وترٌ واحد — دائرتا المختلف والمتفق بكاملهما بينها. والسبب بنيويّ: مادةُ الاشتباه هي الفاصلةُ (تنطوي) والوتدُ المفروق (يشذّ)، ودائرتا الطرفين خاليتان منهما — أسبابٌ خفيفة وأوتادٌ مجموعة لا غير. الأبجديةُ الفقيرة أثبتُ سمعاً.',
+    whyTitle: 'ولماذا لا تختلط بحور الدائرة الواحدة؟',
+    whyBody:
+      'لأن الدوران لا يفقد شيئاً: الطويل والمديد والبسيط قلادةٌ واحدة، ومع ذلك لا يخلطهما سامعٌ قط — فللبيت بدايةٌ وقافية، والأداء يكسر تناظر الدوران ويثبّت «إطار القراءة». القاعدة: الدوران لا يُلبِس؛ الفقدُ وحده يُلبِس.',
+    whyException:
+      'إلا استثناءً يثبت القاعدة: الخفيف والمجتث دورتان لقلادة المشتبه نفسها، فإذا جُزئ البحرُ قصُر البيتُ وضعفت المرساة — فالتبسا. الدوران يُلبِس فقط حين تقصر المرساة.',
+    decodeTitle: 'كيف تُفَكّ الشيفرة؟',
+    decodeBody:
+      'الزحافُ جائزٌ لا لازم، فالقصيدةُ كلمة سرٍّ طويلة: متفاعلن واحدةٌ سالمةٌ في أي موضعٍ تشهد أن القصيدة كاملٌ لا رجز. فإن التُزم الزحافُ في كل جزءٍ حُمل المشترك على أصله — على الرجز والهزج — كما قرر المحققون. السامعُ العروضيّ يفكّ شيفرةً مشوشة بترجيح الأرجح.',
+    detailMechanism: 'الآلية',
+    detailWhere: 'موضع الاشتباه',
+    detailRuling: 'فصل الخطاب',
+    detailShahid: 'الشاهد',
+    detailBefore: 'الأصل',
+    detailAfter: 'المآل',
+    selectPrompt: 'اختر وتراً من الخريطة لترى تشريحه',
+  },
   scan: {
     entry: 'التقطيع العروضي',
     title: 'التقطيع العروضي',
@@ -541,6 +581,46 @@ export const en: Translations = {
     glossFanSame: 'It looks exactly the same — that is symmetry!',
     glossFanMoved: 'With the mark you see it turn; without it, no difference.',
     back: 'Back to Circle Hub',
+  },
+  tadakhul: {
+    entry: 'The Confusion Map',
+    title: 'The Confusion Map',
+    subtitle:
+      'The circles say when two meters ARE one thing (by rotation — exact, and never misheard); this map says when two meters can SOUND like one thing (by ziḥāf — lossy, and misheard famously). Rotation keeps everything and moves the beginning; ziḥāf keeps the beginning and loses something — and the ear is anchored to beginnings.',
+    back: 'Back to Circle Hub',
+    bridgeTitle: 'The Bridge Between Two Circles',
+    bridgeIntro:
+      'The two most celebrated confusions of prosody — Kāmil heard as Rajaz through iḍmār, Wāfir heard as Hazaj through ʿaṣb — are one operation: a fāṣila folding into two light cords. Apply that fold to the whole necklace of al-Muʼtalif and you obtain the necklace of al-Mujtalab, letter for letter:',
+    bridgeWafir: 'start at the peg: mufāʿalatun → mafāʿīlun — Wāfir descends onto Hazaj',
+    bridgeKamil: 'start at the fāṣila: mutafāʿilun → mustafʿilun — Kāmil descends onto Rajaz',
+    bridgeRamal:
+      'And one reading is left over: the fold opens a new cut between the two cords that never existed in al-Muʼtalif — and the reading that starts there is al-Ramal. That is why al-Mujtalab’s orbit is three where al-Muʼtalif’s is two.',
+    bridgeReplay: 'Replay',
+    mapTitle: 'The Map',
+    mapHint: 'Click any chord for its anatomy. The arrow runs from the variant to the original it lands on.',
+    kindCollapse: 'fāṣila collapse',
+    kindLossy: 'ṭayy, kasf & nahk',
+    kindRotation: 'rotation with a short anchor',
+    rajazNote:
+      'Note the sink: three chords all drain into Rajaz. Mustafʿilun is the poorest foot in material — two cords and a peg — so every loss moves a meter toward it. Rajaz is the ground state that weights decay to under ziḥāf.',
+    isolatedTitle: 'The Safe Islands',
+    isolatedNote:
+      'Eight meters are touched by no chord at all — among them the whole of circles 1 and 5. The reason is structural: the raw material of confusion is the fāṣila (it folds) and the split peg (it strays), and the two outer circles contain neither — light cords and joined pegs only. The poorer alphabet is the sturdier one to the ear.',
+    whyTitle: 'And why do meters of one circle never mix?',
+    whyBody:
+      'Because rotation loses nothing: Ṭawīl, Madīd and Basīṭ are one necklace, yet no listener ever confuses them — a verse has a beginning and a rhyme, and performance breaks the rotational symmetry, pinning the reading frame. The rule: rotation never confuses; only loss confuses.',
+    whyException:
+      'With one exception that proves it: al-Khafīf and al-Mujtathth are rotations of the same necklace (circle 4), and when the meter is truncated the line grows short, the anchor weakens — and they blur. Rotation confuses only when the anchor runs short.',
+    decodeTitle: 'How the code is broken',
+    decodeBody:
+      'Ziḥāf is licensed, not obligatory, so a poem is a long codeword: one intact mutafāʿilun anywhere certifies Kāmil over Rajaz. Only when the ziḥāf is committed in every foot does true ambiguity arrive — and then the editors’ rule applies: carry the shared form to the meter where it is original, Rajaz and Hazaj. The prosodist’s ear is a maximum-likelihood decoder.',
+    detailMechanism: 'Mechanism',
+    detailWhere: 'Where the confusion lives',
+    detailRuling: 'The adjudication',
+    detailShahid: 'The disputed verse',
+    detailBefore: 'original',
+    detailAfter: 'lands on',
+    selectPrompt: 'Choose a chord on the map to see its anatomy',
   },
   scan: {
     entry: 'Scansion',
