@@ -1,13 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ALL_CIRCLES } from '../constants';
 import { CONFUSION_EDGES, ConfusionEdge, isolatedMeterIds } from '../data/tadakhul';
 import { getMeterById } from '../data/circles';
 import { Circle } from '../types';
 import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
-import { unitColor } from './explore/geometry';
-import { useDrawProgress } from '../utils/animation';
-import { laggedProgress, smooth, window as subWindow } from '../utils/rate';
+import { expandUnits, unitColor } from './explore/geometry';
+import { useDrawProgress, usePrefersReducedMotion } from '../utils/animation';
+import { easeOutBack, laggedProgress, smooth, window as subWindow } from '../utils/rate';
+import { hit, ensureAudioContext } from '../utils/percussion';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
 
@@ -164,6 +165,15 @@ const ConfusionGraph: React.FC<{
   onSelect: (id: string) => void;
 }> = ({ selected, onSelect }) => {
   const { t, lang } = useLanguage();
+  const reduced = usePrefersReducedMotion();
+  // Mount timeline: nodes land (LaggedStart, overshoot), then the chords
+  // write themselves, then the mechanism labels fade in. After the write,
+  // the selected chord carries a streaming current toward its target.
+  const time = useDrawProgress(2200);
+  const tNodes = subWindow(time, 0, 0.45);
+  const tEdges = subWindow(time, 0.4, 0.85);
+  const tLabels = subWindow(time, 0.8, 1);
+  const written = time >= 1;
 
   // Layout in SVG space. Columns laid right-to-left: circle 1 rightmost.
   const W = 880;
@@ -187,6 +197,7 @@ const ConfusionGraph: React.FC<{
     () => new Set(isolatedMeterIds(ALL_CIRCLES.flatMap((c) => c.meters.map((m) => m.id)))),
     []
   );
+  const nodeOrder = useMemo(() => [...nodes.keys()], [nodes]);
 
   const H = 78 + 6 * (nodeH + 14) + 10;
 
@@ -233,9 +244,17 @@ const ConfusionGraph: React.FC<{
         ))}
 
         {/* edges under nodes */}
-        {CONFUSION_EDGES.map((e) => {
+        {CONFUSION_EDGES.map((e, ei) => {
           const active = selected === e.id;
           const c = kindColor(e.kind);
+          // Each chord Writes itself along its own length; afterwards the
+          // selected one streams its dashes toward the meter it lands on.
+          const writeP = smooth(laggedProgress(tEdges, ei, CONFUSION_EDGES.length, 0.4));
+          const drawProps = written
+            ? active && !reduced
+              ? { strokeDasharray: '6 5', className: 'animate-tad-flow' }
+              : { strokeDasharray: e.kind === 'collapse' ? undefined : '5 4' }
+            : { pathLength: 1, strokeDasharray: 1, strokeDashoffset: 1 - writeP };
           return (
             <g key={e.id}>
               <path
@@ -244,9 +263,9 @@ const ConfusionGraph: React.FC<{
                 stroke={c}
                 strokeOpacity={active ? 0.95 : 0.45}
                 strokeWidth={active ? 2.6 : 1.5}
-                strokeDasharray={e.kind === 'collapse' ? undefined : '5 4'}
-                markerEnd={`url(#arrow-${e.kind}${active ? '-hi' : ''})`}
+                markerEnd={writeP > 0.95 ? `url(#arrow-${e.kind}${active ? '-hi' : ''})` : undefined}
                 style={{ transition: 'stroke-opacity 200ms, stroke-width 200ms' }}
+                {...drawProps}
               />
               {/* fat invisible hit target */}
               <path
@@ -258,26 +277,34 @@ const ConfusionGraph: React.FC<{
                 onClick={() => onSelect(e.id)}
               />
               {/* mechanism label at curve midpoint */}
-              <MechanismLabel e={e} path={edgePath(e)} active={active} color={c} onSelect={onSelect} />
+              <g opacity={tLabels}>
+                <MechanismLabel e={e} path={edgePath(e)} active={active} color={c} onSelect={onSelect} />
+              </g>
             </g>
           );
         })}
 
-        {/* nodes */}
+        {/* nodes — origin-centred groups so the landing pop scales in place */}
         {ALL_CIRCLES.map((c) =>
           c.meters.map((m) => {
             const n = nodes.get(m.id)!;
             const lonely = isolated.has(m.id);
+            const nodeIdx = nodeOrder.indexOf(m.id);
+            const pop = reduced ? 1 : easeOutBack(laggedProgress(tNodes, nodeIdx, nodeOrder.length, 0.25));
             const inSelected =
               selected &&
               CONFUSION_EDGES.some(
                 (e) => e.id === selected && (e.fromMeterId === m.id || e.toMeterId === m.id)
               );
             return (
-              <g key={m.id} opacity={lonely ? 0.5 : 1}>
+              <g
+                key={m.id}
+                opacity={(lonely ? 0.5 : 1) * Math.min(1, pop * 1.4)}
+                transform={`translate(${n.x} ${n.y}) scale(${Math.max(0.01, pop)})`}
+              >
                 <rect
-                  x={n.x - nodeW / 2}
-                  y={n.y - nodeH / 2}
+                  x={-nodeW / 2}
+                  y={-nodeH / 2}
                   width={nodeW}
                   height={nodeH}
                   rx={8}
@@ -289,8 +316,8 @@ const ConfusionGraph: React.FC<{
                   style={{ transition: 'stroke 200ms, fill 200ms' }}
                 />
                 <text
-                  x={n.x}
-                  y={n.y + 1}
+                  x={0}
+                  y={1}
                   textAnchor="middle"
                   dominantBaseline="central"
                   fontSize="14"
@@ -408,6 +435,250 @@ const Foot: React.FC<{ foot: ConfusionEdge['footBefore']; circle: Circle }> = ({
   </div>
 );
 
+/** One sounding step of the bench: a prosodic letter, or an anchor rest. */
+interface BenchStep {
+  sym: '1' | '0';
+  unitInitial: boolean;
+  color: string;
+  /** the letter the ziḥāf touches (collapse edges) */
+  marked?: boolean;
+  /** an inserted end-of-line rest, not a letter of the foot */
+  anchor?: boolean;
+}
+
+/** Letters of a foot: from its unit chips, or from a bare moraic string. */
+const footSteps = (foot: ConfusionEdge['footBefore'], circle: Circle): BenchStep[] => {
+  if (foot.units) {
+    return expandUnits(foot.units).map((l) => ({
+      sym: l.sym,
+      unitInitial: l.unitInitial,
+      color: unitColor(foot.units![l.unitIndex], circle),
+    }));
+  }
+  // storage convention: rightmost symbol = first sound
+  return (foot.mora ?? '')
+    .split('')
+    .reverse()
+    .map((ch, i) => ({
+      sym: ch === '/' ? '1' : '0',
+      unitInitial: i === 0,
+      color: circle.visualTheme.primaryColor,
+    }));
+};
+
+/**
+ * «المِسمَع» — the listening bench. The confusion is an auditory fact,
+ * so it should be heard, live:
+ *  · collapse edges: toggle the ziḥāf WHILE it plays — one drum stroke
+ *    (the ringed letter) falls silent, and the meter crosses the bridge;
+ *  · lossy edges: the foot swaps for its clipped form mid-loop;
+ *  · the rotation edge: the line loops both feet; toggle the ANCHOR
+ *    (an end-of-line rest) — without it the two starting points are one
+ *    sound, with it the difference returns. The short anchor, audible.
+ */
+const SoundBench: React.FC<{ edge: ConfusionEdge; fromCircle: Circle; toCircle: Circle }> = ({
+  edge,
+  fromCircle,
+  toCircle,
+}) => {
+  const { t, lang } = useLanguage();
+  const [playing, setPlaying] = useState(false);
+  const [applied, setApplied] = useState(false); // ziḥāf applied / start swapped
+  const [anchor, setAnchor] = useState(edge.kind === 'rotation');
+  const [pos, setPos] = useState(-1);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const seqRef = useRef<BenchStep[]>([]);
+
+  const mechanism = lang === 'ar' ? edge.mechanismAr : edge.mechanismEn;
+
+  const steps = useMemo((): BenchStep[] => {
+    let out: BenchStep[];
+    if (edge.kind === 'rotation') {
+      const a = footSteps(edge.footBefore, fromCircle);
+      const b = footSteps(edge.footAfter, toCircle);
+      out = applied ? [...b, ...a] : [...a, ...b];
+    } else if (!applied) {
+      out = footSteps(edge.footBefore, fromCircle);
+    } else if (edge.kind === 'collapse') {
+      out = footSteps(edge.footAfter, toCircle);
+    } else {
+      out = footSteps(edge.footAfter, fromCircle);
+    }
+    // Mark the quiesced letter on collapse edges: same length before and
+    // after, differing in exactly one symbol (enforced by test).
+    if (edge.kind === 'collapse') {
+      const before = footSteps(edge.footBefore, fromCircle);
+      const after = footSteps(edge.footAfter, toCircle);
+      before.forEach((s, i) => {
+        if (after[i] && s.sym !== after[i].sym && out[i]) out[i] = { ...out[i], marked: true };
+      });
+    }
+    if (anchor) {
+      out = [
+        ...out,
+        { sym: '0', unitInitial: false, color: '#6B7280', anchor: true },
+        { sym: '0', unitInitial: false, color: '#6B7280', anchor: true },
+      ];
+    }
+    return out;
+  }, [edge, fromCircle, toCircle, applied, anchor]);
+
+  useEffect(() => {
+    seqRef.current = steps;
+  }, [steps]);
+
+  // Lookahead scheduler + playhead, alive while playing (Rhythm Clock's pattern).
+  useEffect(() => {
+    if (!playing) return;
+    const ctx = ensureAudioContext(ctxRef.current);
+    ctxRef.current = ctx;
+    void ctx.resume();
+
+    let idx = 0;
+    let next = ctx.currentTime + 0.1;
+    const queue: { time: number; idx: number }[] = [];
+    const scheduler = setInterval(() => {
+      while (next < ctx.currentTime + 0.18) {
+        const seq = seqRef.current;
+        const s = seq[idx % seq.length];
+        if (s && s.sym === '1') hit(ctx, next, s.unitInitial);
+        queue.push({ time: next, idx: idx % seq.length });
+        next += 0.175;
+        idx += 1;
+      }
+    }, 30);
+
+    let raf = 0;
+    const loop = () => {
+      while (queue.length > 1 && queue[1].time <= ctx.currentTime) queue.shift();
+      if (queue.length && queue[0].time <= ctx.currentTime) setPos(queue[0].idx);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      clearInterval(scheduler);
+      cancelAnimationFrame(raf);
+      void ctx.suspend();
+      setPos(-1);
+    };
+  }, [playing]);
+
+  // Release the audio context for good on unmount (edge change remounts).
+  useEffect(
+    () => () => {
+      void ctxRef.current?.close();
+      ctxRef.current = null;
+    },
+    []
+  );
+
+  const note =
+    edge.kind === 'collapse'
+      ? t.tadakhul.benchNoteCollapse
+      : edge.kind === 'lossy'
+        ? t.tadakhul.benchNoteLossy
+        : t.tadakhul.benchNoteRotation;
+
+  return (
+    <div className="rounded-xl border border-gold-soft bg-gray-950/50 p-4 mt-4">
+      <div className="flex flex-wrap items-center justify-center gap-2.5 mb-3">
+        <span className="text-xs label-gold font-amiri me-1">{t.tadakhul.benchTitle}</span>
+        <button
+          type="button"
+          onClick={() => setPlaying((p) => !p)}
+          aria-pressed={playing}
+          className="px-4 py-1.5 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-gray-900
+                     font-bold font-amiri text-sm hover:shadow-amber-500/40 hover:shadow-lg active:scale-95 transition-all"
+        >
+          {playing ? t.tadakhul.benchStop : t.tadakhul.benchPlay}
+        </button>
+        <button
+          type="button"
+          onClick={() => setApplied((a) => !a)}
+          aria-pressed={applied}
+          className={`px-3.5 py-1.5 rounded-full border font-amiri text-sm transition-all ${
+            applied
+              ? 'border-amber-400/70 bg-amber-400/15 text-amber-200'
+              : 'border-gold-soft text-gray-300 hover:border-gold hover:text-amber-200'
+          }`}
+        >
+          {edge.kind === 'rotation'
+            ? t.tadakhul.benchSwapStart
+            : applied
+              ? t.tadakhul.benchUndo(mechanism)
+              : t.tadakhul.benchApply(mechanism)}
+        </button>
+        <label
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-amiri text-xs cursor-pointer transition-all ${
+            anchor ? 'border-cyan-300/60 bg-cyan-300/10 text-cyan-200' : 'border-gold-soft text-gray-400'
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={anchor}
+            onChange={(e) => setAnchor(e.target.checked)}
+            className="accent-cyan-300 cursor-pointer"
+          />
+          {t.tadakhul.benchAnchor}
+        </label>
+      </div>
+
+      {/* the letters, sounding */}
+      <div className="flex justify-center">
+        <div className="flex gap-1 items-center" dir="rtl">
+          {steps.map((s, i) => {
+            const active = pos === i;
+            return s.anchor ? (
+              <span
+                key={i}
+                className="w-2 h-8 rounded-sm transition-colors duration-100"
+                style={{
+                  backgroundColor: active ? 'rgba(103,232,249,0.35)' : 'rgba(103,232,249,0.12)',
+                  border: '1px dashed rgba(103,232,249,0.5)',
+                }}
+                title={t.tadakhul.benchAnchor}
+              />
+            ) : (
+              <span
+                key={i}
+                className="w-6 h-9 rounded-md flex items-center justify-center transition-all duration-100"
+                style={{
+                  backgroundColor: active ? `${s.color}33` : 'rgba(13,18,32,0.7)',
+                  border: s.marked
+                    ? '1.6px solid var(--gold-bright, #E9C87E)'
+                    : `1px solid ${active ? s.color : 'rgba(212,176,106,0.16)'}`,
+                  boxShadow: active ? `0 0 8px ${s.color}66` : undefined,
+                  transform: active ? 'scale(1.12)' : 'scale(1)',
+                }}
+              >
+                <span
+                  className="text-[13px] font-bold"
+                  style={{ color: s.sym === '1' ? s.color : '#4B5563' }}
+                >
+                  {s.sym === '1' ? '●' : '○'}
+                </span>
+              </span>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* legend + the point of the exercise */}
+      <div className="flex justify-center gap-4 text-[10px] text-gray-500 font-amiri mt-2.5">
+        <span>● {t.tadakhul.benchDum}</span>
+        <span>○ {t.tadakhul.benchRest}</span>
+        {edge.kind === 'collapse' && (
+          <span className="text-amber-300/80">◉ {mechanism}</span>
+        )}
+      </div>
+      <p className="text-center text-xs text-gray-400 font-amiri leading-relaxed mt-2 max-w-xl mx-auto">
+        {note}
+      </p>
+    </div>
+  );
+};
+
 /** The anatomy of one confusion, laid out under the map. */
 const EdgeDetail: React.FC<{ edge: ConfusionEdge }> = ({ edge }) => {
   const { t, lang } = useLanguage();
@@ -469,6 +740,8 @@ const EdgeDetail: React.FC<{ edge: ConfusionEdge }> = ({ edge }) => {
           </div>
         )}
       </div>
+
+      <SoundBench edge={edge} fromCircle={from.circle} toCircle={to.circle} />
     </div>
   );
 };

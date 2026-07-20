@@ -309,6 +309,21 @@ export const ar = {
     detailBefore: 'الأصل',
     detailAfter: 'المآل',
     selectPrompt: 'اختر وتراً من الخريطة لترى تشريحه',
+    benchTitle: 'المِسمَع',
+    benchPlay: '▶ اسمع',
+    benchStop: '■ أوقف',
+    benchApply: (m: string) => `أعمِل ${m}`,
+    benchUndo: (m: string) => `أبطِل ${m}`,
+    benchSwapStart: 'ابدأ من الدورة الأخرى',
+    benchAnchor: 'المرساة: سكتةٌ في آخر السطر',
+    benchNoteCollapse:
+      'شغّل الإيقاع ثم أعمِل الزحاف وأنت تُصغي: نقرةٌ واحدةٌ تخفُت — النقرة المطوَّقة — وبها وحدها يعبر البحرُ الجسر.',
+    benchNoteLossy: 'شغّل الإيقاع ثم أعمِل الزحاف: يسقط من التفعيلة ما يسقط حتى تدنو من جارتها.',
+    benchNoteRotation:
+      'أطفئ المرساة ثم بدّل البداية: لن تسمع فرقاً — الدورتان في الجريان المتصل صوتٌ واحد. أعد المرساة يعُد الفرق. هذا هو «قِصَر المرساة» مسموعاً.',
+    benchDum: 'دُم — أول الوحدة',
+    benchTak: 'تَك — متحرك',
+    benchRest: 'ساكن',
   },
   scan: {
     entry: 'التقطيع العروضي',
@@ -621,6 +636,21 @@ export const en: Translations = {
     detailBefore: 'original',
     detailAfter: 'lands on',
     selectPrompt: 'Choose a chord on the map to see its anatomy',
+    benchTitle: 'The Listening Bench',
+    benchPlay: '▶ Listen',
+    benchStop: '■ Stop',
+    benchApply: (m: string) => `Apply ${m}`,
+    benchUndo: (m: string) => `Undo ${m}`,
+    benchSwapStart: 'Start from the other rotation',
+    benchAnchor: 'The anchor: a rest at line’s end',
+    benchNoteCollapse:
+      'Play the rhythm, then apply the ziḥāf while you listen: a single stroke falls silent — the ringed one — and by that alone the meter crosses the bridge.',
+    benchNoteLossy: 'Play, then apply the ziḥāf: the foot sheds what it sheds until it verges on its neighbor.',
+    benchNoteRotation:
+      'Turn the anchor off, then swap the starting point: you will hear no difference — in continuous flow the two rotations are one sound. Restore the anchor and the difference returns. This is the “short anchor,” audible.',
+    benchDum: 'dum — unit start',
+    benchTak: 'tak — mover',
+    benchRest: 'quiescent',
   },
   scan: {
     entry: 'Scansion',

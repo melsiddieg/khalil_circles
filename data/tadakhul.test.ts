@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { CONFUSION_EDGES, FASILA_COLLAPSE, applyRewrite, isolatedMeterIds } from './tadakhul';
 import { getCircleById, getMeterById } from './circles';
 import { getTotalMeterCount, ALL_CIRCLES } from '../constants';
+import { expandUnits } from '../components/explore/geometry';
 
 describe('the confusion map (تداخل البحور)', () => {
   it('every edge references real meters', () => {
@@ -16,6 +17,32 @@ describe('the confusion map (تداخل البحور)', () => {
       expect(e.rewrite).toBeTruthy();
       expect(applyRewrite(e.footBefore.units!, e.rewrite!)).toEqual(e.footAfter.units);
     }
+  });
+
+  it('a collapse quiesces exactly one letter — at the position the ziḥāf is named for', () => {
+    // iḍmār = quiescing the SECOND letter; ʿaṣb = quiescing the FIFTH.
+    const expected: Record<string, number> = { 'kamil-rajaz': 1, 'wafir-hazaj': 4 };
+    for (const e of CONFUSION_EDGES.filter((e) => e.kind === 'collapse')) {
+      const before = expandUnits(e.footBefore.units!).map((l) => l.sym);
+      const after = expandUnits(e.footAfter.units!).map((l) => l.sym);
+      expect(before, e.id).toHaveLength(after.length);
+      const diffs = before.map((s, i) => (s === after[i] ? -1 : i)).filter((i) => i >= 0);
+      expect(diffs, e.id).toEqual([expected[e.id]]);
+      // and the change is a silencing, never an awakening
+      expect(before[diffs[0]]).toBe('1');
+      expect(after[diffs[0]]).toBe('0');
+    }
+  });
+
+  it('the rotation pair is one cyclic word: swapping the feet only moves the cut', () => {
+    const e = CONFUSION_EDGES.find((x) => x.kind === 'rotation')!;
+    const a = expandUnits(e.footBefore.units!).map((l) => l.sym);
+    const b = expandUnits(e.footAfter.units!).map((l) => l.sym);
+    const ab = [...a, ...b].join('');
+    const ba = [...b, ...a].join('');
+    // ba is ab rotated by |a| — identical as a loop, distinct as a line
+    expect((ab + ab).includes(ba)).toBe(true);
+    expect(ab).not.toBe(ba);
   });
 
   it('the fāṣila collapse maps circle 2 onto circle 3, necklace for necklace', () => {

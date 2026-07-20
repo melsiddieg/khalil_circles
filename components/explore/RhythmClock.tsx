@@ -2,32 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Circle } from '../../types';
 import { rotationReading } from '../../data/rotations';
 import { polar, expandUnits, unitColor } from './geometry';
+import { hit, ensureAudioContext } from '../../utils/percussion';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 const R = 92;
-
-/** One percussive hit: dum (low, round) for unit starts, tak (high, dry) otherwise. */
-const hit = (ctx: AudioContext, time: number, isDum: boolean) => {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  if (isDum) {
-    osc.frequency.setValueAtTime(165, time);
-    osc.frequency.exponentialRampToValueAtTime(55, time + 0.12);
-    gain.gain.setValueAtTime(0.55, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.17);
-    osc.start(time);
-    osc.stop(time + 0.19);
-  } else {
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(880, time);
-    gain.gain.setValueAtTime(0.2, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.055);
-    osc.start(time);
-    osc.stop(time + 0.07);
-  }
-};
 
 const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
   const { t, lang } = useLanguage();
@@ -55,9 +33,7 @@ const RhythmClock: React.FC<{ circle: Circle }> = ({ circle }) => {
   // Lookahead scheduler + playhead loop, alive while playing.
   useEffect(() => {
     if (!playing) return;
-    type Win = typeof window & { webkitAudioContext?: typeof AudioContext };
-    const Ctor = window.AudioContext ?? (window as Win).webkitAudioContext!;
-    const ctx = ctxRef.current ?? new Ctor();
+    const ctx = ensureAudioContext(ctxRef.current);
     ctxRef.current = ctx;
     void ctx.resume();
 
