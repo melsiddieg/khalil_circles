@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<title>The Compass and the Ear — Islamic Ornament, the Circles of al-Khalīl, and One Mathematics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* ————— book tokens (shared with chapter I) ————— */
+  :root {
+    --paper: #fbf8f1;
+    --paper-deep: #f3edde;
+    --ink: #26242c;
+    --muted: #6f6b76;
+    --faint: #98928d;
+    --gold: #a8842c;
+    --gold-soft: #d9cbaa;
+    --hairline: #e2d8c0;
+    --c1: #0d9488;
+    --c2: #2563eb;
+    --c3: #15803d;
+    --c4: #dc4444;
+    --c5: #7c3aed;
+    --sabab: #7a8494;
+    --mafruq: #b45309;
+    --fasila: #c2410c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #d8d2c4; }
+  body { font-family: 'EB Garamond', Georgia, serif; color: var(--ink); }
+
+  .page {
+    width: 576px; height: 864px;
+    background: var(--paper);
+    position: relative; overflow: hidden;
+    padding: 60px 56px 58px;
+    margin: 0 auto;
+    page-break-after: always; break-after: page;
+  }
+  @media screen { .page { margin: 14px auto; box-shadow: 0 2px 14px rgba(0,0,0,.25); } }
+
+  .folio {
+    position: absolute; bottom: 26px; left: 0; right: 0;
+    text-align: center; font-size: 9.5px; color: var(--faint);
+    font-variant-numeric: oldstyle-nums; letter-spacing: .12em;
+  }
+  .running {
+    position: absolute; top: 26px; left: 56px; right: 56px;
+    display: flex; justify-content: space-between;
+    font-size: 8px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  p { font-size: 11.3px; line-height: 1.62; text-align: justify; hyphens: auto; }
+  p + p { text-indent: 1.35em; }
+  .noindent { text-indent: 0 !important; }
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+  h2 { font-size: 19px; letter-spacing: .02em; margin: 4px 0 4px; color: var(--ink); }
+  h2 .no { color: var(--gold); font-weight: 700; margin-right: 8px; }
+  .rule { display: flex; align-items: center; gap: 8px; margin: 6px 0 14px; }
+  .rule::before, .rule::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold-soft)); }
+  .rule::after { background: linear-gradient(90deg, var(--gold-soft), transparent); }
+  .rule span { color: var(--gold); font-size: 9px; }
+  .cont { font-size: 8.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+
+  .dc::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px; font-weight: 600; color: var(--gold);
+    float: left; line-height: .82; padding: 4px 7px 0 0;
+  }
+
+  .ar { font-family: 'Amiri', serif; }
+  .sym {
+    font-family: 'IBM Plex Mono', monospace;
+    direction: ltr; unicode-bidi: bidi-override;
+    font-size: .92em; letter-spacing: .02em;
+  }
+  em { font-style: italic; }
+  .small-caps { font-variant: small-caps; letter-spacing: .06em; }
+
+  figure { margin: 14px 0; text-align: center; }
+  figcaption {
+    font-size: 9px; font-style: italic; color: var(--muted);
+    margin-top: 7px; line-height: 1.45; text-align: center; padding: 0 18px;
+  }
+  figcaption b { font-style: normal; color: var(--gold); font-weight: 600; }
+
+  .box {
+    background: var(--paper-deep);
+    border-left: 2px solid var(--gold);
+    padding: 10px 13px 11px;
+    margin: 13px 0;
+    font-size: 10.3px; line-height: 1.55;
+  }
+  .box h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 12.5px;
+    font-weight: 700; letter-spacing: .04em; color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .box p { font-size: 10.3px; text-align: left; hyphens: none; }
+  .box p + p { text-indent: 0; margin-top: 5px; }
+
+  .opener { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 96px; }
+  .opener .chap { font-size: 10px; letter-spacing: .38em; text-transform: uppercase; color: var(--gold); margin-bottom: 26px; }
+  .opener h1 { font-size: 34px; font-weight: 600; line-height: 1.14; margin-bottom: 14px; }
+  .opener .sub { font-size: 12.5px; font-style: italic; color: var(--muted); max-width: 400px; line-height: 1.55; }
+  .opener .orn { margin: 40px 0 36px; }
+  .epigraph { max-width: 380px; font-size: 11px; font-style: italic; color: var(--muted); line-height: 1.6; }
+  .epigraph .who { display: block; font-style: normal; font-size: 9.5px; margin-top: 8px; letter-spacing: .08em; color: var(--faint); }
+
+  table.map { border-collapse: collapse; margin: 0 auto; font-size: 10px; width: 100%; }
+  table.map th, table.map td { padding: 5.5px 9px; border-bottom: 1px solid var(--hairline); vertical-align: top; text-align: left; }
+  table.map th { font-size: 8.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  table.map td.a { color: #1d4ed8; width: 46%; }
+  table.map td.b { color: #0f766e; }
+  table.map .ar { font-size: 12px; }
+
+  table.law { border-collapse: collapse; margin: 0 auto; font-size: 10.5px; }
+  table.law th, table.law td { padding: 5px 12px; text-align: center; border-bottom: 1px solid var(--hairline); }
+  table.law th { font-size: 8.4px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+  .glossary { column-count: 2; column-gap: 26px; font-size: 9.6px; line-height: 1.5; }
+  .glossary dt { font-weight: 600; margin-top: 6px; break-after: avoid-column; }
+  .glossary dt .ar { font-weight: 400; font-size: 11px; }
+  .glossary dd { color: #4d4a55; break-inside: avoid-column; }
+  .colophon { margin-top: 12px; padding-top: 9px; border-top: 1px solid var(--hairline); font-size: 8.4px; color: var(--muted); line-height: 1.5; }
+
+  .pull {
+    font-family: 'Cormorant Garamond', serif; font-size: 15.5px; font-style: italic;
+    color: var(--gold); text-align: center; line-height: 1.45;
+    max-width: 380px; margin: 14px auto;
+  }
+
+  @page { size: 6in 9in; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ page 1 · opener ═══════════════ -->
+<div class="page">
+  <div class="opener">
+    <div class="chap">A Chapter in Pictures · II</div>
+    <h1>The Compass<br/>and the Ear</h1>
+    <div class="sub">Islamic geometric ornament, the circles of al-Khalīl,
+      and the one mathematics beneath both</div>
+    <div class="orn">
+      <svg id="fig-opener" width="360" height="150" viewBox="0 0 360 150"></svg>
+    </div>
+    <div class="epigraph">
+      “A mathematician, like a painter or a poet, is a maker of patterns. If his
+      patterns are more permanent than theirs, it is because they are made
+      with ideas.”
+      <span class="who">— G. H. HARDY, <i>A Mathematician&rsquo;s Apology</i> (1940)</span>
+    </div>
+  </div>
+  <div class="folio">· 1 ·</div>
+</div>
+
+<!-- ═══════════════ page 2 · §1 ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§1</span></div>
+  <h2><span class="no">§1</span>Two Workshops, One Question</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Hold two scenes side by side. In eighth-century Basra a
+  lexicographer listens to verse after verse, hunting the law beneath the music,
+  and finds that all of Arabic poetry hangs from five circles of repeating
+  syllabic units. Some centuries later, in a workshop in Isfahan or Fez or
+  Granada, a craftsman sets a compass on a blank panel, divides a circle into
+  ten equal parts, and begins the strapwork that will cover a wall with stars.</p>
+  <p>Neither knows the other. One works in sound, the other in stone and glazed
+  clay. Yet both have staked their art on the same wager: <em>that a small kit of
+  parts, repeated under strict law, can carry unbounded beauty</em> — and both are
+  asking, in their materials, the same question. What may repeat? Around what?
+  And what does the law of repetition permit and forbid?</p>
+
+  <figure>
+    <svg id="fig-two" width="380" height="168" viewBox="0 0 380 168"></svg>
+    <figcaption><b>Fig. 1</b> — The same object twice. Left, the eight-pointed star
+    {8/2} as ornament — the seed of a thousand Islamic panels. Right, the
+    necklace of al-Khalīl&rsquo;s first circle, from the previous chapter. Both are a
+    circle, divided, and read under a rule.</figcaption>
+  </figure>
+
+  <p class="noindent">These are, historically, the two great abstract arts of Islamic
+  civilization. Its poetry made almost no pictures of the world — it made
+  <em>metres</em>, and gloried in them; its ornament, in the religious sphere,
+  largely declined the image as well — and made <em>pattern</em>, and gloried in it.
+  Two arts of pure structure, prized by one culture above nearly everything.
+  This chapter is about what they share beneath the surface: not influence, not
+  symbolism, but a common mathematics — discovered twice, with two different
+  instruments. The craftsman&rsquo;s instrument was the compass. Al-Khalīl&rsquo;s was
+  the ear.</p>
+  <div class="folio">· 2 ·</div>
+</div>
+
+<!-- ═══════════════ page 3 · §1 cont ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§1</span></div>
+  <div class="cont">§1 · continued</div>
+
+  <p class="noindent">Begin with the kits, because their smallness is the point. The
+  prosodic tradition builds every metre from four bricks — the cords and pegs of
+  the previous chapter. And when modern researchers reconstructed how the most
+  intricate five-fold Islamic patterns could have been laid out, they found that a
+  kit of just five tiles — each edge the same length, each decorated with the
+  same angled straps — suffices for masterpieces from Baghdad to Bukhara.</p>
+
+  <figure>
+    <svg id="fig-girih" width="440" height="120" viewBox="0 0 440 120"></svg>
+    <figcaption><b>Fig. 2</b> — The girih kit: decagon, pentagon, elongated hexagon,
+    bow-tie, rhombus — five equal-edged tiles that generate the grand five-fold
+    patterns. Below, the prosodist&rsquo;s kit from chapter I: four units that
+    generate all sixteen metres.</figcaption>
+  </figure>
+
+  <figure style="margin-top: 4px;">
+    <div style="display:flex; gap:10px; justify-content:center;" dir="ltr">
+      <span class="kit-tile" data-unit="0/" data-color="var(--sabab)"></span>
+      <span class="kit-tile" data-unit="0//" data-color="var(--c1)"></span>
+      <span class="kit-tile" data-unit="/0/" data-color="var(--mafruq)"></span>
+      <span class="kit-tile" data-unit="0///" data-color="var(--fasila)"></span>
+    </div>
+  </figure>
+
+  <p class="noindent">A skeptic will say: any art has elements; bricks do not make a
+  bond. True. The bond is what each tradition does <em>next</em>, and it is the
+  same thing. Neither treats its kit as a box of free parts. Both submit the
+  parts to a generating discipline — a circle, a division, a rule of assembly —
+  so that the finished work is not an arrangement someone happened to like but
+  a <em>consequence</em>: one member of a lawful family that could, in principle, be
+  enumerated entire. Art by classification. The rest of this chapter is a walk
+  through that shared discipline, from its shared vocabulary of stars to its
+  two different laws of what symmetry is permitted — and to the one place
+  each art touches something the other cannot reach.</p>
+  <div class="folio">· 3 ·</div>
+</div>
+
+<!-- ═══════════════ page 4 · §2 ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§2</span></div>
+  <h2><span class="no">§2</span>The Circle Beneath</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Watch the craftsman&rsquo;s hands. Nearly every Islamic geometric
+  panel, however bewildering its finished web, begins the same way: a circle;
+  the circle divided into n equal arcs; the division points joined by a counting
+  rule — every second point, every third — and then, crucially, the scaffolding
+  <em>erased</em>. The construction circle never appears in the finished wall. What
+  the viewer receives is the star; what generated the star is withdrawn.</p>
+
+  <figure>
+    <svg id="fig-construct" width="450" height="128" viewBox="0 0 450 128"></svg>
+    <figcaption><b>Fig. 3</b> — The artisan&rsquo;s liturgy, in four acts: circle; division
+    into eight; the count-by-three chords {8/3}; scaffold erased, star delivered.
+    Every panel hides this circle the way a poem hides its metre-wheel.</figcaption>
+  </figure>
+
+  <p class="noindent">Now recall, from the previous chapter, how a metre is built: a
+  circle of units; a starting point chosen on it; the units read off around the
+  loop — and then the circle <em>disappears</em>. No poem ever exhibits its
+  dāʼira. The audience receives a line of sound; the wheel that generated the
+  line is a specialist&rsquo;s secret, drawn only in the prosodists&rsquo; manuals.</p>
+  <p>The parallel is exact, and it runs deeper than method — it is a shared
+  <em>attitude about where structure lives</em>. In both arts the generating object
+  is a circle marked with a discrete rhythm of points; in both, the public
+  artifact is a projection of that circle — onto a wall, onto a breath of time —
+  and in both, the tradition kept the circles anyway, in a private literature of
+  diagrams, because the makers understood that the erased scaffold, not the
+  visible surface, is where the art&rsquo;s truth is stored.</p>
+  <div class="folio">· 4 ·</div>
+</div>
+
+<!-- ═══════════════ page 5 · §2 cont ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§2</span></div>
+  <div class="cont">§2 · continued</div>
+
+  <figure>
+    <svg id="fig-scaffold" width="440" height="150" viewBox="0 0 440 150"></svg>
+    <figcaption><b>Fig. 4</b> — Two erased scaffolds. Left: the finished star with its
+    construction circle ghosted back in. Right: a line of الطويل with its
+    necklace ghosted behind it — the dāʼira no listener ever sees.</figcaption>
+  </figure>
+
+  <div class="box">
+    <h4>The geometer among the artisans</h4>
+    <p>The bridge between mathematics and the workshop is not a modern
+    conjecture; it is documented. In tenth-century Baghdad the geometer
+    <b>Abū al-Wafāʼ al-Būzjānī</b> wrote <i>On the Geometric Constructions
+    Necessary for the Artisan</i> — compass-and-straightedge recipes addressed
+    directly to craftsmen — and describes meetings where geometers and artisans
+    worked problems together. Five centuries later the <b>Topkapı scroll</b>
+    (studied by Gülru Necipoğlu, 1995) preserves a working pattern-book:
+    thirty metres of construction drawings, the scaffolding of walls that were
+    built to hide it. The prosodists&rsquo; manuals, with their drawn circles of
+    metres, are the same genre of document for the art of time: the scroll of
+    the erased wheels.</p>
+  </div>
+
+  <p class="noindent">Keep this pairing — public surface, private circle — because it
+  sharpens what &ldquo;abstraction&rdquo; means in both arts. Neither hides its structure
+  out of secrecy; the structure is simply <em>prior</em> to any one appearance of
+  it. A wall is one printing of a pattern; a poem is one printing of a metre.
+  The circle is the plate from which the printings are pulled — and the two
+  traditions, independently, both discovered that the plate deserved its own
+  literature.</p>
+  <div class="folio">· 5 ·</div>
+</div>
+
+<!-- ═══════════════ page 6 · §3 stars ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§3</span></div>
+  <h2><span class="no">§3</span>A Shared Alphabet of Stars</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">If the two arts share a written character, it is the star
+  polygon {n/k}: n points on a circle, every k-th point joined. The previous
+  chapter met these stars as the <em>drawn signature of a stabilizer</em> — join
+  each unit of a necklace to the unit its hidden symmetry carries it to, and
+  the symmetry sketches {n/p}. Islamic ornament, working in space with a free
+  choice of n and k, made the same figures its most beloved vocabulary:</p>
+
+  <figure>
+    <svg id="fig-stars" width="460" height="120" viewBox="0 0 460 120"></svg>
+    <figcaption><b>Fig. 5</b> — Five citizens of the ornamental alphabet. The hexagram
+    {6/2} and the eight-star {8/2} — marked in gold — are precisely the
+    stabilizer stars of the circles of المؤتلف and المتفق from chapter I. The
+    others, {8/3}, {10/3}, {12/5}, are the plane&rsquo;s luxuries: stars poetry&rsquo;s
+    necklaces never happened to need.</figcaption>
+  </figure>
+
+  <p class="noindent">The construction is identical on both sides — the counting rule
+  on a divided circle — and so is its deeper reading. A star {n/k} is not a
+  picture <em>of</em> anything; it is the visible record of an action, the orbit of
+  one point under &ldquo;advance by k.&rdquo; When gcd(n,&nbsp;k) is 1 the star is one
+  unbroken path; when it is d&nbsp;&gt;&nbsp;1, the star resolves into d interlocking
+  polygons — the hexagram&rsquo;s two triangles, the eight-star&rsquo;s two squares, the
+  {9/3}&rsquo;s three triangles that chapter I drew for the circle of المجتلب. The
+  interlace so characteristic of Islamic design — separate closed paths woven
+  through one another — is, at the skeleton, the <em>coset structure</em> of a
+  subgroup, worn as decoration.</p>
+  <div class="folio">· 6 ·</div>
+</div>
+
+<!-- ═══════════════ page 7 · §3 the ۞ page ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§3</span></div>
+  <div class="cont">§3 · continued</div>
+
+  <p class="noindent">One coincidence deserves a page of its own.</p>
+
+  <figure>
+    <svg id="fig-hizb" width="440" height="182" viewBox="0 0 440 182"></svg>
+    <figcaption><b>Fig. 6</b> — Left: the <i>rubʿ al-ḥizb</i> <span class="ar">۞</span> — two
+    interlocking squares, {8/2} — the mark that has divided the text of the
+    Qurʼan for a millennium. Right: the stabilizer star of the circle of
+    المتفق, drawn by its own C<sub>4</sub> symmetry on its own eight units,
+    exactly as in chapter I.</figcaption>
+  </figure>
+
+  <p class="noindent">They are the same figure. The ornamental mark that punctuates the
+  divisions of scripture is, stroke for stroke, the star that the necklace of
+  المتقارب and المتدارك draws when its rotational symmetry is made visible. No
+  transmission connects them; nobody copied anything from anybody. Two
+  practices — one dividing a sacred text into eighths for recitation, one
+  dividing a circle of sounds into readings — arrived at the identical object
+  because both were performing the identical mathematics: a cycle of eight,
+  acted on by a count of two.</p>
+  <p>The same is true one circle earlier. The hexagram — <i>khātam</i>, the Seal,
+  among the oldest and commonest devices in Islamic (and older) ornament — is
+  {6/2}: two interlocked triangles. Chapter I drew it as the stabilizer of the
+  circle of المؤتلف, where its two triangles came out <em>meaning</em> something:
+  one triangle threads the three pegs, the other the three fāṣilas. The
+  ornament and the metre agree on the figure; the metre, additionally, colours
+  it. This is what a shared mathematics looks like when two arts wear it: not
+  resemblance — <em>identity</em>, arrived at from opposite directions.</p>
+  <div class="folio">· 7 ·</div>
+</div>
+
+<!-- ═══════════════ page 8 · §4 mirrors ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§4</span></div>
+  <h2><span class="no">§4</span>Where the Mirrors Live</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Here the two arts part company — and the parting is as
+  instructive as the kinship. Take the craftsman&rsquo;s eight-fold rosette. Its
+  symmetries include the eight rotations, but also eight <em>reflections</em>:
+  mirror lines through the points and through the notches. Its full symmetry
+  group is the dihedral D<sub>8</sub>, sixteen moves strong. Ornament lives in
+  space, and space does not care which way you walk past a wall.</p>
+
+  <figure>
+    <svg id="fig-mirror" width="420" height="168" viewBox="0 0 420 168"></svg>
+    <figcaption><b>Fig. 7</b> — Left: the rosette&rsquo;s mirrors — eight axes, drawn as
+    hairlines; with its eight rotations they make D<sub>8</sub>. Right: the
+    necklace&rsquo;s poverty — rotations only, C<sub>8</sub>, because a rhythm is
+    heard in one direction. Time is the wall you cannot walk back past.</figcaption>
+  </figure>
+
+  <p class="noindent">Now try to give the metre its mirror. Reflecting a rhythm means
+  performing it backwards — and a verse recited backwards is not a verse; the
+  ear receives sound strictly in time&rsquo;s order, and time has an arrow. So of
+  the full dihedral wealth available to the eye, the ear can use exactly half:
+  the rotations. That is why every group in the previous chapter was
+  C<sub>n</sub> and never D<sub>n</sub> — not a modelling choice, but physics.
+  The plane reflects; the moment does not.</p>
+  <p>Islamic art knows the difference from its own side. Most of its patterns
+  embrace mirrors — but a strain of them refuses: pinwheel motifs in brickwork
+  that spin without reflecting, whirling rosettes whose group is a bare
+  C<sub>n</sub>. And when the tradition does reflect <em>language</em>, in the
+  mirror-calligraphy called <i>muthannā</i>, it reflects the written image of the
+  words, never their sound: even art&rsquo;s boldest mirror stops at the ear.</p>
+  <div class="folio">· 8 ·</div>
+</div>
+
+<!-- ═══════════════ page 9 · §4 the hidden mirrors ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§4</span></div>
+  <div class="cont">§4 · continued</div>
+
+  <p class="noindent">Which raises a question nobody in either tradition could have
+  asked: <em>do the necklaces of al-Khalīl have mirrors they cannot hear?</em>
+  Lay a metre&rsquo;s circle of struck-and-quiet letters on a wall, as ornament, so
+  that reflection becomes lawful — is the reflected necklace the same necklace?</p>
+  <p>The answer, computed letter by letter across all five circles, is a small
+  astonishment:</p>
+
+  <figure>
+    <svg id="fig-chiral" width="440" height="186" viewBox="0 0 440 186"></svg>
+    <figcaption><b>Fig. 8</b> — Two necklaces as pure letter-rings (● struck, ○ quiet).
+    Left: the circle of المتفق — the hairline axis reflects the ring onto
+    itself exactly. Four of the five circles carry such an axis. Right: the
+    circle of المشتبه — no axis exists; its reflection is a necklace that
+    occurs nowhere in the system. Chiral, like a hand.</figcaption>
+  </figure>
+
+  <p class="noindent">Four of the five necklaces are <em>achiral</em>: seen as ornament,
+  each equals its own mirror image (after a turn). Their full symmetry in
+  space is dihedral — richer than anything the ear, confined to rotations, can
+  ever exercise. Poetry owns mirrors it cannot hear; only geometry can see
+  them.</p>
+  <p>And the fifth circle — the exception — is المشتبه. Again. The circle that
+  chapter I found stripped of rotational symmetry (C<sub>1</sub>, the one-peg
+  catastrophe) turns out to lack the mirror as well: it is the only
+  <em>chiral</em> necklace in the system, asymmetric in every geometry that will
+  have it. The tradition named it &ldquo;the resembling, the confusable&rdquo;; the
+  mathematics keeps agreeing, from every direction one approaches, that it is
+  the strangest object in the five — the necklace that is like nothing, not
+  even its own reflection.</p>
+  <div class="folio">· 9 ·</div>
+</div>
+
+<!-- ═══════════════ page 10 · §5 friezes ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§5</span></div>
+  <h2><span class="no">§5</span>The Art of the Strip</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Between the rosette (a point) and the wallpaper (a plane) lies
+  the border: pattern running along a strip. Mathematics counts exactly
+  <b>seven</b> ways a strip pattern can be symmetric — the seven frieze groups —
+  and Islamic ornament, in its Qurʼanic borders, its cornice bands, its woven
+  edgings, uses them all.</p>
+
+  <figure>
+    <svg id="fig-frieze" width="430" height="212" viewBox="0 0 430 212"></svg>
+    <figcaption><b>Fig. 9</b> — The seven friezes, one motif. Translation alone; glide;
+    vertical mirrors; half-turns; and their combinations. A verse of poetry is
+    also a strip — but sound admits only the first row (gold): translation,
+    foot after foot. Every other row needs a mirror or a turn that time
+    refuses.</figcaption>
+  </figure>
+
+  <p class="noindent">A line of metred verse is a frieze in sound: the foot repeats,
+  فعولن مفاعيلن فعولن مفاعيلن, a translation rolling left along time. But of
+  the seven strip symmetries, six require some flip — a vertical mirror
+  (the strip read backwards), a horizontal one (the strip turned upside-down),
+  a half-turn, a glide. For rhythm, &ldquo;backwards&rdquo; is unperformable and
+  &ldquo;upside-down&rdquo; does not even parse. The ear&rsquo;s border-art owns one row of the
+  seven-row catalogue.</p>
+  <p>Musicians, it is true, have played with the forbidden rows — the crab
+  canon runs a melody against its own retrograde. But notice where that game is
+  actually played: on the <em>page</em>, in notation, where time has been laid out
+  as space and can be read in either direction. It is muthannā for sound —
+  a mirror applied to time&rsquo;s picture, because it cannot be applied to time.</p>
+  <div class="folio">· 10 ·</div>
+</div>
+
+<!-- ═══════════════ page 11 · §5 wallpaper ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§5</span></div>
+  <div class="cont">§5 · continued</div>
+
+  <p class="noindent">Climb one dimension more and the plane opens. Patterns that repeat
+  in two directions — wallpapers, pavements, the tiled dado of every madrasa —
+  admit exactly <b>seventeen</b> symmetry types: the wallpaper groups, proved
+  complete by Fedorov in 1891 and again by Pólya in 1924. Islamic practice,
+  centuries earlier, had walked deep into that catalogue by pure
+  craft — the Alhambra alone exhibits, depending on the census and its rules of
+  evidence, between eleven and all seventeen. The count is argued; the
+  astonishment is not: a complete abstract classification, explored to its
+  corners by artisans with no notion that a classification existed.</p>
+
+  <figure>
+    <svg id="fig-qasida" width="430" height="170" viewBox="0 0 430 170"></svg>
+    <figcaption><b>Fig. 10</b> — Poetry&rsquo;s timid second dimension. A qaṣīda is a stack
+    of metrically identical lines — horizontal translation by the foot,
+    vertical translation by the verse — with one column pinned: the qāfiya,
+    the rhyme every line must end on (gold). A wallpaper, but the poorest one
+    on the shelf; sound&rsquo;s plane is narrow.</figcaption>
+  </figure>
+
+  <p class="noindent">Poetry does gesture at the plane. A classical qaṣīda repeats its
+  metre line under line — a vertical translation — and nails the right-hand
+  margin with a single rhyme, sounded at every line&rsquo;s end for a hundred lines.
+  As pattern, that is a lattice: the foot repeating one way, the verse the
+  other. But it is a lattice with almost no further symmetry available — no
+  mirrors, no turns, for the reasons of §4 — while the eye&rsquo;s plane blossoms
+  into seventeen kinds of richness. Where the strip gave sound one row of
+  seven, the plane widens the gap to one of seventeen. The eye&rsquo;s freedom is
+  two-dimensional; the ear walks a line.</p>
+  <div class="folio">· 11 ·</div>
+</div>
+
+<!-- ═══════════════ page 12 · §6 restriction ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§6</span></div>
+  <h2><span class="no">§6</span>Each Geometry Legislates</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Chapter I found the necklace&rsquo;s law of permitted symmetry:
+  a stabilizer&rsquo;s size must divide the bead-count — Lagrange&rsquo;s ladder of
+  divisors, nothing in between. The plane has its own law, and it is stranger.
+  A pattern that repeats in two directions can carry rotations of order 1, 2,
+  3, 4 and 6 — <em>and no other</em>. No five-fold centre, no seven-fold, ever, in
+  any periodic pattern: the crystallographic restriction.</p>
+
+  <figure>
+    <svg id="fig-pentagon" width="440" height="168" viewBox="0 0 440 168"></svg>
+    <figcaption><b>Fig. 11</b> — Why five is outlawed. Triangles, squares and hexagons
+    close neatly around a point; regular pentagons leave a 36° wound that no
+    fifth pentagon can heal. What cannot tile a neighbourhood cannot anchor a
+    lattice.</figcaption>
+  </figure>
+
+  <figure>
+    <table class="law">
+      <tr><th>world</th><th>its objects</th><th>its law of symmetry</th></tr>
+      <tr><td>the necklace (time&rsquo;s loop)</td><td>metres</td><td>stabilizer order divides n — any n welcome</td></tr>
+      <tr><td>the plane (space&rsquo;s field)</td><td>tilings</td><td>rotation orders 1, 2, 3, 4, 6 only</td></tr>
+    </table>
+    <figcaption><b>Fig. 12</b> — Two legislatures. Each geometry writes its own statute
+    of lawful symmetry; neither statute is negotiable from inside.</figcaption>
+  </figure>
+
+  <p class="noindent">Set the two statutes side by side and a fine irony appears. The
+  necklace is permissive about n — al-Khalīl&rsquo;s circles run 6, 8, 9, 10 beads
+  with no objection — but strict about what fits inside n (divisors only).
+  The plane is permissive about size and strict about kind: whatever the
+  pattern, five-fold hearts are contraband. Each art worked happily for
+  centuries inside its own statute. But one of them, eventually, decided to
+  smuggle.</p>
+  <div class="folio">· 12 ·</div>
+</div>
+
+<!-- ═══════════════ page 13 · §6 quasicrystal ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§6</span></div>
+  <div class="cont">§6 · continued</div>
+
+  <p class="noindent">Islamic art loved the five-fold star — the very order the plane&rsquo;s
+  law forbids in a repeating field. The first response was diplomatic: build
+  ten-point rosettes as local medallions, embedded in a field whose actual
+  repetition obeyed the law. But in the girih work of Iran a bolder strategy
+  matured, and at the Darb-i Imam shrine in Isfahan (1453) it reached a
+  configuration that stopped modern physicists cold.</p>
+
+  <figure>
+    <svg id="fig-penrose" width="330" height="220" viewBox="0 0 330 220"></svg>
+    <figcaption><b>Fig. 13</b> — Order without repetition: a five-fold patch built by
+    golden-ratio subdivision (the Penrose rhombi, drawn here by their
+    triangle-halves). Perfectly lawful, never periodic — the loophole in the
+    plane&rsquo;s statute. The Darb-i Imam girih realizes a pattern of this
+    family.</figcaption>
+  </figure>
+
+  <p class="noindent">In 2007 Peter Lu and Paul Steinhardt showed that the Darb-i Imam
+  pattern, generated by subdividing large girih tiles into small ones, maps
+  onto a nearly perfect <em>quasicrystalline</em> tiling — the kind of five-fold,
+  never-repeating order that Roger Penrose constructed in the 1970s and that
+  earned a Nobel prize when found in matter itself. Honesty requires the
+  caveats: predecessors (Emil Makovicky had argued a Penrose-like reading of
+  the 1197 Maragha tower years earlier), critics (Peter Cromwell and others
+  favour more traditional construction readings), and the qualifier
+  &ldquo;nearly.&rdquo; What no one disputes is the mathematics of the object: a
+  pattern with perfect long-range law and no repeating cell — <em>structure
+  beyond periodicity</em>. The plane&rsquo;s statute forbade five-fold repetition;
+  the craftsmen found the sense in which order never needed repetition at
+  all.</p>
+  <div class="folio">· 13 ·</div>
+</div>
+
+<!-- ═══════════════ page 14 · §7 ground & figure ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§7</span></div>
+  <h2><span class="no">§7</span>Ground and Figure</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">Stand in any great Islamic interior and notice how the symmetry
+  is <em>deployed</em>. The dado runs a strict periodic field — calm, endless,
+  self-effacing. And against that ground, the design breaks its own symmetry
+  exactly where it wants your soul to look: the miḥrāb, the medallion, the
+  inscription band where geometry yields to the moving line of the word.
+  Perfect repetition is the <em>ground</em>; the <em>figure</em> is a lawful violation
+  of it.</p>
+
+  <figure>
+    <svg id="fig-ground" width="430" height="150" viewBox="0 0 430 150"></svg>
+    <figcaption><b>Fig. 14</b> — The grammar of emphasis, in both arts. Left: a periodic
+    star-field with one cell broken open into a medallion — the eye goes where
+    the symmetry breaks. Right: a metric line with one foot varied by ziḥāf
+    (gold) — the ear pricks where the pattern bends.</figcaption>
+  </figure>
+
+  <p class="noindent">Poetry&rsquo;s prosody has precisely this grammar. The metre is the
+  ground — fixed, contractual, the listener&rsquo;s horizon of expectation. And the
+  ziḥāf system (the licensed variations that the confusion-map of this book&rsquo;s
+  companion software anatomizes) is the figure: a foot lightened here,
+  a syllable quieted there — lawful violations that keep the line alive
+  against its own regularity. The classical critics valued a verse neither
+  slack nor rigid; the classical builders tiled a wall neither chaotic nor
+  dead. Both arts discovered that beauty does not reside in symmetry
+  itself. It resides at the <em>edge</em> of symmetry, where a deep order lets
+  itself be locally disturbed.</p>
+  <p>Chapter I stated the same economics from the theory&rsquo;s side: the inverse
+  law, by which the most symmetric circle is the poorest in metres. Symmetry
+  is ground because symmetry is cheap sameness; distinction — a metre, a
+  medallion, a line that a listener will remember — is bought by breaking
+  it.</p>
+  <div class="folio">· 14 ·</div>
+</div>
+
+<!-- ═══════════════ page 15 · §8 rosetta ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§8</span></div>
+  <h2><span class="no">§8</span>A Rosetta Stone</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">It is time to lay the two arts side by side and read the
+  correspondence entire — concept for concept, not mood for mood:</p>
+
+  <figure>
+    <table class="map">
+      <tr><th>ornament (space)</th><th>metre (time)</th></tr>
+      <tr><td class="a">motif — the repeated device</td><td class="b">the foot (تفعيلة)</td></tr>
+      <tr><td class="a">construction circle, divided in n</td><td class="b">the dāʼira of n units</td></tr>
+      <tr><td class="a">unit cell / fundamental region</td><td class="b">the period p — chapter I&rsquo;s arc</td></tr>
+      <tr><td class="a">rosette symmetry D<sub>n</sub> (with mirrors)</td><td class="b">stabilizer C<sub>p</sub> (mirrors unhearable)</td></tr>
+      <tr><td class="a">star polygon {n/k}, interlaced cosets</td><td class="b">stabilizer star {n/p} on the necklace</td></tr>
+      <tr><td class="a">frieze — 7 lawful strips</td><td class="b">the verse line — 1 lawful strip</td></tr>
+      <tr><td class="a">wallpaper — 17 lawful planes</td><td class="b">the qaṣīda&rsquo;s narrow lattice</td></tr>
+      <tr><td class="a">crystallographic restriction (2,3,4,6)</td><td class="b">Lagrange&rsquo;s divisor ladder</td></tr>
+      <tr><td class="a">catalogue explored by craft (Alhambra)</td><td class="b">catalogue derived by ear (21 rotations)</td></tr>
+      <tr><td class="a">girih: order beyond periodicity</td><td class="b">— (time&rsquo;s line is too narrow)</td></tr>
+      <tr><td class="a">erased scaffold; the Topkapı scroll</td><td class="b">silent circle; the prosodists&rsquo; diagrams</td></tr>
+      <tr><td class="a">ground/figure: field and medallion</td><td class="b">metre and ziḥāf</td></tr>
+    </table>
+    <figcaption><b>Fig. 15</b> — The correspondence. Where a row is blank, the blank is
+    itself information: each art reaches one place the other cannot.</figcaption>
+  </figure>
+
+  <p class="noindent">Read the last column of blanks closely, because the table is
+  honest about asymmetry. Ornament has no muhmal cells — nothing in a wall
+  corresponds to a metre that is lawful but unused, because walls do not have
+  a canon of sixteen. And metre has no quasicrystal — a one-dimensional ear
+  cannot be paid in the plane&rsquo;s strange coin. The two arts overlap on a great
+  shared core and then each keeps a private wonder. That, and not any mystical
+  union, is what &ldquo;one mathematics, two instruments&rdquo; means.</p>
+  <div class="folio">· 15 ·</div>
+</div>
+
+<!-- ═══════════════ page 16 · §9 instruments ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§9</span></div>
+  <h2><span class="no">§9</span>Two Instruments, One Discipline</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">A compass is a machine for making equalities: every point it
+  reaches is the same distance from its foot. An ear is a machine for
+  detecting them: two durations, two stresses, two cadences — the same, or
+  not. One instrument constructs symmetry; the other audits it. Everything in
+  this chapter follows from handing the same discipline — <em>pattern under
+  law</em> — to those two instruments and letting each work its native
+  medium.</p>
+  <p>The compass, in space, could build its groups outright: all seventeen
+  wallpapers waiting to be walked into, mirrors free of charge, and, at the
+  tradition&rsquo;s far edge, the quasi-periodic loophole. The ear, in time, had
+  the narrower kingdom — cyclic groups only, one frieze row, a thin lattice —
+  but it did something in that kingdom the compass never needed to do: it
+  <em>derived the complete catalogue</em>. Twenty-one rotations; sixteen adopted;
+  five vacancies named or noted. The artisans explored their catalogue the way
+  travellers explore a country. Al-Khalīl <em>proved his map</em>.</p>
+  <p>And both, it should be said plainly, were practicing mathematics by the
+  standards of their own civilization&rsquo;s philosophers. When Ibn al-Haytham
+  analysed beauty in the <i>Book of Optics</i>, he located it not in things but
+  in relations — proportion, composition, the harmony of parts — exactly the
+  register in which a tiling or a metre is beautiful. The culture possessed a
+  theory of why lawful pattern pleases; its two great abstract arts are that
+  theory, executed.</p>
+
+  <div class="box">
+    <h4>What this argument is not</h4>
+    <p>No secret geometry of the poets, no numerology of the tilers, no code.
+    Craftsmen thought in recipes and repertoire; prosodists thought in sounds
+    and licenses. The claim is structural, and therefore checkable: examined
+    later, with group theory in hand, both repertoires turn out to be
+    organized by the same objects — actions, orbits, stabilizers, restrictions
+    — because both crafts obeyed their media, and the media obey mathematics.
+    The convergence is the discovery.</p>
+  </div>
+  <div class="folio">· 16 ·</div>
+</div>
+
+<!-- ═══════════════ page 17 · §10 coda ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>§10</span></div>
+  <h2><span class="no">§10</span>The Formalism Arrived Late — Twice</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="dc noindent">The previous chapter ended on a date: the 1830s, when Galois
+  gave the name <em>group</em> to what an eighth-century ear had already used.
+  This chapter must end on two more. In 1891 Fedorov proved there are exactly
+  seventeen wallpaper groups — and the walls of the Alhambra had been standing,
+  their catalogue substantially explored, for five and a half centuries. In
+  1974 Penrose published his aperiodic five-fold tilings — and the girih
+  spandrels of Darb-i Imam had been holding their nearly-quasicrystalline
+  order since 1453.</p>
+  <p>Three times, then, in one civilization&rsquo;s orbit, the same silhouette: a
+  practice runs ahead of its mathematics by centuries, guided by nothing but a
+  disciplined instrument and an appetite for lawful beauty. The instrument
+  differs — ear, compass, compass again — the mathematics recovered from the
+  practice is one subject. It is hard to imagine better evidence for the old
+  suspicion that mathematics is less invented than <em>met</em>: wherever a craft
+  binds itself honestly to a medium, the structure of that medium surfaces in
+  the work, whether or not anyone yet has words for it.</p>
+
+  <p class="pull">Symmetry is not a style.<br/>It is what any patient art finds
+  at the bottom of its material.</p>
+
+  <p class="noindent">And so the two arts of this chapter, which never consulted each
+  other, are colleagues after the fact. The prosodist turning his circle of
+  sounds and the muhandis turning his compass were holding the two ends of one
+  object — the group — across the distance between time and space. Neither
+  could see the other end. Both carved their end so faithfully that, twelve
+  centuries later, the join is seamless.</p>
+  <div class="folio">· 17 ·</div>
+</div>
+
+<!-- ═══════════════ page 18 · explore ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>Hands &amp; Ears</span></div>
+  <h2 style="font-size:16px;">For the Hands and the Ears</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <div class="box">
+    <h4>Draw one</h4>
+    <p>Take a real compass. Draw a circle; keep the radius; walk it round the
+    circumference — it fits exactly six times (this is the compass&rsquo;s own
+    theorem). You now have {6/2} and {6/3} for free: join alternate points for
+    the Seal, all diameters for the wheel. For the eight-star ۞, bisect twice
+    instead. You have repeated, by hand, the first page of every pattern
+    scroll — and the construction al-Khalīl&rsquo;s diagrams perform in sound.</p>
+  </div>
+
+  <div class="box">
+    <h4>Hear one</h4>
+    <p>In the Interactive Arud Explorer (<b>arudi.midadalfikr.com</b>), open the
+    Mathematics view and choose دائرة المتفق: watch its C<sub>4</sub> symmetry
+    draw the two squares of Fig.&nbsp;6 on the necklace itself. Then open the
+    Rhythm Clock and press play on the same circle: what you now hear — the
+    four-fold return of the drum — is the ۞ as a sound. One object; your eye
+    took it from the wall, your ear from the wheel.</p>
+  </div>
+
+  <div class="box">
+    <h4>Break one, lawfully</h4>
+    <p>In the Confusion Map view, play الكامل and apply الإضمار while it
+    sounds: a single stroke falls silent — ground and figure, ziḥāf as the
+    medallion of time. Then find the same gesture on any great wall: the one
+    cell where the field yields to the miḥrāb.</p>
+  </div>
+
+  <figure style="margin-top: 10px;">
+    <svg id="fig-hands" width="380" height="120" viewBox="0 0 380 120"></svg>
+    <figcaption><b>Fig. 16</b> — One object, two organs: the eight-star as compass-work
+    and as drum-work — the necklace of المتفق with its four-fold pulse
+    marked.</figcaption>
+  </figure>
+  <div class="folio">· 18 ·</div>
+</div>
+
+<!-- ═══════════════ page 19 · glossary ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>Glossary</span></div>
+  <h2 style="font-size:16px;">Glossary</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <dl class="glossary">
+    <dt>girih <span class="ar">گره</span></dt><dd>“knot”: the Persian strapwork style; also the five-tile kit that generates its five-fold patterns (§1, §6).</dd>
+    <dt>zellij / zillīj <span class="ar">زليج</span></dt><dd>cut-tile mosaic of the Maghrib and al-Andalus.</dd>
+    <dt>rosette</dt><dd>a point-symmetric star device; symmetry C<sub>n</sub> or D<sub>n</sub> (§4).</dd>
+    <dt>dihedral group D<sub>n</sub></dt><dd>the n rotations <em>and</em> n reflections of an n-fold figure — twice the cyclic group C<sub>n</sub> of chapter I (§4).</dd>
+    <dt>chiral / achiral</dt><dd>distinct from its mirror image / equal to it. Four necklaces are achiral; المشتبه alone is chiral (§4).</dd>
+    <dt>frieze groups</dt><dd>the seven symmetry types of strip patterns; sound can perform exactly one (§5).</dd>
+    <dt>wallpaper groups</dt><dd>the seventeen symmetry types of doubly periodic plane patterns (Fedorov 1891, Pólya 1924) (§5).</dd>
+    <dt>crystallographic restriction</dt><dd>periodic plane patterns admit rotation orders 1, 2, 3, 4, 6 only — the plane&rsquo;s counterpart of Lagrange&rsquo;s ladder (§6).</dd>
+    <dt>quasiperiodic</dt><dd>perfectly ordered, never repeating; Penrose tilings, and (nearly) the Darb-i Imam girih (§6).</dd>
+    <dt>khātam <span class="ar">خاتم</span></dt><dd>the Seal: hexagram {6/2} — the stabilizer star of المؤتلف (§3).</dd>
+    <dt>rubʿ al-ḥizb <span class="ar">۞</span></dt><dd>Qurʼanic division mark: two squares, {8/2} — the stabilizer star of المتفق (§3).</dd>
+    <dt>muthannā <span class="ar">مثنّى</span></dt><dd>mirror calligraphy: reflecting the image of words, since their sound cannot be reflected (§4).</dd>
+    <dt>muqarnas, miḥrāb, dado</dt><dd>vault ornament of tiered cells; prayer niche; the lower wall zone that carries the periodic field (§7).</dd>
+    <dt>qāfiya <span class="ar">قافية</span></dt><dd>the monorhyme pinning the qaṣīda&rsquo;s end-column (§5).</dd>
+    <dt>ziḥāf <span class="ar">زحاف</span></dt><dd>licensed metrical variation — the figure against the metre&rsquo;s ground (§7; anatomized in the companion&rsquo;s confusion map).</dd>
+  </dl>
+  <div class="folio">· 19 ·</div>
+</div>
+
+<!-- ═══════════════ page 20 · sources & colophon ═══════════════ -->
+<div class="page">
+  <div class="running"><span>The Compass and the Ear</span><span>Sources</span></div>
+  <h2 style="font-size:16px;">Sources &amp; Notes</h2>
+  <div class="rule"><span>✦</span></div>
+
+  <p class="noindent" style="font-size:10px; line-height:1.6;">
+  <span class="small-caps">On the geometry of Islamic ornament.</span>
+  Abū al-Wafāʼ al-Būzjānī, <i>On the Geometric Constructions Necessary for the
+  Artisan</i> (10th c.); G. Necipoğlu, <i>The Topkapı Scroll: Geometry and
+  Ornament in Islamic Architecture</i> (1995); J. Bonner, <i>Islamic Geometric
+  Patterns</i> (2017); S. J. Abas &amp; A. S. Salman, <i>Symmetries of Islamic
+  Geometrical Patterns</i> (1995); B. Grünbaum &amp; G. C. Shephard, <i>Tilings and
+  Patterns</i> (1987).</p>
+  <p style="font-size:10px; line-height:1.6;">
+  <span class="small-caps">On the Alhambra census.</span> E. Müller&rsquo;s 1944 thesis
+  counted eleven wallpaper groups; later studies argue for thirteen up to all
+  seventeen. The dispute concerns rules of evidence (colour, interlace,
+  restoration), not the mathematics.</p>
+  <p style="font-size:10px; line-height:1.6;">
+  <span class="small-caps">On girih and quasiperiodicity.</span> P. J. Lu &amp;
+  P. J. Steinhardt, “Decagonal and Quasi-crystalline Tilings in Medieval
+  Islamic Architecture,” <i>Science</i> 315 (2007); E. Makovicky on the Maragha
+  tower, in <i>Fivefold Symmetry</i> (1992); P. R. Cromwell&rsquo;s critical
+  re-examination, <i>Math. Intelligencer</i> (2009). The chapter reports the
+  finding with its debates attached.</p>
+  <p style="font-size:10px; line-height:1.6;">
+  <span class="small-caps">On pattern, beauty, and mathematics.</span>
+  G. H. Hardy, <i>A Mathematician&rsquo;s Apology</i> (1940); H. Weyl,
+  <i>Symmetry</i> (1952); Ibn al-Haytham, <i>Kitāb al-Manāẓir</i>, Bk&nbsp;II, on
+  beauty as a relation of parts. Fedorov (1891) and Pólya (1924) for the
+  seventeen; the frieze seven are classical.</p>
+
+  <div class="colophon">
+    <p class="noindent" style="font-size:8.4px; text-align:left;">
+    <span class="small-caps">Colophon.</span> Companion to “The Turn That Changes
+    Nothing”; same types (EB Garamond, Cormorant Garamond, Amiri, IBM Plex
+    Mono), same 6×9 leaf. All prosodic claims are computed against the
+    sequence data of the Interactive Arud Explorer: the stabilizer stars
+    {10/5}, {6/2}, {9/3}, {8/2}; and the chirality census of §4 — the
+    letter-necklaces of المختلف، المؤتلف، المجتلب، المتفق each equal their own
+    reversal up to rotation (mirror offsets 7, 2, 2, 2 respectively), while
+    المشتبه alone does not. Star figures are drawn by the counting rule
+    itself; the five-fold patch of Fig.&nbsp;13 by golden-ratio triangle
+    subdivision. Prosodic symbols keep classical order:
+    <span class="sym">0//</span> reads strike–strike–rest, from the right.</p>
+  </div>
+  <div class="folio">· 20 ·</div>
+</div>
+
+<script>
+/* ————— shared data (verbatim from the app) ————— */
+const CIRCLES = {
+  1: { seq: ['0//','0/','0//','0/','0/','0//','0/','0//','0/','0/'], color: '#0d9488' },
+  2: { seq: ['0//','0///','0//','0///','0//','0///'],                 color: '#2563eb' },
+  3: { seq: ['0//','0/','0/','0//','0/','0/','0//','0/','0/'],        color: '#15803d' },
+  4: { seq: ['0//','0/','0/','/0/','0/','0/','0//','0/','0/'],        color: '#dc4444' },
+  5: { seq: ['0//','0/','0//','0/','0//','0/','0//','0/'],            color: '#7c3aed' },
+};
+const UNIT_FIXED = { '0/': '#7a8494', '/0/': '#b45309', '0///': '#c2410c' };
+const uColor = (u, c) => (u === '0//' ? CIRCLES[c].color : UNIT_FIXED[u]);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (name, attrs, parent) => {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const polar = (i, n, r) => {
+  const a = (-90 - (i * 360) / n) * Math.PI / 180;
+  return [Math.cos(a) * r, Math.sin(a) * r];
+};
+const P = (x, y) => ({ x, y });
+
+/* letters of a circle, temporal order */
+const lettersOf = (seq) =>
+  seq.flatMap((u) => u.split('').reverse().map((c) => (c === '/' ? '1' : '0')));
+
+/* draw a star {n/k} centred at (cx,cy) */
+const star = (svg, cx, cy, R, n, k, color, opts = {}) => {
+  const g = el('g', { transform: `translate(${cx},${cy})` }, svg);
+  if (opts.rim) el('circle', { r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .8 }, g);
+  const seen = new Set();
+  for (let i = 0; i < n; i++) {
+    const j = (i + k) % n;
+    const key = i < j ? i + '-' + j : j + '-' + i;
+    if (i === j || seen.has(key)) continue;
+    seen.add(key);
+    const [x1, y1] = polar(i, n, R), [x2, y2] = polar(j, n, R);
+    el('line', { x1, y1, x2, y2, stroke: color, 'stroke-width': opts.w ?? 1.2, 'stroke-opacity': opts.op ?? .85 }, g);
+  }
+  if (opts.dots) for (let i = 0; i < n; i++) {
+    const [x, y] = polar(i, n, R);
+    el('circle', { cx: x, cy: y, r: opts.dots, fill: color }, g);
+  }
+  if (opts.mirrors) for (let i = 0; i < n; i++) {
+    const a = (-90 - (i * 180) / n) * Math.PI / 180;
+    el('line', {
+      x1: Math.cos(a) * (R + 8), y1: Math.sin(a) * (R + 8),
+      x2: -Math.cos(a) * (R + 8), y2: -Math.sin(a) * (R + 8),
+      stroke: '#a8842c', 'stroke-width': .6, 'stroke-opacity': .55, 'stroke-dasharray': '3 3',
+    }, g);
+  }
+  return g;
+};
+
+/* draw a circle's necklace ring */
+const necklace = (svg, cx, cy, R, circle, dot = 6) => {
+  const g = el('g', { transform: `translate(${cx},${cy})` }, svg);
+  el('circle', { r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, g);
+  const seq = CIRCLES[circle].seq;
+  seq.forEach((u, i) => {
+    const [x, y] = polar(i, seq.length, R);
+    el('circle', { cx: x, cy: y, r: dot, fill: uColor(u, circle), stroke: '#fbf8f1', 'stroke-width': 1.1 }, g);
+  });
+  return g;
+};
+
+const caption = (svg, x, y, text, opts = {}) => {
+  const t = el('text', {
+    x, y, 'text-anchor': 'middle', 'font-size': opts.size ?? 8.5,
+    fill: opts.color ?? '#6f6b76', 'font-style': opts.plain ? 'normal' : 'italic',
+    'font-family': opts.mono ? "'IBM Plex Mono', monospace" : "'EB Garamond', serif",
+  }, svg);
+  t.textContent = text;
+  return t;
+};
+
+/* ————— opener: rosette + necklace ————— */
+(() => {
+  const svg = document.getElementById('fig-opener');
+  star(svg, 105, 68, 52, 8, 3, '#a8842c', { rim: true, dots: 2.6, mirrors: false, w: 1.3 });
+  star(svg, 105, 68, 33, 8, 2, '#a8842c', { w: .8, op: .5 });
+  necklace(svg, 255, 68, 52, 5, 6);
+  caption(svg, 105, 140, 'the compass');
+  caption(svg, 255, 140, 'the ear');
+})();
+
+/* ————— fig 1: star tile vs circle-1 necklace ————— */
+(() => {
+  const svg = document.getElementById('fig-two');
+  // tile: {8/2} in a square frame
+  el('rect', { x: 40, y: 12, width: 116, height: 116, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1, rx: 2 }, svg);
+  star(svg, 98, 70, 46, 8, 2, '#2563eb', { dots: 2.4, w: 1.4 });
+  star(svg, 98, 70, 46, 8, 3, '#a8842c', { w: .7, op: .4 });
+  necklace(svg, 282, 70, 52, 1, 6.5);
+  caption(svg, 98, 148, 'the star {8/2}, framed for a wall');
+  caption(svg, 282, 148, 'the necklace of المختلف — 10 units');
+})();
+
+/* ————— fig 2: the five girih tiles ————— */
+(() => {
+  const svg = document.getElementById('fig-girih');
+  const EDGE = 21;
+  // walk a polygon from interior angles
+  const walk = (interior) => {
+    const pts = [];
+    let x = 0, y = 0, h = 0;
+    for (let i = 0; i < interior.length; i++) {
+      pts.push([x, y]);
+      x += EDGE * Math.cos(h);
+      y += EDGE * Math.sin(h);
+      h += (180 - interior[(i + 1) % interior.length]) * Math.PI / 180;
+    }
+    return pts;
+  };
+  const shapes = [
+    { name: 'decagon', ang: Array(10).fill(144) },
+    { name: 'pentagon', ang: Array(5).fill(108) },
+    { name: 'hexagon', ang: [72, 144, 144, 72, 144, 144] },
+    { name: 'bow-tie', ang: [72, 72, 216, 72, 72, 216] },
+    { name: 'rhombus', ang: [72, 108, 72, 108] },
+  ];
+  const centers = [52, 150, 242, 330, 402];
+  shapes.forEach((s, si) => {
+    const pts = walk(s.ang);
+    const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+    const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+    const cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+    const g = el('g', { transform: `translate(${centers[si] - cx}, ${52 - cy})` }, svg);
+    el('polygon', {
+      points: pts.map((p) => p.join(',')).join(' '),
+      fill: 'rgba(168,132,44,0.08)', stroke: '#a8842c', 'stroke-width': 1.1, 'stroke-linejoin': 'round',
+    }, g);
+    // girih strap hints: short lines from each edge midpoint at the canonical
+    // 54° crossing angle, kept on the tile's inside (toward the centroid)
+    const gx = pts.reduce((s2, p) => s2 + p[0], 0) / pts.length;
+    const gy = pts.reduce((s2, p) => s2 + p[1], 0) / pts.length;
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i], b = pts[(i + 1) % pts.length];
+      const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+      const eAng = Math.atan2(b[1] - a[1], b[0] - a[0]);
+      for (const s2 of [1, -1]) {
+        const cand = [eAng + s2 * (54 * Math.PI) / 180, eAng + Math.PI + s2 * (54 * Math.PI) / 180]
+          .map((ang) => [mx + 6.5 * Math.cos(ang), my + 6.5 * Math.sin(ang)])
+          .sort((p, q) => Math.hypot(p[0] - gx, p[1] - gy) - Math.hypot(q[0] - gx, q[1] - gy))[0];
+        el('line', {
+          x1: mx, y1: my, x2: cand[0], y2: cand[1],
+          stroke: '#2563eb', 'stroke-width': .8, 'stroke-opacity': .8,
+        }, g);
+      }
+    }
+    caption(svg, centers[si], 108, s.name);
+  });
+})();
+
+/* unit kit tiles (HTML) */
+document.querySelectorAll('.kit-tile').forEach((s) => {
+  const u = s.dataset.unit, c = s.dataset.color;
+  s.style.cssText = `display:inline-flex;align-items:center;justify-content:center;width:64px;height:30px;border-radius:6px;border:1px solid ${c};color:${c};background:${'#fffdf8'};font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;direction:ltr;unicode-bidi:bidi-override;`;
+  s.textContent = u;
+});
+
+/* ————— fig 3: construction sequence ————— */
+(() => {
+  const svg = document.getElementById('fig-construct');
+  const cx = [62, 172, 282, 392], cy = 56, R = 40;
+  // 1: circle
+  el('circle', { cx: cx[0], cy, r: R, fill: 'none', stroke: '#a8842c', 'stroke-width': 1 }, svg);
+  // 2: divided
+  el('circle', { cx: cx[1], cy, r: R, fill: 'none', stroke: '#a8842c', 'stroke-width': 1 }, svg);
+  for (let i = 0; i < 8; i++) {
+    const [x, y] = polar(i, 8, R);
+    el('circle', { cx: cx[1] + x, cy: cy + y, r: 2.6, fill: '#a8842c' }, svg);
+  }
+  // 3: chords over scaffold
+  el('circle', { cx: cx[2], cy, r: R, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, svg);
+  for (let i = 0; i < 8; i++) {
+    const [x, y] = polar(i, 8, R);
+    el('circle', { cx: cx[2] + x, cy: cy + y, r: 2.2, fill: '#d9cbaa' }, svg);
+  }
+  star(svg, cx[2], cy, R, 8, 3, '#2563eb', { w: 1.3 });
+  // 4: star alone
+  star(svg, cx[3], cy, R, 8, 3, '#2563eb', { w: 1.5 });
+  ['the circle', 'divided in 8', 'count by 3', 'scaffold erased'].forEach((t, i) =>
+    caption(svg, cx[i], 118, t)
+  );
+})();
+
+/* ————— fig 4: erased scaffolds pair ————— */
+(() => {
+  const svg = document.getElementById('fig-scaffold');
+  // left: star with ghost scaffold
+  el('circle', { cx: 100, cy: 62, r: 44, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .8, 'stroke-dasharray': '3 3' }, svg);
+  for (let i = 0; i < 8; i++) {
+    const [x, y] = polar(i, 8, 44);
+    el('circle', { cx: 100 + x, cy: 62 + y, r: 1.8, fill: '#d9cbaa' }, svg);
+  }
+  star(svg, 100, 62, 44, 8, 3, '#2563eb', { w: 1.4 });
+  caption(svg, 100, 128, 'the wall, with its secret restored');
+  // right: verse with ghost necklace
+  const g = el('g', {}, svg);
+  el('circle', { cx: 320, cy: 56, r: 38, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .8, 'stroke-dasharray': '3 3' }, g);
+  CIRCLES[1].seq.forEach((u, i) => {
+    const [x, y] = polar(i, 10, 38);
+    el('circle', { cx: 320 + x, cy: 56 + y, r: 3, fill: uColor(u, 1), 'fill-opacity': .35 }, g);
+  });
+  const verse = el('text', {
+    x: 320, y: 112, 'text-anchor': 'middle', 'font-size': 15,
+    'font-family': "'Amiri', serif", fill: '#26242c',
+  }, svg);
+  verse.textContent = 'فَعُولُنْ مَفَاعِيلُنْ فَعُولُنْ مَفَاعِيلُنْ';
+  caption(svg, 320, 132, 'the line, with its wheel restored');
+})();
+
+/* ————— fig 5: the star family row ————— */
+(() => {
+  const svg = document.getElementById('fig-stars');
+  const items = [
+    { n: 6, k: 2, c: '#2563eb', shared: true },
+    { n: 8, k: 2, c: '#7c3aed', shared: true },
+    { n: 8, k: 3, c: '#26242c', shared: false },
+    { n: 10, k: 3, c: '#26242c', shared: false },
+    { n: 12, k: 5, c: '#26242c', shared: false },
+  ];
+  items.forEach((it, i) => {
+    const cx = 52 + i * 90;
+    if (it.shared)
+      el('circle', { cx, cy: 52, r: 44, fill: 'rgba(168,132,44,0.07)', stroke: '#a8842c', 'stroke-width': .9 }, svg);
+    star(svg, cx, 52, 36, it.n, it.k, it.c, { dots: 1.8, w: 1.1, rim: !it.shared });
+    caption(svg, cx, 112, `{${it.n}/${it.k}}`, { mono: true, plain: true, size: 9 });
+  });
+})();
+
+/* ————— fig 6: rub el hizb vs circle-5 stabilizer ————— */
+(() => {
+  const svg = document.getElementById('fig-hizb');
+  // left: two squares drawn as ornament + the actual character
+  const g = el('g', { transform: 'translate(115,84)' }, svg);
+  for (const rot of [0, 45]) {
+    const gg = el('g', { transform: `rotate(${rot})` }, g);
+    el('rect', { x: -40, y: -40, width: 80, height: 80, fill: 'none', stroke: '#a8842c', 'stroke-width': 2 }, gg);
+  }
+  el('circle', { r: 5.5, fill: 'none', stroke: '#a8842c', 'stroke-width': 1.4 }, g);
+  const ch = el('text', { x: 115, y: 172, 'text-anchor': 'middle', 'font-size': 20, 'font-family': "'Amiri', serif", fill: '#a8842c' }, svg);
+  ch.textContent = '۞ رُبع الحِزب';
+  // right: circle-5 with chords k=2 (as in the app's MathView)
+  const seq = CIRCLES[5].seq;
+  const G = el('g', { transform: 'translate(325,84)' }, svg);
+  el('circle', { r: 62, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, G);
+  const seen = new Set();
+  for (let i = 0; i < 8; i++) {
+    const j = (i + 2) % 8;
+    const key = i < j ? i + '-' + j : j + '-' + i;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const [x1, y1] = polar(i, 8, 62), [x2, y2] = polar(j, 8, 62);
+    el('line', { x1, y1, x2, y2, stroke: uColor(seq[i], 5), 'stroke-width': 1.5, 'stroke-opacity': .75 }, G);
+  }
+  seq.forEach((u, i) => {
+    const [x, y] = polar(i, 8, 62);
+    el('circle', { cx: x, cy: y, r: 6, fill: uColor(u, 5), stroke: '#fbf8f1', 'stroke-width': 1.2 }, G);
+  });
+  const cap2 = el('text', { x: 325, y: 172, 'text-anchor': 'middle', 'font-size': 15, 'font-family': "'Amiri', serif", fill: '#7c3aed' }, svg);
+  cap2.textContent = 'نجمة مثبِّت دائرة المتفق';
+})();
+
+/* ————— fig 7: D8 rosette vs C8 ring ————— */
+(() => {
+  const svg = document.getElementById('fig-mirror');
+  star(svg, 105, 74, 46, 8, 3, '#26242c', { dots: 2, w: 1.2, mirrors: true });
+  caption(svg, 105, 148, 'D₈ — eight turns, eight mirrors', { size: 9 });
+  // right: C8: ring with circulation arrows only
+  const g = el('g', { transform: 'translate(305,74)' }, svg);
+  el('circle', { r: 46, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+  CIRCLES[5].seq.forEach((u, i) => {
+    const [x, y] = polar(i, 8, 46);
+    el('circle', { cx: x, cy: y, r: 4.5, fill: uColor(u, 5) }, g);
+  });
+  // circulation arrow
+  el('path', { d: 'M 30 -52 A 60 60 0 0 0 -30 -52', fill: 'none', stroke: '#7c3aed', 'stroke-width': 1.4 }, g);
+  el('path', { d: 'M -30 -52 l 7.5,-2.5 l -1,7 Z', fill: '#7c3aed' }, g);
+  caption(svg, 305, 148, 'C₈ — eight turns, no mirror: time’s arrow', { size: 9 });
+})();
+
+/* ————— fig 8: chirality — c5 achiral, c4 chiral ————— */
+(() => {
+  const svg = document.getElementById('fig-chiral');
+  const ring = (cx, circle, mirrorAxisPos) => {
+    const L = lettersOf(CIRCLES[circle].seq);
+    const g = el('g', { transform: `translate(${cx},86)` }, svg);
+    el('circle', { r: 58, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, g);
+    L.forEach((s, i) => {
+      const [x, y] = polar(i, L.length, 58);
+      if (s === '1') el('circle', { cx: x, cy: y, r: 4, fill: CIRCLES[circle].color }, g);
+      else el('circle', { cx: x, cy: y, r: 3.1, fill: 'none', stroke: '#98928d', 'stroke-width': 1.2 }, g);
+    });
+    if (mirrorAxisPos !== null) {
+      const ang = (-90 - (mirrorAxisPos * 360) / L.length) * Math.PI / 180;
+      el('line', {
+        x1: Math.cos(ang) * 72, y1: Math.sin(ang) * 72,
+        x2: -Math.cos(ang) * 72, y2: -Math.sin(ang) * 72,
+        stroke: '#a8842c', 'stroke-width': 1, 'stroke-dasharray': '4 3',
+      }, g);
+    } else {
+      const t = el('text', { x: 0, y: 4, 'text-anchor': 'middle', 'font-size': 17, fill: '#98928d', 'font-family': "'EB Garamond', serif" }, g);
+      t.textContent = '✕';
+    }
+  };
+  // c5: L=20, reversal = rotation by idx=2 → axis through (idx+L-1)/2 = 10.5
+  ring(112, 5, 10.5);
+  // c4: chiral
+  ring(330, 4, null);
+  caption(svg, 112, 172, 'المتفق — achiral: the mirror is one of its own turns', { size: 8.5 });
+  caption(svg, 330, 172, 'المشتبه — chiral: no axis; its mirror is a stranger', { size: 8.5 });
+})();
+
+/* ————— fig 9: the seven friezes ————— */
+(() => {
+  const svg = document.getElementById('fig-frieze');
+  // motif: an asymmetric flag spanning y ∈ [−13, 0]; rows are ±13 bands so
+  // half-turned and mirrored copies land in the lower half of their own band.
+  const MOT = 'M 0 0 L 0 -13 L 8 -9 L 2.5 -6.5 L 2.5 0 Z';
+  const put = (g, tf) => el('path', { d: MOT, transform: tf, fill: 'currentColor' }, g);
+  const rows = [
+    { name: 'hop — translation only', gold: true,
+      place: (g, x) => put(g, `translate(${x},6)`) },
+    { name: 'step — glide reflection',
+      place: (g, x, i) => put(g, `translate(${x},0)${i % 2 ? ' scale(1,-1)' : ''}`) },
+    { name: 'sidle — vertical mirrors',
+      place: (g, x, i) => put(g, `translate(${x},6)${i % 2 ? ' scale(-1,1)' : ''}`) },
+    { name: 'spinning hop — half-turns',
+      place: (g, x, i) => put(g, `translate(${x},0)${i % 2 ? ' rotate(180)' : ''}`) },
+    { name: 'spinning sidle — mirrors + turns',
+      place: (g, x, i) => {
+        const t = ['', ' scale(-1,1)', ' rotate(180) scale(-1,1)', ' rotate(180)'][i % 4];
+        put(g, `translate(${x},0)${t}`);
+      } },
+    { name: 'jump — horizontal mirror',
+      place: (g, x) => { put(g, `translate(${x},0)`); put(g, `translate(${x},0) scale(1,-1)`); } },
+    { name: 'spinning jump — everything',
+      place: (g, x, i) => {
+        const f = i % 2 ? ' scale(-1,1)' : '';
+        put(g, `translate(${x},0)${f}`);
+        put(g, `translate(${x},0) scale(1,-1)${f}`);
+      } },
+  ];
+  rows.forEach((r, ri) => {
+    const y = 22 + ri * 27;
+    if (r.gold)
+      el('rect', { x: 16, y: y - 12, width: 290, height: 23, fill: 'rgba(168,132,44,0.08)', rx: 4 }, svg);
+    const g = el('g', { transform: `translate(30,${y})` }, svg);
+    g.style.color = r.gold ? '#a8842c' : '#8a8580';
+    for (let i = 0; i < 9; i++) r.place(g, i * 30, i);
+    const t = el('text', { x: 318, y: y + 3, 'font-size': 8.2, fill: r.gold ? '#a8842c' : '#6f6b76', 'font-family': "'EB Garamond', serif", 'font-style': 'italic' }, svg);
+    t.textContent = r.name;
+  });
+})();
+
+/* ————— fig 10: qasida lattice ————— */
+(() => {
+  const svg = document.getElementById('fig-qasida');
+  const seq = CIRCLES[1].seq;
+  const W = 21, H = 15;
+  for (let line = 0; line < 6; line++) {
+    for (let i = 0; i < 10; i++) {
+      const u = seq[i % 10];
+      el('rect', {
+        x: 388 - i * (W + 2) - W, y: 16 + line * (H + 6), width: W, height: H, rx: 2.5,
+        fill: uColor(u, 1), 'fill-opacity': i === 0 ? .8 : .28,
+        stroke: i === 0 ? '#a8842c' : 'none', 'stroke-width': 1.2,
+      }, svg);
+    }
+  }
+  el('rect', { x: 388 - W - 3, y: 11, width: W + 7, height: 6 * (H + 6) + 4, rx: 4, fill: 'none', stroke: '#a8842c', 'stroke-width': 1, 'stroke-dasharray': '4 3' }, svg);
+  const t = el('text', { x: 388 - W / 2, y: 156, 'text-anchor': 'middle', 'font-size': 11, 'font-family': "'Amiri', serif", fill: '#a8842c' }, svg);
+  t.textContent = 'القافية';
+  caption(svg, 180, 156, 'metre → each line;  lines ↓ the poem: a narrow lattice');
+})();
+
+/* ————— fig 11: pentagon frustration ————— */
+(() => {
+  const svg = document.getElementById('fig-pentagon');
+  // fitting: triangles, squares, hexagons around a point
+  const fit = (cx, n, m, R0) => {
+    for (let i = 0; i < m; i++) {
+      const pts = [];
+      pts.push('0,0');
+      const a0 = (i * 360 / m) * Math.PI / 180, a1 = ((i + 1) * 360 / m) * Math.PI / 180;
+      // draw the regular polygon wedge approximately: show shared-vertex polygons
+      void n; void R0; void a0; void a1;
+    }
+  };
+  void fit;
+  // simpler and truthful: polygons sharing one vertex
+  const shared = (cx, sides, count, color) => {
+    const R = 24;
+    const int = (sides - 2) * 180 / sides;
+    for (let i = 0; i < count; i++) {
+      const rot = i * int;
+      // polygon with one vertex at origin, spanning wedge [rot, rot+int]
+      const pts = [[0, 0]];
+      let h = (rot) * Math.PI / 180, x = 0, y = 0;
+      for (let s2 = 0; s2 < sides - 1; s2++) {
+        x += R * Math.cos(h); y += R * Math.sin(h);
+        pts.push([x, y]);
+        h += (180 - int) * Math.PI / 180;
+      }
+      el('polygon', {
+        points: pts.map((p) => p.join(',')).join(' '),
+        fill: color, 'fill-opacity': .12, stroke: color, 'stroke-width': .9,
+        transform: `translate(${cx},96) rotate(-90)`,
+      }, svg);
+    }
+  };
+  shared(60, 3, 6, '#15803d');
+  shared(165, 4, 4, '#2563eb');
+  shared(270, 6, 3, '#7c3aed');
+  shared(382, 5, 3, '#dc4444');
+  // the 36° wound
+  el('path', {
+    d: `M 0 0 L ${34 * Math.cos(-Math.PI/2 + 3 * 108 * Math.PI/180)} ${34 * Math.sin(-Math.PI/2 + 3 * 108 * Math.PI/180)} A 34 34 0 0 1 ${34 * Math.cos(-Math.PI/2 + 360 * Math.PI/180)} ${34 * Math.sin(-Math.PI/2)} Z`,
+    fill: 'rgba(220,68,68,0.18)', stroke: '#dc4444', 'stroke-width': .8, 'stroke-dasharray': '2.5 2',
+    transform: 'translate(382,96)',
+  }, svg);
+  caption(svg, 60, 158, '6 × 60°  ✓');
+  caption(svg, 165, 158, '4 × 90°  ✓');
+  caption(svg, 270, 158, '3 × 120°  ✓');
+  caption(svg, 382, 158, '3 × 108° + a 36° wound  ✗');
+})();
+
+/* ————— fig 13: penrose patch by triangle subdivision ————— */
+(() => {
+  const svg = document.getElementById('fig-penrose');
+  const PHI = (1 + Math.sqrt(5)) / 2;
+  const cplx = (x, y) => ({ x, y });
+  const add = (a, b) => cplx(a.x + b.x, a.y + b.y);
+  const sub = (a, b) => cplx(a.x - b.x, a.y - b.y);
+  const div = (a, s) => cplx(a.x / s, a.y / s);
+  let tris = [];
+  // wheel of 10 'red' triangles about the origin
+  for (let i = 0; i < 10; i++) {
+    const a1 = ((2 * i - 1) * Math.PI) / 10, a2 = ((2 * i + 1) * Math.PI) / 10;
+    let B = cplx(Math.cos(a1) * 100, Math.sin(a1) * 100);
+    let C = cplx(Math.cos(a2) * 100, Math.sin(a2) * 100);
+    if (i % 2 === 0) [B, C] = [C, B];
+    tris.push([0, cplx(0, 0), B, C]);
+  }
+  for (let step = 0; step < 4; step++) {
+    const next = [];
+    for (const [color, A, B, C] of tris) {
+      if (color === 0) {
+        const Pp = add(A, div(sub(B, A), PHI));
+        next.push([0, C, Pp, B], [1, Pp, C, A]);
+      } else {
+        const Q = add(B, div(sub(A, B), PHI));
+        const R = add(B, div(sub(C, B), PHI));
+        next.push([1, R, C, A], [1, Q, R, B], [0, R, Q, A]);
+      }
+    }
+    tris = next;
+  }
+  const g = el('g', { transform: 'translate(165,110)' }, svg);
+  for (const [color, A, B, C] of tris) {
+    el('polygon', {
+      points: `${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`,
+      fill: color === 0 ? 'rgba(37,99,235,0.16)' : 'rgba(168,132,44,0.16)',
+      stroke: color === 0 ? 'rgba(37,99,235,0.45)' : 'rgba(168,132,44,0.5)',
+      'stroke-width': .4,
+    }, g);
+  }
+  el('circle', { r: 100, fill: 'none', stroke: '#d9cbaa', 'stroke-width': 1 }, g);
+})();
+
+/* ————— fig 14: ground & figure ————— */
+(() => {
+  const svg = document.getElementById('fig-ground');
+  // left: field of small {8/2} stars, center broken into medallion {8/3}
+  for (let r = 0; r < 3; r++)
+    for (let c = 0; c < 4; c++) {
+      const cx = 38 + c * 46, cy = 30 + r * 44;
+      if (r === 1 && c === 1) continue;
+      star(svg, cx, cy, 16, 8, 2, '#8a8580', { w: .8, op: .7 });
+    }
+  star(svg, 38 + 46, 30 + 44, 22, 8, 3, '#a8842c', { w: 1.4, rim: true });
+  caption(svg, 107, 142, 'the field yields one cell: a medallion');
+  // right: meter strip with one zihaf foot
+  const seq = ['0//', '0///', '0//', '0///', '0//', '0///'];
+  const W2 = 28, H2 = 19;
+  seq.forEach((u, i) => {
+    const x = 402 - i * (W2 + 3) - W2;
+    const zih = i === 3;
+    const disp = zih ? ['0/', '0/'] : [u];
+    if (zih) {
+      el('rect', { x: x - 2, y: 56, width: W2 + 4, height: H2 + 8, rx: 4, fill: 'rgba(168,132,44,0.12)', stroke: '#a8842c', 'stroke-width': 1 }, svg);
+      disp.forEach((d, di) => {
+        el('rect', { x: x + di * (W2 / 2 + 1) , y: 60, width: W2 / 2 - 2, height: H2 - 4, rx: 2, fill: uColor('0/', 2), 'fill-opacity': .35 }, svg);
+      });
+    } else {
+      el('rect', { x, y: 58, width: W2, height: H2, rx: 3, fill: uColor(u, 2), 'fill-opacity': .3, stroke: uColor(u, 2), 'stroke-width': .8 }, svg);
+    }
+  });
+  caption(svg, 310, 142, 'the metre yields one foot: a ziḥāf');
+})();
+
+/* ————— fig 16: hands & ears ————— */
+(() => {
+  const svg = document.getElementById('fig-hands');
+  const g = el('g', { transform: 'translate(120,58)' }, svg);
+  for (const rot of [0, 45]) {
+    el('rect', { x: -30, y: -30, width: 60, height: 60, fill: 'none', stroke: '#a8842c', 'stroke-width': 1.6, transform: `rotate(${rot})` }, g);
+  }
+  caption(svg, 120, 112, 'drawn');
+  const G = el('g', { transform: 'translate(262,58)' }, svg);
+  el('circle', { r: 40, fill: 'none', stroke: '#d9cbaa', 'stroke-width': .9 }, G);
+  CIRCLES[5].seq.forEach((u, i) => {
+    const [x, y] = polar(i, 8, 40);
+    el('circle', { cx: x, cy: y, r: u === '0//' ? 5.5 : 4, fill: uColor(u, 5) }, G);
+    if (u === '0//') el('circle', { cx: x, cy: y, r: 9, fill: 'none', stroke: '#7c3aed', 'stroke-width': .8, 'stroke-opacity': .6 }, G);
+  });
+  caption(svg, 262, 112, 'heard — the four dums of المتفق');
+})();
+</script>
+</body>
+</html>

@@ -1,12 +1,14 @@
-// Build docs/the-turn-that-changes-nothing.pdf from docs/group-theory-chapter.html.
-// Requires Chrome Beta locally; not run in CI. Usage: node scripts/render-chapter.mjs
-// Render the chapter to PDF and audit it: 20 pages, no overflowing leaves,
-// fonts loaded, figures populated.
+// Render a book chapter (hand-paginated HTML) to PDF and audit it: page
+// count, no overflowing leaves, fonts loaded, figures populated.
+// Requires Chrome Beta locally; not run in CI.
+// Usage: node scripts/render-chapter.mjs            (chapter I, default)
+//        CH=docs/x.html OUT=docs/x.pdf SHOTS=1,7 node scripts/render-chapter.mjs
 import puppeteer from 'puppeteer-core';
 
 const BETA = '/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta';
-const SRC = 'file:///Users/mohammedabdallah/Projects/khalil/docs/group-theory-chapter.html';
-const OUT = '/Users/mohammedabdallah/Projects/khalil/docs/the-turn-that-changes-nothing.pdf';
+const ROOT = '/Users/mohammedabdallah/Projects/khalil';
+const SRC = `file://${ROOT}/${process.env.CH ?? 'docs/group-theory-chapter.html'}`;
+const OUT = `${ROOT}/${process.env.OUT ?? 'docs/the-turn-that-changes-nothing.pdf'}`;
 
 const browser = await puppeteer.launch({
   executablePath: BETA,
