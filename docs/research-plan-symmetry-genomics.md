@@ -1,8 +1,9 @@
 # Orbits and Losses
 ### Symmetry-aware methods for sequence analysis — a research plan
 
-**Status:** draft v0.1 · **Origin:** spun out of the Interactive Arud Explorer (arudi.midadalfikr.com), where the group theory of al-Khalīl's prosodic circles was implemented and verified
+**Status:** draft v0.2 · **Origin:** spun out of the Interactive Arud Explorer (arudi.midadalfikr.com), where the group theory of al-Khalīl's prosodic circles was implemented and verified
 **Suggested repo name:** `orbits-and-losses` or `canonical`
+**Changelog:** v0.2 adds Addendum 1 (reading frames as a quotient group; new Aim 4e on circRNA infinite ORFs) and Appendix D.
 
 ---
 
@@ -155,6 +156,65 @@ Deliberately ordered by increasing risk. Phase 1 produces a usable artifact rega
 
 ---
 
+## Addendum 1 — Reading frames are a quotient group, not an approximation
+
+*Added v0.2. Prompted by the question: can the six reading frames of a linear sequence approximate the rotational structure of a circular chromosome? The answer is no, and the reason is worth keeping — it produces a new, cheap, falsifiable aim.*
+
+### A1.1 The result
+
+For a circular sequence of length *n* the symmetry group is the dihedral **D_n** (n rotations × 2 strands — see Aim 4a). Reading frame is codon phase mod 3, so the rotations that preserve frame are exactly ⟨r³⟩, and the frame group is the quotient
+
+> **D_n / ⟨r³⟩**
+
+with two regimes, verified by brute force in Appendix D:
+
+| | quotient | meaning |
+|---|---|---|
+| **3 \| n** | ≅ D₃ ≅ S₃, order **6** | the familiar six reading frames = 3 phases × 2 strands |
+| **3 ∤ n** | ≅ C₂, order **2** | ⟨r³⟩ = C_n, so *only strand survives* |
+
+Two consequences follow immediately.
+
+**(i) The "6" is derivable, not conventional.** Orbit–stabilizer gives it directly: |frames| = |C_n| / |stabilizer of codon phase| = n / (n/3) = 3, doubled by strand. There are three phases and not *n* for exactly one reason — the genetic code has period 3, so the phase-preserving subgroup has index 3.
+
+**(ii) Six-frame translation captures phase exactly and position not at all.** It is a faithful *projection* of D_n onto a six-element shadow, not an approximation of it. Since 6 ≪ 2n and everything discarded is positional, it cannot recover circular structure. Structurally, six-frame translation is the clasp problem of the source system — *you don't know where the reading starts, so enumerate the orbit and score every member* — run on the phase group rather than the full rotation group, which is why it costs 6 evaluations instead of 2n.
+
+### A1.2 The surprise: frame is not always a global property
+
+When 3 ∤ *n*, gcd(3, n) = 1, so ⟨r³⟩ generates the entire rotation group and the phase quotient collapses. Biologically: **on a circular sequence whose length is not a multiple of three, "reading frame" is not a well-defined global property.** Walk once around and the phase has advanced by *n* mod 3; you return to the same base in a different frame. The frame space is a 3-fold cover of the sequence — one frame per strand, of length 3n.
+
+This is not a corner case. *E. coli* K-12 MG1655 is 4,641,652 bp ≡ 1 (mod 3): its chromosome has no globally consistent reading frame. It doesn't affect gene finding, because no gene wraps the whole replicon — but the concept genuinely does not exist at chromosome scale.
+
+### A1.3 New — Aim 4e: circRNA infinite ORFs and the length-mod-3 prediction
+
+Where the arithmetic stops being academic. Circular RNAs are translated by rolling-circle mechanisms, and whether translation terminates is governed by exactly this quotient:
+
+- **3 | n** — the ribosome returns to the same frame each lap. A lap free of stop codons means translation *never* terminates: a true **infinite ORF**, producing concatenated repeated polypeptide.
+- **3 ∤ n** — the ribosome shifts frame every lap and must traverse all three before closing, so it has to clear **3× as many codons** without meeting a stop.
+
+Quantified (61/64 per codon, Appendix D): a 300 nt circRNA with 3|n has P ≈ 8.2×10⁻³ of an infinite ORF by chance; at 301 nt, P ≈ 5.3×10⁻⁷. **Four orders of magnitude, from one base.**
+
+**Prediction.** Endogenous circRNAs with translation evidence are enriched for length ≡ 0 (mod 3) relative to circRNAs without it.
+
+**Method.** circRNA catalogues (circBase, circAtlas, CIRCpedia) joined to translation evidence (riboCIRC, ribosome profiling, circRNA proteomics/MS datasets). Test length mod 3 distribution, translated vs untranslated.
+
+**Confounder — must be controlled, not mentioned in passing.** circRNAs formed by back-splicing of *complete* exon sets can be length ≡ 0 (mod 3) for reasons of exon phase alone, with no relation to translation. The comparison must therefore be **within-class**: translated vs untranslated circRNAs matched on exon count, exon-phase composition, and single- vs multi-exon origin. An uncontrolled positive result here is worthless.
+
+**Deliverable.** A short analysis; positive or negative it is publishable as a note, and the negative is genuinely informative.
+**Kill criterion.** No enrichment after phase matching → report the negative and stop. This aim is bounded: roughly one afternoon of analysis on public data.
+
+**Why this belongs to the plan.** It is the plan's thesis in miniature: a *group* fact (the phase quotient — exact, structural, invertible) makes a hard prediction about a *lossy* biological process (whether a ribosome runs off the end), and the prediction is cheap to falsify.
+
+### A1.4 What this rules out
+
+Recorded as a negative result so it is not re-attempted:
+
+1. **Six frames cannot reconstruct circularity.** The quotient discards all positional information. No amount of frame enumeration recovers it.
+2. **A eukaryotic linear chromosome should not be circularized.** Telomeres are real ends; imposing a circle invents structure rather than recovering it.
+3. **A linearized bacterial chromosome doesn't need frames.** It needs one bit of metadata ("this replicon is circular") plus the doubled-string search of Aim 4c. The problem is bookkeeping, not inference.
+
+---
+
 ## Appendix A — verified: canonical k-mers and the parity law
 
 ```python
@@ -210,6 +270,48 @@ Implemented and verified in the Arud Explorer repo; useful as working reference 
 - `docs/the-turn-that-changes-nothing.pdf` — group theory via the circles (orbit–stabilizer, Lagrange, the inverse law)
 - `docs/the-compass-and-the-ear.pdf` — the spatial/temporal symmetry comparison; §4 and §6 are the direct sources for Aims 2–4
 
+## Appendix D — verified: the frame quotient and the circRNA arithmetic
+
+```python
+def compose(a, b, n):                      # D_n elements (rotation k, flip f); a after b
+    (k1,f1),(k2,f2) = a,b
+    return ((k1 + (k2 if f1==0 else -k2)) % n, (f1+f2) % 2)
+
+def subgroup_generated(gens, n):
+    S, frontier = {(0,0)}, [(0,0)]
+    while frontier:
+        x = frontier.pop()
+        for g in gens:
+            y = compose(g, x, n)
+            if y not in S: S.add(y); frontier.append(y)
+    return S
+
+for n in (9, 12, 15, 100, 101, 102):
+    H = subgroup_generated([(3,0)], n)     # rotations preserving codon phase
+    print(n, n % 3, len(H), 2*n // len(H)) # → quotient order: 6 iff 3|n, else 2
+```
+
+| n | n mod 3 | \|⟨r³⟩\| | \|D_n/⟨r³⟩\| | frames |
+|---|---|---|---|---|
+| 9, 12, 15, 102 | 0 | n/3 | **6** | 3 phases × 2 strands |
+| 100 | 1 | 100 | **2** | strand only |
+| 101 | 2 | 101 | **2** | strand only |
+
+Rolling-circle closure: a circRNA of *n* nt advances phase by *n* mod 3 per lap, so it closes after 1 lap if 3\|n and 3 laps otherwise — reading n/3 or n codons respectively.
+
+Infinite-ORF probability, (61/64) per codon:
+
+| n | 3 \| n | codons to clear | P(no stop) |
+|---|---|---|---|
+| 300 | yes | 100 | 8.22×10⁻³ |
+| 301 | no | 301 | 5.30×10⁻⁷ |
+| 600 | yes | 200 | 6.76×10⁻⁵ |
+| 601 | no | 601 | 2.95×10⁻¹³ |
+| 1200 | yes | 400 | 4.57×10⁻⁹ |
+| 1201 | no | 1201 | 9.10×10⁻²⁶ |
+
+This is the quantitative basis of Aim 4e.
+
 ## References to check in Phase 0
 
 - Wasserman & Sandelin (2004), *Nat Rev Genet* — the futility theorem
@@ -223,3 +325,5 @@ Implemented and verified in the Arud Explorer repo; useful as working reference 
 - Booth (1980) — least circular rotation, O(n)
 - Nuclear receptor DR/IR/ER spacing literature — the phase/spacer taxonomy
 - Any existing work on **directed/asymmetric** motif containment — this is the decisive search
+- circRNA translation: rolling-circle mechanisms, IRES/m6A-driven initiation, riboCIRC and circRNA proteomics — and specifically whether **length mod 3 enrichment** in translated circRNAs has already been tested (decisive for Aim 4e)
+- Exon phase statistics in back-spliced circRNAs — the confounder for Aim 4e
