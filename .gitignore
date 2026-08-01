@@ -29,3 +29,7 @@ dist-ssr
 /test-results/
 /playwright.spec.ts
 /screenshot.png
+
+# Throwaway browser/verification probes (dot-prefixed at repo root).
+# Real harnesses live in scripts/ and are linted.
+/.*.mjs
