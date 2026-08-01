@@ -237,6 +237,16 @@ export const starPath = (n: number, k: number, r: number, lensW = 5.5): string =
   return d;
 };
 
+/**
+ * A شمسة: `n` lens petals radiating from the centre to each vertex. Used only
+ * where a star polygon would be the wrong figure — see CENTRE_SHAMSA.
+ */
+export const shamsaPath = (n: number, r: number, w: number): string => {
+  let d = '';
+  for (let i = 0; i < n; i++) d += lensPath([0, 0], pa(axisOf(i, n), r), w);
+  return d;
+};
+
 /** Plain chord segments — used for circle 4's ghosted near-miss. */
 const chordLines = (
   n: number,
@@ -294,8 +304,13 @@ export const tendrilPath = ({
   const lambda = sweep * ((2 * Math.PI) / n);
   const bud = width * 0.62;
 
+  // θ(u) = λ·sin(π·u^0.78): the scroll bows away from the gap axis, clears the
+  // neighbouring petal's shoulder, and comes back to the axis at the tip. A
+  // monotonic sweep would either read as a radial spike (small λ) or vanish
+  // under the petals (large λ); bowing gives real curl inside the alley, and
+  // the mirrored pair closes into a split-palmette leaf.
   const centre = (u: number, sign: number): Pt =>
-    pa(axis + sign * lambda * u, r0 * Math.exp(kappa * u));
+    pa(axis + sign * lambda * Math.sin(Math.PI * Math.pow(u, 0.78)), r0 * Math.exp(kappa * u));
   const half = (u: number): number =>
     width * Math.pow(1 - u, 1.3) + 0.4 + bud * Math.exp(-Math.pow((u - 0.86) / 0.1, 2));
 
@@ -359,27 +374,32 @@ export const mixHex = (a: string, b: string, t: number): string => {
 export const R = {
   ground: 149,
   rimPeak: 149,
-  rimValley: 137,
+  rimValley: 139,
   /** Inner edge of the gold rim annulus. */
-  rimInner: 132,
-  bandOut: 141,
-  /** The band's inner edge scallops INWARD, one lobe per petal. */
-  bandInValley: 105,
-  bandInPeak: 99,
-  pearl: 109,
-  petal0: 25,
-  petal1: 95,
-  cut0: 33,
-  cut1: 80,
-  inner0: 14,
+  rimInner: 134,
+  /** The guilloché tick course, just inside the rim. */
+  ticks: 130,
+  bandOut: 143,
+  /** The band's inner edge dips deep between the petal tips: valleys on the
+   *  petal axes clear the tips, inward peaks reach into the gaps. A shallow
+   *  dip reads as a polygon — the chord between two valleys 360/n apart
+   *  already cuts ~5 units, so the apex has to beat that by a wide margin. */
+  bandInValley: 106,
+  bandInPeak: 88,
+  pearl: 100,
+  petal0: 24,
+  petal1: 94,
+  cut0: 31,
+  cut1: 79,
+  inner0: 13,
   inner1: 60,
-  tendril0: 30,
-  tendril1: 88,
-  cabochon: 66,
-  boss: 33,
-  qplate: 29,
-  star: 24,
-  stone: 5.5,
+  tendril0: 27,
+  tendril1: 90,
+  cabochon: 65,
+  boss: 32,
+  qplate: 28,
+  star: 23,
+  stone: 5,
 } as const;
 
 /**
@@ -393,8 +413,8 @@ export const R = {
    from there, so at 124 a 16-unit face put its ascenders at ~137 — on
    the gold rim. 115 keeps the tallest letter inside 128. The bottom arc
    grows inward from its baseline and needs no such headroom. */
-export const TITLE_ARC_R = 115;
-export const METERS_ARC_R = 120;
+export const TITLE_ARC_R = 116;
+export const METERS_ARC_R = 112;
 
 /**
  * Shadow ramp: a tight contact plate plus one inflated ambient plate. Two
@@ -455,11 +475,14 @@ export interface RosetteGeometry {
 
 /** Outer petal + its window, as one even-odd compound path. */
 const petalWithWindow = (n: number, grow: number, axis = UP): string =>
-  petalPath({ n, r0: R.petal0, r1: R.petal1, spread: 0.82, axis, grow }) +
+  petalPath({ n, r0: R.petal0, r1: R.petal1, spread: 0.74, axis, grow }) +
   petalPath({ n, r0: R.cut0, r1: R.cut1, spread: 0.5, tipPull: 0.2, axis, grow: -grow });
 
 const dot = (c: Pt, r: number): string =>
   `M${f(c[0] + r)},${f(c[1])}A${r},${r} 0 1,0 ${f(c[0] - r)},${f(c[1])}A${r},${r} 0 1,0 ${f(c[0] + r)},${f(c[1])}Z`;
+
+/** Cards whose centre uses a شمسة rather than the {n/p} star polygon. */
+const CENTRE_SHAMSA = new Set(['circle2-pure']);
 
 export const buildRosette = (circle: Circle): RosetteGeometry => {
   const units = circle.atomicSequence;
@@ -499,11 +522,15 @@ export const buildRosette = (circle: Circle): RosetteGeometry => {
         })
       : scallopPath(q, R.qplate * 0.44, R.qplate);
 
-  // Circle 2's {6/2} is two triangles. The hexagram is a genuine classical
-  // motif, but it reads as loaded to a modern audience and this is an
-  // Arabic-first app, so that card leans on its trefoil q-plate instead —
-  // which expresses the same C₃. One constant, one-line reversal.
-  const star = circle.id === 'circle2-pure' ? '' : starPath(n, starStep(n, period), R.star);
+  // Circle 2's {6/2} is two triangles, i.e. a hexagram. That is a genuine
+  // and common motif in historic Islamic ornament, but it reads as loaded to
+  // a modern audience and this is an Arabic-first app — so that one card
+  // ships the six-lobed شمسة instead, with its trefoil q-plate underneath
+  // still stating |C₃| = 3 exactly. Delete the id from CENTRE_SHAMSA to
+  // restore the star polygon; nothing else changes.
+  const star = CENTRE_SHAMSA.has(circle.id)
+    ? shamsaPath(n, R.star, 4.6)
+    : starPath(n, starStep(n, period), R.star);
 
   // Circle 4 only: the C₃ it ALMOST has. Exactly two of the nine k=3 chords
   // fail, both touching the lone mafrūq — the same mismatch logic MathView
@@ -546,11 +573,11 @@ export const buildRosette = (circle: Circle): RosetteGeometry => {
         return d;
       }),
       innerShadow: RAMP.map(({ grow }) => petalRing({ ...innerSpec, grow }, 0.5)),
-      tendril: tendrilRing({ n, r0: R.tendril0, r1: R.tendril1, sweep: 0.42, width: 4.6 }),
+      tendril: tendrilRing({ n, r0: R.tendril0, r1: R.tendril1, sweep: 0.62, width: 4.2 }),
       rim: scallopPath(lobes, R.rimValley, R.rimPeak),
       rimBand: scallopPath(lobes, R.rimValley, R.rimPeak) + circlePath(R.rimInner),
-      band: circlePath(R.bandOut) + scallopPath(n, R.bandInValley, R.bandInPeak),
-      bandInner: scallopPath(n, R.bandInValley, R.bandInPeak),
+      band: circlePath(R.bandOut) + scallopPath(n, R.bandInValley, R.bandInPeak, 0.5),
+      bandInner: scallopPath(n, R.bandInValley, R.bandInPeak, 0.5),
     },
     centre: { qplate, star, ghostOk, ghostBad },
     pearl: {

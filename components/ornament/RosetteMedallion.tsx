@@ -201,16 +201,6 @@ const RosetteMedallion: React.FC<Props> = ({ circle, still }) => {
           ))}
           {ring(id('inner'), `rs-petal${still0}`, T.inner, T.innerStep, 0.5)}
 
-          {/* 6 — the pearl course reads CIRCLE_ROTATIONS directly: a filled
-                  pearl for a canonized meter, a hollow ring for a مهمل, a dim
-                  dot for a duplicate. Across the hub that is exactly 16
-                  pearls and 5 rings — the app's headline statistic, engraved. */}
-          <g className={`rs-fade${still0}`} style={css({ '--d': T.pearls })}>
-            <path d={g.pearl.duplicate} fill={GOLD_DEEP} fillOpacity="0.5" />
-            <path d={g.pearl.muhmal} fill="none" stroke={GOLD_LIT} strokeWidth="1" strokeOpacity="0.8" />
-            <path d={g.pearl.meter} fill={GOLD_LIT} />
-          </g>
-
           {/* 7 — the centre */}
           <g className={`rs-pop${still0}`} style={css({ '--d': T.centre })}>
             <circle r={R.boss} fill="#0B111E" stroke={GOLD_MID} strokeWidth="1" strokeOpacity="0.55" />
@@ -244,6 +234,28 @@ const RosetteMedallion: React.FC<Props> = ({ circle, still }) => {
             <path d={g.ring.band} fillRule="evenodd" fill={url('band')} />
             <path d={g.ring.bandInner} fill="none" stroke={GOLD_MID} strokeWidth="0.9" strokeOpacity="0.55" />
             <circle r={R.bandOut} fill="none" stroke={GOLD_MID} strokeWidth="0.8" strokeOpacity="0.4" />
+            {/* Guilloché tick course: 4n perfectly aligned ticks from ONE
+                element. pathLength renormalizes the circumference so the dash
+                pattern divides it exactly — the same trick MathView uses. */}
+            <circle
+              r={R.ticks}
+              fill="none"
+              stroke={GOLD_MID}
+              strokeWidth="2.6"
+              strokeOpacity="0.4"
+              pathLength={4 * n}
+              strokeDasharray="1 3"
+            />
+          </g>
+
+          {/* The pearl course sits ON the band and reads CIRCLE_ROTATIONS
+              directly: a filled pearl for a canonized meter, a hollow ring for
+              a مهمل, a dim dot for a duplicate. Across the hub that is exactly
+              16 pearls and 5 rings — the app's headline statistic, engraved. */}
+          <g className={`rs-fade${still0}`} style={css({ '--d': T.pearls })}>
+            <path d={g.pearl.duplicate} fill={GOLD_DEEP} fillOpacity="0.6" />
+            <path d={g.pearl.muhmal} fill="none" stroke={GOLD_LIT} strokeWidth="1" strokeOpacity="0.85" />
+            <path d={g.pearl.meter} fill={GOLD_LIT} />
           </g>
 
           {/* 10 — the scalloped gold rim, as an annulus */}
