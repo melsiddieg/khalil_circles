@@ -1,8 +1,10 @@
 import React from 'react';
 import { Circle } from '../types';
-import { MEDALLIONS } from '../img/medallions';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCircleName, getMeterName } from '../i18n/names';
+import { usePrefersReducedMotion } from '../utils/animation';
+import RosetteMedallion from './ornament/RosetteMedallion';
+import { METERS_ARC_R, TITLE_ARC_R } from './ornament/rosette';
 
 interface OrnateCardProps {
   circle: Circle;
@@ -11,10 +13,23 @@ interface OrnateCardProps {
 
 const ARABIC_NUMERALS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
-// Radii inside the 300×300 viewBox (center 0,0): the medallion's empty
-// engraved band runs roughly r=60..108; curved inscriptions sit in it.
-const TITLE_ARC_R = 94;
-const METERS_ARC_R = 90;
+/**
+ * Screenshot determinism for scripts/verify-ink.mjs and render-chapter.mjs:
+ * ?frozen=1 renders the complete final frame, on the same branch as reduced
+ * motion. Read once at module load, so it is a constant, not render state.
+ */
+const FROZEN =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('frozen') === '1';
+
+/**
+ * The hover veil fades toward the rim instead of blanking the whole disc, so
+ * the rosette's outer courses stay visible behind the description — and the
+ * enamel ring's stabilizer turn is not hidden by the thing that reveals it.
+ */
+const VEIL =
+  'radial-gradient(circle at 50% 50%, rgba(3,7,18,0.95) 0%, rgba(3,7,18,0.95) 56%,' +
+  ' rgba(3,7,18,0.74) 80%, rgba(3,7,18,0.44) 100%)';
 
 /** Meter name without the generic بحر/al-Bahr prefix, for the bottom arc. */
 const shortMeterName = (name: string): string =>
@@ -98,6 +113,7 @@ const CurvedText: React.FC<CurvedTextProps> = ({
 const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
   const { t, lang } = useLanguage();
   const rtl = lang === 'ar';
+  const still = usePrefersReducedMotion() || FROZEN;
 
   const meterCount =
     lang === 'ar'
@@ -130,14 +146,11 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
                    shadow-2xl hover:shadow-[0_0_60px_-10px_var(--card-glow)]
                    focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
       >
-        {/* Engraved bronze medallion */}
-        <img
-          src={MEDALLIONS[circle.order]}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          className="absolute inset-0 w-full h-full object-cover rounded-full select-none"
-        />
+        {/* «الشمسة» — the generated paper-cut rosette: n petals for n atomic
+            units, enamel coloured by unitColor so the inlay carries exactly
+            this circle's stabilizer symmetry, and a centre star that is the
+            same chord figure MathView draws. */}
+        <RosetteMedallion circle={circle} still={still} />
 
         {/* Soft theme halo behind the disc */}
         <div
@@ -146,7 +159,12 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
         />
 
         {/* Curved inscriptions */}
-        <svg viewBox="-150 -150 300 300" className="absolute inset-0 w-full h-full pointer-events-none">
+        <svg
+          viewBox="-150 -150 300 300"
+          className="absolute inset-0 w-full h-full pointer-events-none z-10"
+          aria-hidden="true"
+          focusable="false"
+        >
           <CurvedText
             words={titleWords}
             radius={TITLE_ARC_R}
@@ -169,10 +187,11 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
 
         {/* Hover veil: description + count + CTA */}
         <div
-          className="absolute inset-0 rounded-full bg-gray-950/90 backdrop-blur-md
+          style={{ background: VEIL }}
+          className="absolute inset-0 rounded-full backdrop-blur-sm
                      opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100
                      transition-all duration-300 flex flex-col items-center justify-center
-                     text-center p-10 z-20 border border-white/10 overflow-hidden"
+                     text-center p-12 z-20 border border-white/10 overflow-hidden"
         >
           <div className="text-base text-gray-200 leading-relaxed font-amiri mb-3">
             {circle.description}
