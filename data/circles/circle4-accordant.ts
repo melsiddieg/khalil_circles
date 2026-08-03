@@ -139,8 +139,10 @@ const CIRCLE4_METERS: Meter[] = [
 export const CIRCLE4_ACCORDANT: Circle = {
   id: 'circle4-accordant',
   name: 'دائرة المشتبه',
-  nameTransliteration: 'al-Da\'ira al-Muttafiqa',
+  nameTransliteration: "Da'irat al-Mushtabih",
   description: 'دائرة المشتبه - أعقد الدوائر بستة بحور متناغمة ومترابطة إيقاعياً',
+  descriptionEn:
+    'The most intricate circle: six meters, rhythmically interlinked and easily confused.',
   atomicSequence: CIRCLE4_ATOMIC_SEQUENCE,
   baseSequenceLength: 9,
   meters: CIRCLE4_METERS,

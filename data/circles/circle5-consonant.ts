@@ -54,8 +54,10 @@ const CIRCLE5_METERS: Meter[] = [
 export const CIRCLE5_CONSONANT: Circle = {
   id: 'circle5-consonant',
   name: 'دائرة المتفق',
-  nameTransliteration: "al-Da'ira al-Muttafiq",
+  nameTransliteration: "Da'irat al-Muttafiq",
   description: 'دائرة المتفق - تحتوي على بحور سريعة ذات أنماط إيقاعية كثيفة الحروف الساكنة',
+  descriptionEn:
+    'Swift meters whose rhythm is dense with quiescent letters.',
   atomicSequence: CIRCLE5_ATOMIC_SEQUENCE,
   baseSequenceLength: 8,
   meters: CIRCLE5_METERS,

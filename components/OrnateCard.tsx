@@ -1,10 +1,10 @@
 import React from 'react';
 import { Circle } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
-import { getCircleName, getMeterName } from '../i18n/names';
+import { getCircleDescription, getCircleName, getMeterName } from '../i18n/names';
 import { usePrefersReducedMotion } from '../utils/animation';
 import RosetteMedallion from './ornament/RosetteMedallion';
-import { METERS_ARC_R, TITLE_ARC_R } from './ornament/rosette';
+import { METERS_ARC_R, TITLE_ARC_R, mixHex } from './ornament/rosette';
 
 interface OrnateCardProps {
   circle: Circle;
@@ -23,13 +23,15 @@ const FROZEN =
   new URLSearchParams(window.location.search).get('frozen') === '1';
 
 /**
- * The hover veil fades toward the rim instead of blanking the whole disc, so
- * the rosette's outer courses stay visible behind the description — and the
- * enamel ring's stabilizer turn is not hidden by the thing that reveals it.
+ * Hover does NOT blank the medallion. A near-opaque veil hides the very
+ * thing the card is for, and the rosette is the most expensive art on the
+ * page. Instead the disc is lightly smoked — just enough to seat the text —
+ * and the legend is set in a CARTOUCHE across the middle, the way a struck
+ * medal carries its inscription. The petals, the pearl course, the gold rim
+ * and both curved inscriptions all stay legible around it.
  */
-const VEIL =
-  'radial-gradient(circle at 50% 50%, rgba(3,7,18,0.95) 0%, rgba(3,7,18,0.95) 56%,' +
-  ' rgba(3,7,18,0.74) 80%, rgba(3,7,18,0.44) 100%)';
+const smoke = (c: string): string =>
+  `radial-gradient(circle at 50% 46%, ${c}4d 0%, ${c}3d 52%, ${c}1a 78%, ${c}00 100%)`;
 
 /** Meter name without the generic بحر/al-Bahr prefix, for the bottom arc. */
 const shortMeterName = (name: string): string =>
@@ -120,6 +122,11 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
       ? ARABIC_NUMERALS[circle.meters.length] || String(circle.meters.length)
       : String(circle.meters.length);
 
+  // The cartouche is filled with the circle's own colour taken almost to
+  // ink, so each card's legend still belongs to its enamel rather than
+  // being a generic black plate.
+  const deepEnamel = mixHex(circle.visualTheme.backgroundGradient[0], '#05070C', 0.82);
+
   const titleWords = getCircleName(circle, lang).split(' ');
   const meterWords = circle.meters
     .map((m) => shortMeterName(getMeterName(m, lang)))
@@ -132,7 +139,10 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
       <div
         role="button"
         tabIndex={0}
-        aria-label={getCircleName(circle, lang)}
+        // The count left the visible plaque (the meter names are already
+        // inscribed on the rim), but it stays in the accessible name, where
+        // a curved inscription is not much use.
+        aria-label={`${getCircleName(circle, lang)} — ${meterCount} ${t.card.metersSuffix}`}
         onClick={() => onCircleSelect(circle)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -185,26 +195,58 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
           />
         </svg>
 
-        {/* Hover veil: description + count + CTA */}
+        {/* Smoke: seats the text without hiding the ornament. */}
         <div
-          style={{ background: VEIL }}
-          className="absolute inset-0 rounded-full backdrop-blur-sm
+          aria-hidden="true"
+          style={{ background: smoke(deepEnamel) }}
+          className="absolute inset-0 rounded-full pointer-events-none
                      opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100
-                     transition-all duration-300 flex flex-col items-center justify-center
-                     text-center p-12 z-20 border border-white/10 overflow-hidden"
+                     transition-opacity duration-300 z-20"
+        />
+
+        {/* The cartouche. Sits across the middle third, so the petal tips,
+            pearl course, gold rim and both inscriptions stay in view. */}
+        <div
+          className="absolute inset-x-[11%] top-1/2 -translate-y-1/2 z-30 flex flex-col items-center
+                     text-center rounded-[1.5rem] px-4 py-3.5
+                     opacity-0 translate-y-1 scale-[0.97]
+                     group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
+                     group-focus-visible:opacity-100 group-focus-visible:translate-y-0
+                     group-focus-visible:scale-100
+                     transition-all duration-300 ease-out"
+          style={{
+            transform: 'translateY(-50%)',
+            background: `linear-gradient(180deg, ${deepEnamel}f2, ${deepEnamel}fa)`,
+            border: '1px solid rgba(212,176,106,0.55)',
+            boxShadow:
+              'inset 0 0 0 1px rgba(233,200,126,0.14), 0 14px 34px -14px rgba(0,0,0,0.85)',
+          }}
         >
-          <div className="text-base text-gray-200 leading-relaxed font-amiri mb-3">
-            {circle.description}
+          <p
+            className="text-gray-100 font-amiri text-[12.5px]"
+            style={{ lineHeight: 1.55, textWrap: 'balance' }}
+          >
+            {getCircleDescription(circle, lang)}
+          </p>
+
+          {/* The app's ornate rule, echoing the medallion's epigraphic band */}
+          <div className="flex items-center gap-2 w-full my-2" aria-hidden="true">
+            <span className="h-px flex-1 bg-gradient-to-l from-amber-500/45 to-transparent" />
+            <span className="text-amber-400/70 text-[9px]">✦</span>
+            <span className="h-px flex-1 bg-gradient-to-r from-amber-500/45 to-transparent" />
           </div>
-          <div className="text-sm text-gray-400 font-amiri mb-3">
-            {meterCount} {t.card.metersSuffix}
-          </div>
-          <div
-            className="text-sm font-amiri font-bold animate-pulse"
-            style={{ color: circle.visualTheme.primaryColor }}
+
+          <span
+            className="font-amiri font-bold text-[13px] px-3 py-1 rounded-full
+                       border transition-colors"
+            style={{
+              color: circle.visualTheme.primaryColor,
+              borderColor: `${circle.visualTheme.primaryColor}66`,
+              background: `${circle.visualTheme.primaryColor}14`,
+            }}
           >
             {t.card.explore}
-          </div>
+          </span>
         </div>
       </div>
     </div>

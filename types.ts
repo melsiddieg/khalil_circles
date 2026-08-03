@@ -47,6 +47,8 @@ export interface Circle {
   name: string; // Arabic name (e.g., "الدائرة المختلطة")
   nameTransliteration: string; // "al-Da'ira al-Mukhtalita"
   description: string;
+  /** English rendering of `description`, which is authored in Arabic. */
+  descriptionEn?: string;
   atomicSequence: string[]; // Each circle may have unique patterns
   baseSequenceLength: number;
   meters: Meter[];

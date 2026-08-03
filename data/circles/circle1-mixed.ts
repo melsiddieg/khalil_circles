@@ -76,8 +76,10 @@ const CIRCLE1_METERS: Meter[] = [
 export const CIRCLE1_MIXED: Circle = {
   id: 'circle1-mixed',
   name: 'دائرة المختلف',
-  nameTransliteration: 'al-Da\'ira al-Mukhtalita',
+  nameTransliteration: "Da'irat al-Mukhtalif",
   description: 'دائرة المختلف - الدائرة الأولى والأساسية تحتوي على أكثر البحور استخداماً في الشعر العربي',
+  descriptionEn:
+    'The first and most fundamental circle, carrying the meters most used in Arabic verse.',
   atomicSequence: CIRCLE1_ATOMIC_SEQUENCE,
   baseSequenceLength: 10,
   meters: CIRCLE1_METERS,

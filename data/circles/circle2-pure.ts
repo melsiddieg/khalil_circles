@@ -56,8 +56,10 @@ const CIRCLE2_METERS: Meter[] = [
 export const CIRCLE2_PURE: Circle = {
   id: 'circle2-pure',
   name: 'دائرة المؤتلف',
-  nameTransliteration: 'al-Da\'ira al-Mujtaliба',
+  nameTransliteration: "Da'irat al-Mu'talif",
   description: 'دائرة المؤتلف - تحتوي على بحور متناغمة ذات أنماط عروضية مكتملة',
+  descriptionEn:
+    'Concordant meters, built on complete and evenly balanced prosodic patterns.',
   atomicSequence: CIRCLE2_ATOMIC_SEQUENCE,
   baseSequenceLength: 6,
   meters: CIRCLE2_METERS,

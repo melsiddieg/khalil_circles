@@ -7,7 +7,7 @@ import MeterDisplay from './MeterDisplay';
 import Controls from './Controls';
 import { ChevronLeftIcon } from './Icons';
 import { useLanguage } from '../i18n/LanguageContext';
-import { getCircleName, getMeterName } from '../i18n/names';
+import { getCircleName, getMeterName, getCircleDescription } from '../i18n/names';
 
 interface CircleViewProps {
   circle: Circle;
@@ -81,7 +81,7 @@ const CircleView: React.FC<CircleViewProps> = ({ circle, currentMeterIndex, onMe
           </div>
         </div>
         <p className="text-gray-300 max-w-2xl mx-auto text-sm">
-          {circle.description}
+          {getCircleDescription(circle, lang)}
         </p>
       </header>
 

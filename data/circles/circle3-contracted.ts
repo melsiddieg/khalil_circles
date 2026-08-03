@@ -82,8 +82,10 @@ const CIRCLE3_METERS: Meter[] = [
 export const CIRCLE3_CONTRACTED: Circle = {
   id: 'circle3-contracted',
   name: 'دائرة المجتلب',
-  nameTransliteration: 'da\'irat al-Mujtathab',
+  nameTransliteration: "Da'irat al-Mujtalab",
   description: 'دائرة المجتلب - تتكون من تفعيلات سباعية متكررة (مفاعيلن، مستفعلن، فاعلاتن)',
+  descriptionEn:
+    'Built from one seven-letter foot repeated — mafāʿīlun, mustafʿilun, fāʿilātun.',
   atomicSequence: CIRCLE3_ATOMIC_SEQUENCE,
   baseSequenceLength: 9,
   meters: CIRCLE3_METERS,
