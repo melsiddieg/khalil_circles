@@ -270,6 +270,61 @@ export const ar = {
     glossFanMoved: 'بالعلامة ترى الدوران؛ وبدونها لا فرق.',
     back: 'العودة إلى الدوائر',
   },
+  ladder: {
+    entry: 'سُلَّم التجريد',
+    title: 'سُلَّم التجريد',
+    subtitle:
+      'تُعرض دوائر الخليل عادةً من أعلى: خمسُ دوائر تُخرج ستةَ عشر بحراً. واقرأها من أسفل تجدها شيئاً آخر — بناءً تركيبياً في خمس درجات، كلُّ درجةٍ تُبنى مما تحتها بعمليةٍ تستطيع أنت إجراءها. وليست الأرقام هنا منقولةً من جدول، بل محسوبةٌ أمامك.',
+    back: 'العودة إلى الدوائر',
+    prev: 'الدرجة السابقة',
+    next: 'الدرجة التالية',
+    rung: (i: string) => `الدرجة ${i}`,
+    // 1
+    r1Title: 'الحرف: حالتان لا ثالثة',
+    r1Lead:
+      'لا يعرف العروضُ من الحرف إلا شيئاً واحداً: أمتحرِّكٌ هو أم ساكن؟ حرفٌ عليه حركة = ١، وحرفٌ ساكنٌ أو حرفُ مدٍّ = ٠. وبهذا يصير البيتُ كلُّه سلسلةَ أصفارٍ وآحاد — وهذه هي المادةُ الخام كلُّها.',
+    r1Moving: 'متحرك',
+    r1Still: 'ساكن',
+    r1Note: 'كلُّ ما يأتي بعدُ مبنيٌّ على هذين الرمزين وحدهما.',
+    // 2
+    r2Title: 'الوحدة: خمسةُ عناقيد',
+    r2Lead:
+      'لا تتجاور الحركاتُ والسكناتُ كيفما اتفق؛ بل تتجمَّع في عناقيدَ معدودة. وثلاثةٌ من الخمسة أسرةٌ حسابيةٌ واحدة: ١^ك ثم صفر — أي حركاتٌ يقفلها ساكن.',
+    r2Family: 'الأسرة الواحدة: حركاتٌ يقفلها ساكن',
+    r2Odd: 'والشاذّان',
+    r2Reveal: 'والاسمان يصفان النمط، لا يُلصقان به',
+    r2RevealBody:
+      'المجموع ١١٠: الحركتان مجموعتان ثم السكون. والمفروق ١٠١: السكونُ يفرِق بينهما. الحروفُ هي الحروف، وعددُها واحد — ولم يتحرَّك إلا موضعُ الساكن. فالمصطلحُ العربيُّ قراءةٌ للنمط الثنائي.',
+    // 3
+    r3Title: 'التفعيلة: التباديل',
+    r3Lead:
+      'اختر مجموعةً من الوحدات، ثم رتِّبها بكل الوجوه الممكنة: تسقط التفاعيلُ الكلاسيكيةُ من العدّ نفسه. وترى الدائرةَ التي تخرج منها كلُّ مجموعة.',
+    r3Pick: 'اختر المجموعة',
+    r3Yields: (n: string) => `${n} ترتيبات`,
+    r3Collide: 'اشتباه',
+    r3Twist: 'وهنا يفقد التجريدُ شيئاً',
+    r3TwistBody:
+      'ترتيبان مختلفان يعطيان السلسلةَ نفسها حرفاً بحرف: مستفعلن = مستفع لن، وفاعلاتن = فاع لاتن. الأذنُ لا تفرِّق بينهما البتّة، ولا يفرِّق إلا التقطيعُ إلى وحدات. وكِلا الاشتباهين يجرُّهما الوتدُ المفروق — وهو وحده سببُ تسمية دائرة المشتبه.',
+    // 4
+    r4Title: 'البحر: التفاعيل في نسق',
+    r4Lead:
+      'والبحرُ صفٌّ من التفاعيل، لا يُخترع اختراعاً بل يُقرأ من الدائرة. وهذه صورُه التامة كما وضعها الخليل.',
+    // 5
+    r5Title: 'الدائرة: إغلاق الحلقة',
+    r5Lead:
+      'وآخر خطوةٍ هي الأجرأ: صِلْ آخرَ البيت بأوله. فما كان سطراً صار قلادةً، وما كان بحراً واحداً صار مَقْطعاً من قلادةٍ تُقرأ من مواضعَ عدة — وكلُّ موضعٍ بحر. لم يعد الخليل يصنّف البحور، بل صار يولّدها.',
+    r5Note: (n: string, m: string) => `${n} وحدة على المحيط، و${m} قراءاتٍ متمايزة`,
+    // funnel
+    funnelTitle: 'الحصيلة',
+    funnelStates: 'حالتان للحرف',
+    funnelUnits: 'وحدات',
+    funnelArr: 'ترتيباً',
+    funnelFeet: 'إيقاعاً متمايزاً',
+    funnelMeters: 'بحراً مستعملاً',
+    funnelCircles: 'دوائر',
+    closing:
+      'من رمزين اثنين إلى ستةَ عشرَ بحراً، بلا خطوةٍ واحدةٍ غيرِ محسوبة. وهذا هو صنيعُ الخليل: لم يجمع البحورَ جمعاً، بل بنى الآلةَ التي تُخرجها، ثم قرأ منها ما لم ينظمه أحد.',
+  },
   tadakhul: {
     entry: 'خريطة التداخل',
     title: 'خريطة التداخل',
@@ -596,6 +651,55 @@ export const en: Translations = {
     glossFanSame: 'It looks exactly the same — that is symmetry!',
     glossFanMoved: 'With the mark you see it turn; without it, no difference.',
     back: 'Back to Circle Hub',
+  },
+  ladder: {
+    entry: 'The Ladder of Abstraction',
+    title: 'The Ladder of Abstraction',
+    subtitle:
+      'Al-Khalīl’s circles are usually presented from the top: five circles, sixteen meters. Read from the bottom they are something else — a combinatorial construction in five steps, each rung built from the one below by an operation you can carry out yourself. Nothing here is copied from a table; it is all counted in front of you.',
+    back: 'Back to Circle Hub',
+    prev: 'Previous rung',
+    next: 'Next rung',
+    rung: (i: string) => `Rung ${i}`,
+    r1Title: 'The letter: two states, and no third',
+    r1Lead:
+      'Prosody knows exactly one thing about a letter: is it moving or still? A letter carrying a vowel is 1; a letter with sukūn, or a letter of prolongation, is 0. A whole line becomes a string of ones and zeros — and that string is the entire raw material.',
+    r1Moving: 'moving',
+    r1Still: 'quiescent',
+    r1Note: 'Everything that follows is built from these two symbols alone.',
+    r2Title: 'The unit: five clusters',
+    r2Lead:
+      'Movings and quiescents do not combine freely; they gather into a short list of clusters. Three of the five are one arithmetic family: 1^k followed by 0 — some movings closed by a single quiescent.',
+    r2Family: 'One family: movings closed by a quiescent',
+    r2Odd: 'And the two irregulars',
+    r2Reveal: 'The names describe the pattern; they are not labels stuck on it',
+    r2RevealBody:
+      'Majmūʿ is 110 — the two movings JOINED, then the quiescent. Mafrūq is 101 — the quiescent SPLITTING them apart. Same letters, same count of each; only the quiescent’s position moves. The Arabic term is a reading of the bit pattern.',
+    r3Title: 'The foot: permutations',
+    r3Lead:
+      'Choose a multiset of units and lay it out every possible way. The classical feet fall out of the counting itself — and each multiset belongs to a circle.',
+    r3Pick: 'Choose a multiset',
+    r3Yields: (n: string) => `${n} arrangements`,
+    r3Collide: 'collision',
+    r3Twist: 'Here abstraction loses something',
+    r3TwistBody:
+      'Two different arrangements give the same string letter for letter: mustafʿilun = mustafʿi lun, and fāʿilātun = fāʿi lātun. No ear can separate them; only the decomposition into units can. Both collisions are dragged in by the split peg — which is, by itself, the reason circle 4 is called “the confusable”.',
+    r4Title: 'The meter: feet in sequence',
+    r4Lead:
+      'A meter is a row of feet — not invented but read off a circle. These are the complete forms as al-Khalīl set them out.',
+    r5Title: 'The circle: closing the loop',
+    r5Lead:
+      'The last step is the boldest: join the end of the line to its beginning. What was a row becomes a necklace, and what was one meter becomes a segment of a loop that can be read from several starting points — each one a meter. At this rung al-Khalīl stops classifying meters and starts generating them.',
+    r5Note: (n: string, m: string) => `${n} units on the rim, ${m} distinct readings`,
+    funnelTitle: 'The tally',
+    funnelStates: 'letter states',
+    funnelUnits: 'units',
+    funnelArr: 'arrangements',
+    funnelFeet: 'distinct rhythms',
+    funnelMeters: 'meters in use',
+    funnelCircles: 'circles',
+    closing:
+      'From two symbols to sixteen meters, without a single uncounted step. That is al-Khalīl’s achievement: he did not collect the meters, he built the machine that produces them — and then read off it verses nobody had written.',
   },
   tadakhul: {
     entry: 'The Confusion Map',

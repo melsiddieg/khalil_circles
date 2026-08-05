@@ -11,7 +11,7 @@ interface CircleHubProps {
   onMeterSelect: (circleId: string, meterIndex: number) => void;
   onCompare: () => void;
   onStartTour: () => void;
-  onShowView: (view: 'dial' | 'math' | 'scan' | 'explore' | 'tadakhul') => void;
+  onShowView: (view: 'dial' | 'math' | 'scan' | 'explore' | 'tadakhul' | 'ladder') => void;
 }
 
 const CircleHub: React.FC<CircleHubProps> = ({
@@ -53,6 +53,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
             { icon: '҂', label: t.scan.entry, onClick: () => onShowView('scan') },
             { icon: '❋', label: t.explore.entry, onClick: () => onShowView('explore') },
             { icon: '≈', label: t.tadakhul.entry, onClick: () => onShowView('tadakhul') },
+            { icon: '⌆', label: t.ladder.entry, onClick: () => onShowView('ladder') },
           ] as const
         ).map((tool) => (
           <button
