@@ -1,17 +1,30 @@
 // Render a book chapter (hand-paginated HTML) to PDF and audit it: page
 // count, no overflowing leaves, fonts loaded, figures populated.
-// Requires Chrome Beta locally; not run in CI.
+// Requires a local Chrome or Chromium; not run in CI.
 // Usage: node scripts/render-chapter.mjs            (chapter I, default)
 //        CH=docs/x.html OUT=docs/x.pdf SHOTS=1,7 node scripts/render-chapter.mjs
 import puppeteer from 'puppeteer-core';
 
-const BETA = '/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta';
+/* Chrome Beta was the original target, but it is not guaranteed to be
+   installed. Take the first browser that actually exists, or CHROME=... */
+import { existsSync } from 'node:fs';
+const CANDIDATES = [
+  process.env.CHROME,
+  '/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
+].filter(Boolean);
+const CHROME = CANDIDATES.find((p) => existsSync(p));
+if (!CHROME) {
+  console.error('No Chrome found. Set CHROME=/path/to/chrome. Tried:\n  ' + CANDIDATES.join('\n  '));
+  process.exit(1);
+}
 const ROOT = '/Users/mohammedabdallah/Projects/khalil';
 const SRC = `file://${ROOT}/${process.env.CH ?? 'docs/group-theory-chapter.html'}`;
 const OUT = `${ROOT}/${process.env.OUT ?? 'docs/the-turn-that-changes-nothing.pdf'}`;
 
 const browser = await puppeteer.launch({
-  executablePath: BETA,
+  executablePath: CHROME,
   headless: true,
   args: ['--no-first-run', '--user-data-dir=/tmp/book-profile'],
   defaultViewport: { width: 700, height: 1000, deviceScaleFactor: 2 },
