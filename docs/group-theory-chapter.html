@@ -213,7 +213,7 @@
   <div class="opener">
     <div class="chap">A Chapter in Pictures</div>
     <h1>The Turn That<br/>Changes Nothing</h1>
-    <div class="sub">an intuitive introduction to group theory, by way of
+    <div class="sub">group theory introduced through
       al-Khalīl&rsquo;s circles of Arabic poetry</div>
     <div class="orn">
       <div style="display:flex; gap:26px; justify-content:center;">
@@ -228,9 +228,9 @@
       </div>
     </div>
     <div class="epigraph">
-      “Symmetry, as wide or as narrow as you may define its meaning, is one idea by
+      "Symmetry, as wide or as narrow as you may define its meaning, is one idea by
       which man through the ages has tried to comprehend and create order, beauty
-      and perfection.”
+      and perfection."
       <span class="who">— HERMANN WEYL, <i>Symmetry</i> (1952)</span>
     </div>
   </div>
@@ -243,35 +243,29 @@
   <h2><span class="no">§1</span>The Move You Cannot See</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Ask a friend to close their eyes. On the ceiling above you
-  hangs a fan with three identical blades. While they are not looking, you reach up
-  and turn it — exactly one third of a full circle — and then you ask them to look
-  again and say what changed.</p>
-  <p>They cannot. Not because they are careless, but because <em>nothing visible
-  changed</em>. Each blade has moved into the position of its neighbour, and since
-  the blades are indistinguishable, the fan as a whole looks untouched. You
-  performed a real physical act, and the world kept no record of it.</p>
+  <p class="dc noindent">A ceiling fan has three identical blades. Turn it by exactly
+  one third of a full circle. Each blade moves into its neighbour&rsquo;s position,
+  and since the blades are identical, the fan looks untouched. A physical act
+  left no visible trace.</p>
 
   <figure>
     <svg id="fig-fan" width="356" height="128" viewBox="0 0 356 128"></svg>
     <figcaption><b>Fig. 1</b> — The same third-of-a-turn, twice. Unmarked (left), the move is
     invisible: this is what it means to be a symmetry. Mark one blade (right) and
-    the very same move becomes plain to see.</figcaption>
+    the same move becomes visible.</figcaption>
   </figure>
 
-  <p class="noindent">This is the whole idea, and it is worth saying carefully:</p>
+  <p class="noindent">The definition:</p>
   <p class="noindent" style="text-align:center; margin:8px 0; font-size:12px;">
     <em>A <b>symmetry</b> of a thing is a move that leaves it looking exactly as it was.</em>
   </p>
-  <p class="noindent">Notice what kind of definition this is. It does not say a symmetric
-  thing is “balanced” or “even” or “pretty.” It talks about <em>moves</em> — acts you
-  can perform — and it selects the special ones the thing cannot detect. A snowflake
-  has the symmetries of a sixth-turn; a square has quarter-turns and flips; a human
-  face has, roughly, one mirror. To say what symmetry something has is to list the
-  moves it fails to notice.</p>
-  <p>That shift — from symmetry as a property you admire to symmetry as a
-  collection of moves you perform — is the founding act of group theory. Everything
-  in this chapter unfolds from it.</p>
+  <p class="noindent">This defines symmetry as a move, not a property. It doesn&rsquo;t say the
+  object is balanced or regular — it says: perform an action, and the object
+  can&rsquo;t tell. A snowflake has sixth-turn symmetry. A square has quarter-turns
+  and flips. A human face has roughly one mirror. To say what symmetry
+  something has is to list the moves it fails to detect.</p>
+  <p>That shift — from an aesthetic quality to a set of operations — is the
+  starting point of group theory.</p>
   <div class="folio">· 2 ·</div>
 </div>
 
@@ -280,35 +274,29 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§1</span></div>
   <div class="cont">§1 · continued</div>
 
-  <p class="noindent">Once you think in moves, three small observations follow — so small
-  they feel like nothing at all.</p>
-  <p><em>First: doing nothing counts.</em> Leaving the fan alone certainly leaves it
-  looking as it was. It is the laziest symmetry, but it is one, and we will need it
-  the way arithmetic needs zero.</p>
-  <p><em>Second: every move can be undone.</em> If a third-turn clockwise leaves the fan
-  unchanged, so does a third-turn back. Whatever a symmetry does, the reverse move
-  is also a symmetry.</p>
-  <p><em>Third: two moves in a row make a move.</em> Turn by a third, then by a third
-  again: the result is a two-thirds turn, and the fan noticed neither. Combining
-  symmetries can never produce anything but a symmetry — there is no way out of
-  the collection by staying inside it.</p>
+  <p class="noindent">Three properties of these moves follow immediately.</p>
+  <p><em>First, doing nothing counts.</em> Leaving the fan alone certainly leaves it
+  unchanged. This is a symmetry, the same way zero is a number.</p>
+  <p><em>Second, every move has an inverse.</em> If a third-turn clockwise is a
+  symmetry, so is a third-turn counterclockwise.</p>
+  <p><em>Third, moves compose.</em> Turn by a third, then by a third again: the
+  result is a two-thirds turn, and the fan detects neither step. Combining
+  symmetries always produces another symmetry.</p>
 
   <figure>
     <svg id="fig-compose" width="380" height="120" viewBox="0 0 380 120"></svg>
     <figcaption><b>Fig. 2</b> — Moves compose. A third-turn followed by a third-turn is the
-    two-thirds turn; a third-turn followed by a two-thirds turn brings every blade
+    two-thirds turn; a third-turn followed by a two-thirds turn returns every blade
     home — the do-nothing move.</figcaption>
   </figure>
 
-  <p class="noindent">These three remarks — a do-nothing move exists, every move reverses,
-  moves compose — are not decoration. They are the <em>entire</em> definition of the
-  central object of this chapter. Any collection of moves obeying them is called a
-  <b>group</b>, and the study of such collections is group theory.</p>
-  <p>It seems impossible that so slight a definition could carry any weight. The
-  surprise of the subject — the reason it sits at the heart of modern physics,
-  chemistry, and cryptography — is how much follows from so little. We will watch
-  it happen on a small stage: five circles drawn in Basra in the eighth century,
-  to hold the metres of Arabic poetry.</p>
+  <p class="noindent">These three properties — identity, inverses, closure under composition —
+  define a <b>group</b>. Any set of moves satisfying them is one.
+  The study of such sets is group theory.</p>
+  <p>The definition is minimal, and its reach is the surprise: it underlies
+  modern physics, chemistry, and cryptography. The examples here are five
+  circles drawn in eighth-century Basra to classify the metres of Arabic
+  poetry.</p>
   <div class="folio">· 3 ·</div>
 </div>
 
@@ -318,13 +306,11 @@
   <h2><span class="no">§2</span>A Group, Properly Met</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Let us be formally introduced to the fan&rsquo;s symmetries. There
-  are exactly three moves it cannot detect: <em>stay</em> (do nothing), a <em>⅓ turn</em>,
-  and a <em>⅔ turn</em>. A quarter-turn is not among them — it would leave the blades
-  visibly askew — and a full turn is just <em>stay</em> wearing a costume.</p>
-  <p>Because two moves in a row always make a third, we can record the whole
-  society in a little marriage-table: pick a row-move, follow it by a column-move,
-  and read off which single move equals the pair.</p>
+  <p class="dc noindent">The fan has exactly three symmetries: <em>stay</em> (do nothing),
+  a <em>⅓ turn</em>, and a <em>⅔ turn</em>. A quarter-turn is not one — it leaves the blades
+  visibly askew. A full turn is just <em>stay</em> again.</p>
+  <p>Since moves compose, the whole system fits in a table: pick a row, follow it
+  by a column, read off the result.</p>
 
   <figure>
     <table class="cay">
@@ -334,22 +320,18 @@
       <tr><th>⅔ turn</th><td>⅔ turn</td><td class="hi">stay</td><td>⅓ turn</td></tr>
     </table>
     <figcaption><b>Fig. 3</b> — The composition table of the fan&rsquo;s three symmetries.
-    Every entry stays inside the collection; <em>stay</em> runs along the edges like a
-    zero; the highlighted cells show each turn meeting its undo.</figcaption>
+    Every entry stays in the set; <em>stay</em> runs along the edges like a
+    zero; the highlighted cells show each turn meeting its inverse.</figcaption>
   </figure>
 
-  <p class="noindent">Look at what the table quietly certifies. Every combination lands
-  back in the collection (<em>closure</em>). The <em>stay</em> row and column copy their
-  headers, the way adding zero copies a number (<em>identity</em>). Each move finds a
-  partner returning it to <em>stay</em>: ⅓ and ⅔ undo one another, and <em>stay</em> undoes
-  itself (<em>inverses</em>). And since each entry is itself a move, chains like
-  “⅓ then ⅓ then ⅔” can be worked out in any grouping you please — the result is
-  the same walk around the circle (<em>associativity</em>).</p>
-  <p>Those four certified properties are the axioms of a group — the fine print
-  beneath the three observations of §1. This particular group, the turns of a
-  three-fold wheel, is called the <b>cyclic group of order 3</b>, written
-  <b>C<sub>3</sub></b>: <em>cyclic</em> because one move (the ⅓ turn), repeated,
-  generates everything; <em>order 3</em> because there are three moves in all.</p>
+  <p class="noindent">The table certifies all four group axioms. Every entry stays in
+  the set (<em>closure</em>). The <em>stay</em> row copies its header, like adding zero
+  (<em>identity</em>). Each move has a partner that returns to <em>stay</em>: ⅓ and ⅔
+  undo each other, and <em>stay</em> undoes itself (<em>inverses</em>). And chains can be
+  grouped in any order with the same result (<em>associativity</em>).</p>
+  <p>This group is the <b>cyclic group of order 3</b>, written
+  <b>C<sub>3</sub></b>. <em>Cyclic</em> because one move (the ⅓ turn) generates
+  all the others by repetition. <em>Order 3</em> because there are three moves.</p>
   <div class="folio">· 4 ·</div>
 </div>
 
@@ -358,11 +340,9 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§2</span></div>
   <div class="cont">§2 · continued</div>
 
-  <p class="noindent">You already operate one cyclic group every day. A clock face is a
-  twelve-fold wheel, and “five hours after nine o&rsquo;clock” is the move
-  <em>advance&nbsp;5</em> composed with the move <em>advance&nbsp;9</em>: fourteen steps, which the
-  wheel cannot tell from two. Clock arithmetic — where 9&nbsp;+&nbsp;5&nbsp;=&nbsp;2 — is the cyclic
-  group <b>C<sub>12</sub></b> doing business under an assumed name.</p>
+  <p class="noindent">Clock arithmetic is a cyclic group. On a twelve-hour face,
+  9&nbsp;+&nbsp;5&nbsp;=&nbsp;2: fourteen steps, but the wheel can&rsquo;t tell from two.
+  That wrapping is <b>C<sub>12</sub></b>.</p>
 
   <figure>
     <svg id="fig-clock" width="360" height="168" viewBox="0 0 360 168"></svg>
@@ -371,20 +351,17 @@
     weekdays, drumbeats — is run by a cyclic group <b>C<sub>n</sub></b>.</figcaption>
   </figure>
 
-  <p class="noindent">The general recipe: put <em>n</em> marks evenly on a wheel; the moves
-  are <em>advance by k</em> for k&nbsp;=&nbsp;0,&nbsp;1,&nbsp;…,&nbsp;n−1; composition is addition that wraps
-  at <em>n</em>. This is <b>C<sub>n</sub></b>, the cyclic group of order <em>n</em> — the
-  complete symmetry inventory of anything that repeats in a loop.</p>
-  <p>Cyclic groups are the gentlest members of the group family, which is exactly
-  why they make the right first classroom. Nothing here requires slanted algebra:
-  a wheel, a count, a wrap. Yet they already exhibit the deep phenomena — actions,
-  orbits, stabilizers, conservation laws — that organise far wilder groups, the
-  ones that shuffle molecules and encrypt your messages.</p>
-  <p>And here our story proper begins. Eleven centuries before anyone wrote the
-  word <em>group</em>, a lexicographer in Basra built five such wheels — not from brass
-  or hours, but from the sounds of poetry — and used them to answer, completely, a
-  question of the form group theory would later claim as its own: <em>how many
-  genuinely different metres can Arabic verse possess?</em></p>
+  <p class="noindent">The general construction: place <em>n</em> marks on a wheel; the moves
+  are <em>advance by k</em> for k&nbsp;=&nbsp;0,&nbsp;1,&nbsp;…,&nbsp;n−1; composition is addition
+  mod&nbsp;<em>n</em>. This is <b>C<sub>n</sub></b>, the cyclic group of order <em>n</em> —
+  the symmetry group of anything that repeats in a loop.</p>
+  <p>Cyclic groups are the simplest kind, which is why they work as an
+  introduction. They require nothing beyond a wheel and modular addition.
+  But they already exhibit the phenomena — actions, orbits, stabilizers,
+  conservation laws — that govern much larger groups.</p>
+  <p>In the eighth century, al-Khalīl ibn Aḥmad built five such wheels
+  from the sounds of Arabic poetry and used them to answer a question: <em>how
+  many genuinely different metres does the language permit?</em></p>
   <div class="folio">· 5 ·</div>
 </div>
 
@@ -394,14 +371,13 @@
   <h2><span class="no">§3</span>The Poet&rsquo;s Raw Material</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Arabic verse is quantitative: a line is music before it is
-  meaning, a fixed procession of long and short. The tradition writes this rhythm
-  with two marks. A <b>struck note</b> <span class="sym">/</span> is a consonant carrying
-  a vowel — a syllable&rsquo;s beating heart. A <b>rest</b> <span class="sym">0</span> is an
-  unvowelled letter that closes a syllable. Like Arabic itself, the marks are read
-  <em>from the right</em>.</p>
-  <p>From these two sounds the prosodists built a tiny alphabet of rhythmic
-  bricks — the pegs and cords from which every metre is assembled:</p>
+  <p class="dc noindent">Arabic verse is quantitative: metre is a fixed pattern of long
+  and short syllables. The tradition writes it with two marks. A <b>struck
+  note</b> <span class="sym">/</span> is a consonant carrying a vowel. A <b>rest</b>
+  <span class="sym">0</span> is an unvowelled consonant that closes a syllable. The
+  marks read right-to-left, like the script.</p>
+  <p>These two symbols combine into a small set of units — the pegs and cords
+  that make up every metre:</p>
 
   <figure>
     <div class="tiles">
@@ -418,7 +394,7 @@
       <div class="tile" style="border-top: 3px solid var(--mafruq);">
         <span class="sym" style="color:var(--mafruq)">/0/</span>
         <span class="nm">split peg</span><span class="arn">وتدٌ مفروق</span>
-        <span class="gl">strike, rest, strike — rare, and fateful in §8</span>
+        <span class="gl">strike, rest, strike — rare, and consequential (§8)</span>
       </div>
       <div class="tile" style="border-top: 3px solid var(--fasila);">
         <span class="sym" style="color:var(--fasila)">0///</span>
@@ -428,18 +404,17 @@
     </div>
     <figcaption><b>Fig. 5</b> — The four atomic units of Arabic prosody. Read each symbol
     from the right: <span class="sym">0//</span> is strike–strike–rest. The colours
-    follow these units through every figure of this chapter.</figcaption>
+    follow these units through every figure.</figcaption>
   </figure>
 
   <div class="box">
     <h4>Al-Khalīl ibn Aḥmad al-Farāhīdī <span class="ar">(الخليل بن أحمد الفراهيدي)</span></h4>
     <p>Born in Oman around 718 CE, working in Basra until his death around 786,
-    al-Khalīl compiled the first dictionary of Arabic (<i>Kitāb al-ʿAyn</i>),
-    organised by where in the mouth each sound is made; taught Sībawayh, author of
-    the foundational Arabic grammar; and single-handedly founded <i>ʿilm
-    al-ʿarūḍ</i>, the science of metre. Tradition says the system came to him from
-    the rhythm of a coppersmith&rsquo;s hammer in the market. What he did with it, the
-    next pages unfold.</p>
+    al-Khalīl compiled the first Arabic dictionary (<i>Kitāb al-ʿAyn</i>),
+    organised by place of articulation; taught Sībawayh, author of the
+    foundational Arabic grammar; and founded <i>ʿilm al-ʿarūḍ</i>, the
+    science of metre. Tradition says the system came to him from the rhythm
+    of a coppersmith&rsquo;s hammer in the market.</p>
   </div>
   <div class="folio">· 6 ·</div>
 </div>
@@ -449,34 +424,32 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§3</span></div>
   <div class="cont">§3 · continued</div>
 
-  <p class="noindent">Take the most beloved metre of classical poetry, <span class="ar">الطويل</span>
-  (<i>aṭ-Ṭawīl</i>, “the long one”). Its half-line is the chant
-  <span class="ar">فَعُولُنْ مَفَاعِيلُنْ فَعُولُنْ مَفَاعِيلُنْ</span> — in our marks, the ten-unit
-  procession <span class="sym">0// 0/ 0// 0/ 0/</span> repeated twice. Verse after
-  verse, line after line, the same procession returns. The pattern is a loop
-  pretending to be a line.</p>
-  <p>Al-Khalīl&rsquo;s decisive act was to stop pretending: <em>roll it up</em>. Bend the
-  repeating tape until its end meets its beginning, and the metre becomes a
-  necklace of ten beads.</p>
+  <p class="noindent">The most common classical metre is <span class="ar">الطويل</span>
+  (<i>aṭ-Ṭawīl</i>, "the long one"). Its half-line is
+  <span class="ar">فَعُولُنْ مَفَاعِيلُنْ فَعُولُنْ مَفَاعِيلُنْ</span> — in prosodic
+  notation, the ten-unit sequence <span class="sym">0// 0/ 0// 0/ 0/</span>
+  repeated twice. The same sequence returns line after line. The pattern
+  repeats.</p>
+  <p>Al-Khalīl&rsquo;s move was to close the loop. Join the end of the repeating
+  sequence to its start, and the metre becomes a necklace of ten units.</p>
 
   <figure>
     <svg id="fig-roll" width="430" height="252" viewBox="0 0 430 252"></svg>
     <figcaption><b>Fig. 6</b> — Rolling the repeating line into a circle. The tape&rsquo;s
-    endless repetition becomes a single loop of ten units — teal joined pegs,
-    grey light cords. A mathematician calls this a <em>quotient</em>: the infinite
+    repetition becomes a single loop of ten units — teal pegs,
+    grey cords. A mathematician calls this a <em>quotient</em>: the infinite
     line <em>divided by</em> its own repetition.</figcaption>
   </figure>
 
-  <p class="noindent">This rolling-up is itself a mathematical construction, and a deep
-  one. Whenever a pattern repeats every <em>n</em> steps, positions that differ by
-  <em>n</em> are “the same,” and gluing all the sames together turns the infinite line
-  of integers into a wheel with <em>n</em> marks — the very wheel of Fig.&nbsp;4. The
-  circle is not a picture of the metre; it <em>is</em> the metre, with the bookkeeping
-  of repetition thrown away.</p>
-  <p>Five such necklaces, al-Khalīl found, suffice for all of Arabic poetry. The
-  first — the one above, called <span class="ar">دائرة المختلف</span>, <em>the circle of the
-  differing</em> — will be our specimen. It has ten beads: three teal pegs, seven
-  grey cords. And a wheel with ten marks has, waiting in the wings, a group.</p>
+  <p class="noindent">This is a quotient. Whenever a pattern repeats every <em>n</em> steps,
+  positions that differ by <em>n</em> are equivalent. Identifying them turns an
+  infinite line into a wheel with <em>n</em> marks — the wheel of Fig.&nbsp;4. The
+  circle is not a diagram of the metre; it <em>is</em> the metre, with repetition
+  factored out.</p>
+  <p>Five such necklaces cover all of Arabic poetry. The first,
+  <span class="ar">دائرة المختلف</span> (<em>the circle of the differing</em>), has ten
+  beads: three pegs and seven cords. A wheel with ten marks carries a
+  group: C<sub>10</sub>.</p>
   <div class="folio">· 7 ·</div>
 </div>
 
@@ -486,11 +459,10 @@
   <h2><span class="no">§4</span>One Necklace, Many Clasps</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">A necklace has no beginning. To recite a metre, though, you must
-  start somewhere — you need to place a <em>clasp</em>, an opening point, and read the
-  beads from there around the loop. And now the group arrives on stage:
+  <p class="dc noindent">A necklace has no beginning, but a metre must start somewhere.
+  Choose a starting point — a <em>clasp</em> — and read around the loop.
   <b>C<sub>10</sub></b>, the ten rotations of a ten-bead wheel, <em>acts</em> on the
-  necklace. Each rotation carries the clasp to a new bead.</p>
+  necklace by moving the clasp from bead to bead.</p>
 
   <figure>
     <svg data-ring='{"circle":1,"size":268,"dot":9,"labels":true,"start":true}'></svg>
@@ -500,20 +472,17 @@
     <span class="ar">فعولن مفاعيلن</span>&nbsp;… — the metre <i>aṭ-Ṭawīl</i>.</figcaption>
   </figure>
 
-  <p class="noindent">Here is the beautiful part. Move the clasp one bead onward and read
-  again: the same beads, in the same cyclic order, deliver a <em>different
-  metre</em> — different feet, a different music, a different name in the anthologies.
-  The rotation did not merely relabel the necklace; it changed which poem you are
-  hearing.</p>
-  <p>When a group&rsquo;s moves are applied to an object this way, mathematicians say
-  the group <b>acts</b> on the object, and each move-result is a fresh point of
-  view on the same underlying thing. Al-Khalīl&rsquo;s insight, translated forward
-  eleven centuries, is exactly this: <em>the metres of Arabic poetry are not
-  sixteen separate inventions. They are a handful of necklaces, viewed through
-  the rotations of cyclic groups.</em></p>
-  <p>So — ten rotations, ten possible clasps. Do we get ten metres from this
-  circle? Turn the page; the answer is the first genuine surprise, and the
-  hinge of the whole chapter.</p>
+  <p class="noindent">Move the clasp one bead forward and read again. The same beads,
+  in the same cyclic order, yield a <em>different metre</em> — different feet,
+  different rhythm, a different name in the tradition. Rotation changes what
+  you hear.</p>
+  <p>When a group&rsquo;s elements operate on an object this way, the group
+  <b>acts</b> on it. Each element gives a different view of the same object.
+  In modern terms, al-Khalīl&rsquo;s insight is: <em>the sixteen metres of Arabic
+  poetry are not independent. They are five necklaces, read from different
+  starting points under rotation.</em></p>
+  <p>Ten rotations, ten possible clasps. The question is whether all ten yield
+  distinct metres.</p>
   <div class="folio">· 8 ·</div>
 </div>
 
@@ -522,34 +491,31 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§4</span></div>
   <div class="cont">§4 · continued</div>
 
-  <p class="noindent">Let us do it honestly: place the clasp at each of the ten beads in
-  turn, read off the pattern, and check it against the poets&rsquo; repertoire.</p>
+  <p class="noindent">Place the clasp at each bead in turn and read the pattern.</p>
 
   <figure>
     <div class="readings">
-      <div class="reading"><span class="off">0</span><span class="strip" id="strip-0"></span><span class="nm"><span class="ar">الطويل</span> · aṭ-Ṭawīl, “the long”</span></div>
-      <div class="reading"><span class="off">1</span><span class="strip" id="strip-1"></span><span class="nm"><span class="ar">المديد</span> · al-Madīd, “the protracted”</span></div>
+      <div class="reading"><span class="off">0</span><span class="strip" id="strip-0"></span><span class="nm"><span class="ar">الطويل</span> · aṭ-Ṭawīl, "the long"</span></div>
+      <div class="reading"><span class="off">1</span><span class="strip" id="strip-1"></span><span class="nm"><span class="ar">المديد</span> · al-Madīd, "the protracted"</span></div>
       <div class="reading ghosted"><span class="off">2</span><span class="strip" id="strip-2"></span><span class="nm"><span class="ar">المستطيل</span> · al-Mustaṭīl — possible, unused</span></div>
-      <div class="reading"><span class="off">3</span><span class="strip" id="strip-3"></span><span class="nm"><span class="ar">البسيط</span> · al-Basīṭ, “the outspread”</span></div>
+      <div class="reading"><span class="off">3</span><span class="strip" id="strip-3"></span><span class="nm"><span class="ar">البسيط</span> · al-Basīṭ, "the outspread"</span></div>
       <div class="reading ghosted"><span class="off">4</span><span class="strip" id="strip-4"></span><span class="nm"><span class="ar">الممتد</span> · al-Mumtadd — possible, unused</span></div>
       <div class="reading" style="opacity:.45"><span class="off">5–9</span><span style="font-size:10px; font-style:italic; color:var(--muted)">the same five readings again, in the same order — nothing new appears</span></div>
     </div>
     <figcaption><b>Fig. 8</b> — All ten clasp positions of the first circle. Five distinct
-    readings emerge — three canonical metres and two lawful strangers — and then
-    the list <em>repeats itself</em>.</figcaption>
+    readings emerge — three canonical metres and two lawful but unused ones — and then
+    the list repeats.</figcaption>
   </figure>
 
-  <p class="noindent">Two things on this list demand explanation, and each gets its own
-  section.</p>
-  <p><em>The list is short.</em> Ten rotations produced only five readings: clasp
-  position 5 sounds exactly like position 0, position 6 like 1, and so on. Some
-  rotations changed nothing at all. Why five, and not ten or seven? That is §5
-  and §6 — orbits and stabilizers.</p>
-  <p><em>The list is too long.</em> The poets use three of these five:
-  <span class="ar">الطويل، المديد، البسيط</span>. The other two are perfectly
-  well-formed rhythms that classical poetry simply never adopted. Al-Khalīl did
-  not discard them; he named them and set them aside. Their story — the empty
-  cells of the catalogue — is §9.</p>
+  <p class="noindent">Two features of this list need explaining.</p>
+  <p><em>The list is short.</em> Ten rotations produced five distinct readings.
+  Position 5 sounds exactly like position 0, position 6 like position 1.
+  Some rotations produce no new reading. Why five? That is the subject of
+  §5 and §6.</p>
+  <p><em>The list has gaps.</em> Poets use three of the five:
+  <span class="ar">الطويل، المديد، البسيط</span>. The other two are well-formed
+  rhythms nobody adopted. Al-Khalīl named them rather than discarding them.
+  §9 returns to these empty cells.</p>
   <div class="folio">· 9 ·</div>
 </div>
 
@@ -559,22 +525,20 @@
   <h2><span class="no">§5</span>The Orbit: What Is Genuinely Different</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Collect the distinct readings a necklace offers — one for each
-  <em>genuinely different</em> clasp position — and you have what group theory calls
-  the <b>orbit</b> of the necklace under rotation: every place the object can be
-  carried by the group&rsquo;s moves, counted without repetition.</p>
+  <p class="dc noindent">The set of distinct readings is what group theory calls the
+  <b>orbit</b> of the necklace under rotation: every result the group&rsquo;s
+  moves produce, counted without repetition.</p>
 
   <figure>
     <svg id="fig-collapse" width="440" height="238" viewBox="0 0 440 238"></svg>
     <figcaption><b>Fig. 9</b> — The ten rotations of circle&nbsp;1, dealt into piles that sound
     identical. Ten readings collapse into five piles of exactly two. The orbit has
-    five members; the pile-height — here, two — will get its own name overleaf.</figcaption>
+    five members; the pile-height — here, two — gets its own name in §6.</figcaption>
   </figure>
 
-  <p class="noindent">The orbit is the honest inventory. The group has ten moves, but
-  moves are labour, not merchandise: what the necklace actually <em>yields</em> is five
-  rhythms. In the same spirit, all five of al-Khalīl&rsquo;s circles can be audited.
-  The bead-counts differ, the units differ, and the yields differ strikingly:</p>
+  <p class="noindent">The orbit is the actual yield. The group has ten moves, but only
+  five produce distinct results. The same count applies to all five of
+  al-Khalīl&rsquo;s circles:</p>
 
   <figure>
     <table class="law">
@@ -586,9 +550,9 @@
       <tr><td class="nm"><span class="ar">المتفق</span> · the agreeing</td><td>8</td><td style="color:var(--c5); font-weight:600">2</td></tr>
     </table>
     <figcaption><b>Fig. 10</b> — Five necklaces, audited. The orbits sum to
-    5+2+3+9+2&nbsp;=&nbsp;21 possible readings in the whole system. Note the two
-    nine-bead circles with wildly different yields: 3 against 9. Explaining
-    <em>that</em> is where the theory earns its keep.</figcaption>
+    5+2+3+9+2&nbsp;=&nbsp;21 distinct readings across the system. The two
+    nine-bead circles have very different yields: 3 against 9. §8 explains
+    why.</figcaption>
   </figure>
   <div class="folio">· 10 ·</div>
 </div>
@@ -599,12 +563,11 @@
   <h2><span class="no">§6</span>The Stabilizer: The Necklace&rsquo;s Own Symmetry</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Why did clasp position 5 sound exactly like position 0? Look at
-  the first circle&rsquo;s beads: <span class="sym">0// 0/ 0// 0/ 0/</span> — and then the
-  same five again. The sequence is built of two identical halves. So the rotation
-  by five beads carries every peg onto a peg and every cord onto a cord: it is a
-  move the <em>necklace itself</em> cannot detect. The fan of §1 has returned, wearing
-  beads.</p>
+  <p class="dc noindent">Why does position 5 sound the same as position 0? The first
+  circle&rsquo;s sequence is <span class="sym">0// 0/ 0// 0/ 0/</span> — repeated twice.
+  Two identical halves. Rotating by five beads sends every peg to a peg and
+  every cord to a cord. The necklace can&rsquo;t tell the difference. This is
+  the fan&rsquo;s symmetry, applied to beads.</p>
 
   <figure>
     <div style="display:flex; gap:26px; justify-content:center; align-items:flex-start;">
@@ -622,17 +585,14 @@
     peg on peg, cord on cord.</figcaption>
   </figure>
 
-  <p class="noindent">The moves that leave an object looking untouched form a little group
-  of their own inside the big one (compose two undetectable moves, or undo one,
-  and the object still detects nothing). This inner circle is called the
-  <b>stabilizer</b> of the object — its private symmetry group. For circle&nbsp;1 the
-  stabilizer is {&nbsp;stay,&nbsp;turn-by-5&nbsp;}: a copy of <b>C<sub>2</sub></b>, two moves
-  strong.</p>
-  <p>And now the shortness of Fig.&nbsp;8&rsquo;s list explains itself. Start from any clasp
-  position and apply a stabilizer move: the reading cannot change — that is what
-  “undetectable” means. Ten clasp positions, sorted two-and-two by the stabilizer,
-  give five genuinely different readings. The orbit is small precisely
-  <em>because</em> the necklace is symmetric.</p>
+  <p class="noindent">The moves that leave a necklace unchanged form a subgroup — they
+  compose and invert within themselves. This subgroup is the
+  <b>stabilizer</b>. For circle&nbsp;1 the stabilizer is
+  {&nbsp;stay,&nbsp;turn-by-5&nbsp;}: C<sub>2</sub>.</p>
+  <p>This explains why the list is short. Applying a stabilizer move to any
+  clasp position leaves the reading unchanged. Ten positions, paired by the
+  stabilizer, give five distinct readings. More symmetry means fewer distinct
+  readings.</p>
   <div class="folio">· 11 ·</div>
 </div>
 
@@ -641,10 +601,10 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§6</span></div>
   <div class="cont">§6 · continued</div>
 
-  <p class="noindent">A symmetry can be <em>drawn</em>. On each circle, join every bead to
-  the bead its stabilizer-turn sends it to. The chords trace a star polygon — and
-  because an undetectable move must send each bead to a bead of the same kind,
-  every chord joins two beads of one colour.</p>
+  <p class="noindent">The stabilizer can be drawn. Connect each bead to the bead the
+  stabilizer sends it to. The chords form a star polygon, and because the
+  move preserves bead types, every chord joins two beads of the same
+  colour.</p>
 
   <figure>
     <div style="display:flex; gap:18px; justify-content:center; align-items:center;">
@@ -667,24 +627,22 @@
     </div>
     <figcaption><b>Fig. 12</b> — Four circles, their stabilizers drawn as stars. In the
     concordant circle the hexagram splits into a blue peg-triangle and a rust
-    cluster-triangle: the symmetry literally sorts the beads by kind. One circle
-    is missing from this gallery — it draws no star at all, and it is the
-    subject of §8.</figcaption>
+    cluster-triangle: the symmetry sorts the beads by kind. One circle
+    is missing — it draws no star at all, and §8 explains why.</figcaption>
   </figure>
 
   <div class="box">
     <h4>The shepherd&rsquo;s theorem</h4>
-    <p>A shepherd counts forty legs and announces ten sheep. It works because every
-    sheep contributes <em>exactly the same number</em> of legs: divide the easy count by
-    the per-item redundancy to get the honest one. Keep this trick in hand; on the
-    next page it becomes, almost word for word, a theorem of group theory.</p>
+    <p>Forty legs, four per sheep, ten sheep. Divide a total by a uniform
+    redundancy to get a count. This is, almost literally, the theorem on
+    the next page.</p>
   </div>
 
-  <p class="noindent">One habit of mind before moving on: the stabilizer measures
-  <em>self</em>-symmetry. The group C<sub>10</sub> belongs to the wheel — to the ten
-  positions. The stabilizer belongs to the <em>beading</em>: thread the same wheel
-  differently and its stabilizer changes. Symmetry is not in the stage; it is in
-  what stands on it.</p>
+  <p class="noindent">One distinction worth making: the group C<sub>10</sub> belongs to
+  the wheel — the ten positions. The stabilizer belongs to the
+  <em>beading</em>: thread the same wheel with different beads and the
+  stabilizer changes. Symmetry is a property of the pattern, not the
+  positions.</p>
   <div class="folio">· 12 ·</div>
 </div>
 
@@ -694,19 +652,17 @@
   <h2><span class="no">§7</span>A Conservation Law</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">We have counted three different things on the first circle: the
-  group&rsquo;s moves (ten), the orbit&rsquo;s readings (five), the stabilizer&rsquo;s undetectable
-  turns (two). Set them side by side:</p>
+  <p class="dc noindent">Three counts on the first circle: the group has 10 moves, the
+  orbit has 5 readings, the stabilizer has 2 elements.</p>
   <p class="noindent" style="text-align:center; font-size:14px; margin: 6px 0 10px;">
     10&nbsp;&nbsp;=&nbsp;&nbsp;5&nbsp;&nbsp;×&nbsp;&nbsp;2
     <span style="display:block; font-size:9px; color:var(--muted); margin-top:3px; letter-spacing:.08em;">
       moves&nbsp;&nbsp;=&nbsp;&nbsp;distinct readings&nbsp;&nbsp;×&nbsp;&nbsp;symmetries</span>
   </p>
-  <p class="noindent">This is no coincidence of the number ten, and the shepherd already
-  told us why. Deal the ten rotations into piles according to <em>which reading they
-  produce</em>. Every pile has exactly the stabilizer&rsquo;s size: if two rotations give
-  the same reading, they differ by an undetectable move, and each reading&rsquo;s pile
-  is just the stabilizer shifted over — same size, different sheep.</p>
+  <p class="noindent">This is not a coincidence. Sort the ten rotations by which reading
+  they produce. Each pile has exactly the stabilizer&rsquo;s size: two rotations that
+  give the same reading differ by a stabilizer element. Every pile is a copy of
+  the stabilizer, shifted to a different starting point.</p>
 
   <figure>
     <div class="piles">
@@ -721,14 +677,13 @@
     piles are the whole proof: 10&nbsp;=&nbsp;5&nbsp;piles&nbsp;×&nbsp;2&nbsp;per&nbsp;pile.</figcaption>
   </figure>
 
-  <p class="noindent">Stated in full generality, this is the <b>orbit–stabilizer
+  <p class="noindent">In full generality, this is the <b>orbit–stabilizer
   theorem</b>: for a finite group acting on an object,</p>
   <p class="noindent" style="text-align:center; font-style:italic; font-size:12px; margin:7px 0;">
     size of group&nbsp;&nbsp;=&nbsp;&nbsp;size of orbit&nbsp;&nbsp;×&nbsp;&nbsp;size of stabilizer.</p>
-  <p class="noindent">It has the shape of a conservation law. A necklace cannot be both
-  rich in symmetry and rich in readings: their product is pinned to the size of
-  the group, so whatever one gains, the other must surrender. Variety and
-  symmetry are two spendings of a single budget.</p>
+  <p class="noindent">The product is fixed, so symmetry and variety trade off. More
+  symmetry means fewer distinct readings, and vice versa. The group size is
+  the budget; orbit and stabilizer split it.</p>
   <div class="folio">· 13 ·</div>
 </div>
 
@@ -737,8 +692,7 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§7</span></div>
   <div class="cont">§7 · continued</div>
 
-  <p class="noindent">A law is only as good as its audits. Here are all five circles,
-  each row an independent test the eighth-century data must pass:</p>
+  <p class="noindent">All five circles, each row an independent check:</p>
 
   <figure>
     <table class="law">
@@ -749,23 +703,19 @@
       <tr><td class="nm"><span class="ar">المشتبه</span></td><td>9</td><td style="color:var(--c4)">9</td><td>C<sub>1</sub></td><td class="eq" style="color:var(--c4)">9 = 9 × 1</td></tr>
       <tr><td class="nm"><span class="ar">المتفق</span></td><td>8</td><td style="color:var(--c5)">2</td><td>C<sub>4</sub></td><td class="eq" style="color:var(--c5)">8 = 2 × 4</td></tr>
     </table>
-    <figcaption><b>Fig. 14</b> — One theorem, five costumes. Every circle of the classical
-    system satisfies <em>beads&nbsp;=&nbsp;orbit&nbsp;×&nbsp;stabilizer</em> exactly — no slack, no
-    exception. (All counts in this chapter are verified by exhaustive computation;
-    see the colophon.)</figcaption>
+    <figcaption><b>Fig. 14</b> — One theorem, five instances. Every circle satisfies
+    <em>beads&nbsp;=&nbsp;orbit&nbsp;×&nbsp;stabilizer</em> exactly. (All counts verified
+    by exhaustive computation; see the colophon.)</figcaption>
   </figure>
 
-  <p class="noindent">Read the table twice, in opposite directions. Downward, it is
-  bookkeeping: five instances of a multiplication. Across, it is a see-saw. The
-  concordant and agreeing circles carry the largest stabilizers in the system —
-  C<sub>3</sub> on six beads, C<sub>4</sub> on eight — and are duly the poorest,
-  two readings apiece. The resembling circle carries no symmetry at all and is
-  the richest: all nine of its rotations sound distinct.</p>
-  <p>Hold on to the two middle rows. Nine beads twice over — yet one nine-bead
-  necklace yields three readings and the other yields nine. Same wheel, same
-  group C<sub>9</sub>, same bead-count; only the <em>threading</em> differs. Whatever
-  separates those two rows is not arithmetic but structure, and it is the finest
-  story in the whole system. It is next.</p>
+  <p class="noindent">Read downward, this is five instances of one multiplication.
+  Read across, it is a trade-off. The concordant and agreeing circles have
+  the largest stabilizers (C<sub>3</sub> and C<sub>4</sub>) and produce the
+  fewest readings — two each. The resembling circle has no symmetry beyond
+  the identity and produces the most: all nine rotations are distinct.</p>
+  <p>The two middle rows are the interesting case. Both necklaces have nine
+  beads and the same group C<sub>9</sub>. One yields three readings, the other
+  nine. Same count, different structure. §8 explains the difference.</p>
   <div class="folio">· 14 ·</div>
 </div>
 
@@ -775,12 +725,11 @@
   <h2><span class="no">§8</span>Symmetry Comes in Steps, Not Slopes</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Before comparing the two nine-bead circles, one more gift from the
-  equal piles. The stabilizer&rsquo;s size always divides the group&rsquo;s size exactly —
-  piles of equal height must share the total with no remainder. (This is
-  <b>Lagrange&rsquo;s theorem</b>, and it governs every subgroup of every finite group.)
-  The consequence deserves a slow reading: <em>the sizes of possible symmetry are
-  not a dial; they are a short ladder of divisors.</em></p>
+  <p class="dc noindent">Before comparing the two nine-bead circles: the stabilizer&rsquo;s
+  size must divide the group&rsquo;s size exactly. Equal piles divide the total with
+  no remainder. (This is <b>Lagrange&rsquo;s theorem</b>, which holds for every
+  subgroup of every finite group.) The consequence: possible symmetry sizes
+  are not continuous. They are a short list of divisors.</p>
 
   <figure>
     <div class="ladders">
@@ -807,18 +756,16 @@
     </div>
     <figcaption><b>Fig. 15</b> — The only symmetries a necklace may have, by Lagrange:
     divisor ladders. On nine beads nothing exists between C<sub>3</sub> and
-    C<sub>1</sub> — there is no such thing as “almost” threefold symmetry.
+    C<sub>1</sub> — there is no intermediate symmetry.
     (The top rung, all beads identical, occurs in no real circle.)</figcaption>
   </figure>
 
-  <p class="noindent">On nine beads, then, the choices are stark: full ninefold sameness
-  (impossible unless every bead is identical), threefold symmetry, or none. No
-  seven-eighths symmetry, no gentle degradation. A nine-bead necklace that loses
-  its C<sub>3</sub> does not slip to something slightly weaker — <em>there is nothing
-  slightly weaker</em>. It falls the whole way to C<sub>1</sub>, the trivial group
-  whose only member is <em>stay</em>.</p>
-  <p>Which is exactly the cliff-edge on which the two nine-bead circles stand,
-  one on each side.</p>
+  <p class="noindent">On nine beads, the options are C<sub>9</sub> (only if all beads are
+  identical), C<sub>3</sub>, or C<sub>1</sub>. Nothing in between. A nine-bead
+  necklace that lacks C<sub>3</sub> symmetry doesn&rsquo;t degrade gracefully — it
+  drops directly to C<sub>1</sub>, the trivial group. There is no intermediate
+  step.</p>
+  <p>The two nine-bead circles sit on opposite sides of this gap.</p>
   <div class="folio">· 15 ·</div>
 </div>
 
@@ -827,7 +774,7 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§8</span></div>
   <div class="cont">§8 · continued</div>
 
-  <p class="noindent">Lay the two nine-bead circles out flat and compare, bead by bead:</p>
+  <p class="noindent">Compare the two nine-bead circles bead by bead:</p>
 
   <figure>
     <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
@@ -851,23 +798,23 @@
     six beads on unlike beads (the ✕ marks). Symmetry: none. Readings: all nine.</figcaption>
   </figure>
 
-  <p class="noindent">One bead out of nine — the least possible alteration — and by the
-  ladder of Fig.&nbsp;15 the collapse is total: C<sub>3</sub> to C<sub>1</sub>, orbit
-  three to orbit nine. The most similar pair of circles in the system sit at the
-  greatest possible distance in symmetry. Al-Khalīl&rsquo;s tradition named the second
-  circle <span class="ar">المشتبه</span> — <em>the resembling</em>, and in the same breath
-  <em>the confusable</em>, for in Arabic the two are one word: things that resemble
-  each other closely enough defeat telling-apart. Its rotations are near-misses of
-  one another — maximally similar while remaining stubbornly distinct. (The most
-  celebrated confusions of <em>practice</em>, it is worth recording, arise elsewhere
-  and otherwise: from lossy licensed variations that let one circle&rsquo;s metre wear
-  another&rsquo;s sound — a story of loss, not of rotation, and matter for another
-  chapter.)</p>
-  <p>There is a quiet lesson here about invariants. The stabilizer records
-  <em>that</em> symmetry is absent — it says C<sub>1</sub>, exactly as it would for
-  random noise. It cannot say <em>how narrowly</em> symmetry was missed; the group
-  forgets the nearness. The old name remembers what the invariant forgets. A good
-  measurement, one might say, and a better ear.</p>
+  <p class="noindent">One bead changed out of nine — the smallest possible alteration.
+  By the divisor ladder, the result is total: C<sub>3</sub> drops to
+  C<sub>1</sub>, orbit 3 becomes orbit 9. The two most similar circles in
+  the system have the greatest difference in symmetry.</p>
+  <p>Al-Khalīl&rsquo;s tradition named this circle <span class="ar">المشتبه</span> —
+  <em>the resembling</em>, and simultaneously <em>the confusable</em>: in Arabic the
+  word carries both senses. Its nine rotations are near-misses of one
+  another, maximally similar while remaining distinct. (The best-known
+  confusions in practice come from a different source — lossy metrical
+  variations that let one circle&rsquo;s metre sound like another&rsquo;s. That is a
+  separate mechanism, covered in the companion chapter on
+  <span class="ar">تداخل</span>.)</p>
+  <p>A note on invariants: the stabilizer records <em>that</em> symmetry is
+  absent — C<sub>1</sub>, the same as random noise. It doesn&rsquo;t record how
+  close the necklace came to being symmetric. The group-theoretic invariant
+  loses that information. The traditional name <span class="ar">المشتبه</span>
+  preserves it.</p>
   <div class="folio">· 16 ·</div>
 </div>
 
@@ -877,35 +824,31 @@
   <h2><span class="no">§9</span>The Catalogue and Its Gaps</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">Add the orbits: 5&nbsp;+&nbsp;2&nbsp;+&nbsp;3&nbsp;+&nbsp;9&nbsp;+&nbsp;2&nbsp;=&nbsp;21. The five circles
-  offer twenty-one genuinely different readings. The poets, across the whole
-  classical corpus, used sixteen. Al-Khalīl saw both numbers — and refused to
-  trim his theory to fit the evidence.</p>
+  <p class="dc noindent">The orbits sum to 5&nbsp;+&nbsp;2&nbsp;+&nbsp;3&nbsp;+&nbsp;9&nbsp;+&nbsp;2&nbsp;=&nbsp;21
+  distinct readings across all five circles. Classical poetry uses sixteen.
+  Al-Khalīl kept all twenty-one.</p>
 
   <figure>
     <div class="catalog" id="fig-catalog"></div>
     <figcaption><b>Fig. 17</b> — The complete theoretical catalogue: 21 cells, one per
     distinct reading, row by circle. Sixteen are inhabited by the classical metres.
-    Five are empty (dashed) — lawful rhythms no poet adopted. Al-Khalīl named the
+    Five are empty (dashed) — well-formed rhythms no poet adopted. Al-Khalīl named the
     first circle&rsquo;s two vacancies; the resembling circle&rsquo;s three were left
     nameless.</figcaption>
   </figure>
 
-  <p class="noindent">Those dashed cells are the most modern thing in this chapter. A
-  catalogue built from evidence alone lists what occurs. A catalogue built from a
-  <em>group action</em> lists what is possible — the orbit does not care what happens
-  to be attested. The five vacancies are predictions: here are rhythms the
-  language permits, whether or not anyone has sung them. And absence itself
-  becomes a fact in need of explanation — metrical, aesthetic, historical — where
-  before there was nothing to explain.</p>
-  <p>Eleven centuries later, Mendeleev would do exactly this with the elements:
-  trust the structure, print the empty boxes, and let gallium and germanium
-  arrive to fill them. Al-Khalīl&rsquo;s empty boxes are still empty — poets are not
-  obliged to oblige — but later experimenters did try the vacant metres, and
-  <span class="ar">المستطيل</span> and <span class="ar">الممتد</span> live on as curiosities
-  in the manuals, wearing the names he gave to rhythms nobody used. Note, too,
-  <em>where</em> the gaps fall: all five sit in the two least symmetric circles, the
-  only ones whose orbits offered more than the tradition cared to take.</p>
+  <p class="noindent">A catalogue built from evidence lists what occurs. A catalogue
+  built from a group action lists what is <em>possible</em>. The orbit doesn&rsquo;t
+  depend on attestation. The five vacancies are structural predictions:
+  rhythms the system permits, independent of what poets wrote. Absence
+  becomes a fact requiring explanation.</p>
+  <p>Mendeleev did the same with elements: trust the structure, leave the
+  cells empty, let experiment fill them. Al-Khalīl&rsquo;s empty cells remain
+  empty — poets are not obliged — but the vacant metres were tried, and
+  <span class="ar">المستطيل</span> and <span class="ar">الممتد</span> survive in the
+  manuals as named but unused readings. All five gaps fall in the two least
+  symmetric circles, the only ones whose orbits exceeded what the tradition
+  used.</p>
   <div class="folio">· 17 ·</div>
 </div>
 
@@ -915,10 +858,9 @@
   <h2><span class="no">§10</span>The Price of Symmetry</h2>
   <div class="rule"><span>✦</span></div>
 
-  <p class="dc noindent">One law has been running beneath every page, and it deserves to
-  be seen whole. The orbit–stabilizer theorem fixes the product
-  <em>orbit&nbsp;×&nbsp;stabilizer</em>; so across the five circles, symmetry and variety
-  must trade against each other exactly:</p>
+  <p class="dc noindent">The orbit–stabilizer theorem fixes the product
+  <em>orbit&nbsp;×&nbsp;stabilizer</em>. Across the five circles, the trade-off
+  is visible:</p>
 
   <figure>
     <div class="bars">
@@ -930,21 +872,18 @@
     </div>
     <figcaption><b>Fig. 18</b> — The inverse law, drawn. Circles sorted by symmetry, from
     the most symmetric (C<sub>4</sub>) to the least (C<sub>1</sub>): the yield of
-    distinct readings runs the other way. The most symmetric circle is the
-    poorest; the one with no symmetry at all is the richest in the system.</figcaption>
+    distinct readings runs the other way.</figcaption>
   </figure>
 
-  <p class="noindent">Everyday speech treats symmetry as wealth — the more, the better.
-  Group theory&rsquo;s ledger reads the opposite way: <em>symmetry is sameness, and
-  sameness collapses possibility</em>. Every undetectable turn a necklace keeps is a
-  clasp position it forfeits; perfect symmetry would mean a single reading,
-  perfect monotony. It is the breaking of symmetry that creates distinct things.</p>
-  <p>Physics tells the same story at other scales — the early universe cooling
-  through broken symmetries into the zoo of particles; a crystal&rsquo;s perfect
-  lattice hosting one pattern where a disordered glass hosts endlessly many. The
-  circles of al-Khalīl tell it in nine beads: the concordant circle, most
-  symmetric, sings two songs; the resembling circle, symmetric not at all, sings
-  nine — and confuses everyone.</p>
+  <p class="noindent">In ordinary language, symmetry is a good thing. In group theory,
+  symmetry is sameness, and sameness reduces variety. Every undetectable turn
+  is a clasp position that yields no new reading. Perfect symmetry would mean
+  one reading — monotony. Distinct things come from broken symmetry.</p>
+  <p>The same trade-off appears at other scales. The early universe cooled
+  through broken symmetries into the particle zoo. A crystal&rsquo;s lattice hosts
+  one pattern; a disordered glass hosts many. Al-Khalīl&rsquo;s circles show it in
+  nine beads: the concordant circle (C<sub>3</sub>) produces two metres; the
+  resembling circle (C<sub>1</sub>) produces nine.</p>
   <div class="folio">· 18 ·</div>
 </div>
 
@@ -953,40 +892,34 @@
   <div class="running"><span>The Turn That Changes Nothing</span><span>§10</span></div>
   <div class="cont">§10 · closing</div>
 
-  <p class="noindent">Step back and count what has been assembled, because it is more than
-  a stack of definitions. A collection of objects (rhythms); a group of moves
-  acting on them (rotations); a rule declaring two objects <em>the same</em> when a
-  move joins them; the same-classes tallied (orbits — the metres); each object&rsquo;s
-  private symmetry measured (stabilizers); a conservation law binding the counts;
-  an exhaustive catalogue derived rather than collected; and vacancies in the
-  catalogue treated as predictions. That list is a complete description of the
-  classification method that carries modern mathematics — and every item on it
-  was executed, by ear, in eighth-century Basra, eleven hundred years before
-  Galois gave the subject its name in the 1830s.</p>
-  <p>This is the deepest thing the circles teach about group theory: that it is
-  not, at bottom, a notation. It is a discipline for a question every careful
-  practice eventually asks — <em>when are two things genuinely the same, and how
-  many genuinely different things are there?</em> Ask it honestly enough, of
-  molecules or ciphers or verse, and orbits and stabilizers assemble themselves
-  in your hands, whether or not anyone has told you their names. The formalism
-  did not invent the symmetry of poetry. It arrived late, and politely gave a
-  name to what a lexicographer had already heard.</p>
+  <p class="noindent">The components assembled here: a set of objects (rhythms); a
+  group acting on them (rotations); an equivalence relation (same reading);
+  the equivalence classes counted (orbits = metres); each object&rsquo;s symmetry
+  measured (stabilizer); a conservation law (orbit–stabilizer); a complete
+  catalogue derived from structure, not evidence; and predicted absences.
+  This is the classification method of modern mathematics. Al-Khalīl
+  executed every step, by ear, eleven centuries before Galois named the
+  subject.</p>
+  <p>What the circles show about group theory is that it is not a notation.
+  It is a framework for answering a question: <em>when are two things
+  genuinely the same, and how many genuinely different things exist?</em> Ask
+  that question carefully enough — of molecules, ciphers, or verse — and
+  you will find orbits and stabilizers, whether or not you have names for
+  them. The formalism didn&rsquo;t create the symmetry of poetry. It gave a name
+  to what a lexicographer had already found.</p>
 
   <div class="box" style="margin-top:16px;">
     <h4>Hear it for yourself</h4>
-    <p>Every figure in this chapter is a still from a living instrument: the
-    <em>Interactive Arud Explorer</em> at <b>arudi.midadalfikr.com</b>. There you can
-    turn each circle&rsquo;s dial with a finger and watch metres change at every détente;
-    perform the ghost-rotation of Fig.&nbsp;11 and see the stars of Fig.&nbsp;12 draw
-    themselves; collapse the ten rotations into their five piles; and — best of
-    all — press play, and <em>listen</em> to a necklace as a drum pattern, moving the
-    clasp while it sounds. The mathematics of this chapter is entirely contained
-    in what your ear will notice.</p>
+    <p>Every figure here is a still from the <em>Interactive Arud Explorer</em> at
+    <b>arudi.midadalfikr.com</b>. The interactive version lets you rotate each
+    circle&rsquo;s dial and watch metres change; perform the ghost-rotation of
+    Fig.&nbsp;11; draw the star polygons of Fig.&nbsp;12; collapse rotations into
+    orbit piles; and play any necklace as a drum pattern while moving the
+    clasp.</p>
   </div>
 
-  <p class="noindent" style="margin-top:14px;">And the next time you turn something and
-  no one can tell — a fan, a bolt, a phrase — remember that you have performed an
-  element of a stabilizer, and that a poet could have told you which one.</p>
+  <p class="noindent" style="margin-top:14px;">When you next turn something and no one
+  notices — a fan, a bolt, a phrase — you have performed a stabilizer element.</p>
   <div class="folio">· 19 ·</div>
 </div>
 
@@ -998,17 +931,17 @@
 
   <dl class="glossary">
     <dt>symmetry</dt><dd>a move that leaves a thing looking exactly as it was (§1).</dd>
-    <dt>group</dt><dd>a collection of moves containing <i>do-nothing</i>, closed under composition, with every move undoable (§2).</dd>
+    <dt>group</dt><dd>a set of moves containing <i>do-nothing</i>, closed under composition, with every move invertible (§2).</dd>
     <dt>cyclic group C<sub>n</sub></dt><dd>the n rotations of an n-mark wheel; clock arithmetic (§2).</dd>
-    <dt>action</dt><dd>a group applied to an object, each move giving a new view of it (§4).</dd>
-    <dt>orbit</dt><dd>everything an object becomes under the group&rsquo;s moves, counted without repetition — here, the distinct metres of a circle (§5).</dd>
-    <dt>stabilizer</dt><dd>the moves an object cannot detect; its private symmetry group (§6).</dd>
+    <dt>action</dt><dd>a group applied to an object, each move giving a different view of it (§4).</dd>
+    <dt>orbit</dt><dd>every result an object takes under the group&rsquo;s moves, without repetition — here, the distinct metres of a circle (§5).</dd>
+    <dt>stabilizer</dt><dd>the moves an object cannot detect; its symmetry subgroup (§6).</dd>
     <dt>orbit–stabilizer theorem</dt><dd>group size = orbit × stabilizer (§7).</dd>
     <dt>Lagrange&rsquo;s theorem</dt><dd>a subgroup&rsquo;s size divides the group&rsquo;s size; symmetry comes in divisor steps (§8).</dd>
-    <dt>quotient</dt><dd>gluing together positions declared “the same” — rolling the repeating line into the circle (§3).</dd>
+    <dt>quotient</dt><dd>identifying positions declared equivalent — rolling the repeating line into the circle (§3).</dd>
     <dt>ʿarūḍ <span class="ar">عَروض</span></dt><dd>the science of Arabic metre, founded by al-Khalīl (§3).</dd>
     <dt>sabab <span class="ar">سبب</span>, watid <span class="ar">وتد</span>, fāṣila <span class="ar">فاصلة</span></dt><dd>cord, peg, and cluster — the atomic rhythm units (Fig.&nbsp;5).</dd>
-    <dt>muhmal <span class="ar">مُهمَل</span></dt><dd>“neglected”: a lawful reading no poet adopted — the catalogue&rsquo;s empty cells (§9).</dd>
+    <dt>muhmal <span class="ar">مُهمَل</span></dt><dd>"neglected": a lawful reading no poet adopted — the catalogue&rsquo;s empty cells (§9).</dd>
     <dt>the five circles</dt><dd><span class="ar">المختلف</span> the differing (10 beads),
       <span class="ar">المؤتلف</span> the concordant (6), <span class="ar">المجتلب</span> the
       brought-in (9), <span class="ar">المشتبه</span> the resembling (9),
