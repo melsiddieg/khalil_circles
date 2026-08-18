@@ -11,7 +11,6 @@ import TadakhulView from './components/TadakhulView';
 import LadderView from './components/LadderView';
 import MathView from './components/MathView';
 import ScanView from './components/ScanView';
-import InfoCard from './components/InfoCard';
 import LanguageToggle from './components/LanguageToggle';
 import TourOverlay from './components/TourOverlay';
 import { TOUR_STEPS } from './tour/tourSteps';
@@ -116,7 +115,6 @@ const App: React.FC = () => {
       <LanguageToggle />
       {appState.currentView === 'hub' ? (
         <div key="hub" className="animate-view-fade w-full flex flex-col items-center">
-          <InfoCard />
           <CircleHub
             onCircleSelect={handleCircleSelect}
             onMeterSelect={handleMeterSelect}

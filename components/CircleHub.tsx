@@ -4,6 +4,7 @@ import { ALL_CIRCLES } from '../constants';
 import OrnateCard from './OrnateCard';
 import OrnateDivider from './OrnateDivider';
 import MeterSearch from './MeterSearch';
+import InfoCard from './InfoCard';
 import { useLanguage } from '../i18n/LanguageContext';
 
 interface CircleHubProps {
@@ -92,6 +93,13 @@ const CircleHub: React.FC<CircleHubProps> = ({
             {tool.label}
           </button>
         ))}
+      </div>
+
+      {/* Background reading. It sits after the medallions and the tools
+          rather than above them: collapsed it is only a bar, but at the top
+          of the page it pushed the circles themselves below the fold. */}
+      <div className="animate-fade-up" style={{ animationDelay: '820ms' }}>
+        <InfoCard />
       </div>
 
       {/* Summary Statistics */}
