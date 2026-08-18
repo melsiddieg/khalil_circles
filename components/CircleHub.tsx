@@ -39,11 +39,35 @@ const CircleHub: React.FC<CircleHubProps> = ({
         </p>
       </div>
 
+      {/* Ornate Cards Cluster - Grape Layout.
+          The medallions are the subject of the page, so they come straight
+          after the heading; search and the tool row follow as ways to get
+          around them. Entrance delays run top-to-bottom in that order. */}
+      <div id="tour-cards" className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
+        {/* Top Row - 3 Ornate Cards */}
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
+          {ALL_CIRCLES.slice(0, 3).map((circle, i) => (
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${120 + i * 110}ms` }}>
+              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Row - 2 Ornate Cards */}
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
+          {ALL_CIRCLES.slice(3).map((circle, i) => (
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${450 + i * 110}ms` }}>
+              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Meter Search */}
       <MeterSearch onMeterSelect={onMeterSelect} />
 
       {/* Exploration tools */}
-      <div className="flex flex-wrap items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '160ms' }}>
+      <div className="flex flex-wrap items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '740ms' }}>
         {(
           [
             { icon: '⇄', label: t.compare.entry, onClick: onCompare },
@@ -68,27 +92,6 @@ const CircleHub: React.FC<CircleHubProps> = ({
             {tool.label}
           </button>
         ))}
-      </div>
-
-      {/* Ornate Cards Cluster - Grape Layout */}
-      <div id="tour-cards" className="flex flex-col items-center gap-12 md:gap-24 mb-16 px-4 w-full max-w-7xl">
-        {/* Top Row - 3 Ornate Cards */}
-        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
-          {ALL_CIRCLES.slice(0, 3).map((circle, i) => (
-            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${120 + i * 110}ms` }}>
-              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom Row - 2 Ornate Cards */}
-        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
-          {ALL_CIRCLES.slice(3).map((circle, i) => (
-            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${450 + i * 110}ms` }}>
-              <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Summary Statistics */}
