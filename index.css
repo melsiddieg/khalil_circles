@@ -20,6 +20,9 @@ button:not(:disabled),
   --gold-lit: #f2d89a;
   --gold-mid: #c09a52;
   --gold-deep: #8c6b2f;
+  /* …and the bevel it is raised with (EDGE_LIGHT / EDGE_DARK there). */
+  --gold-edge-lit: rgba(255, 250, 238, 0.5);
+  --gold-edge-dark: rgba(58, 40, 18, 0.55);
   --graphite-1: rgba(24, 32, 48, 0.78);
   --graphite-2: rgba(13, 18, 32, 0.88);
 }
@@ -86,16 +89,28 @@ body {
 .heading-display {
   font-family: 'Reem Kufi', 'Amiri', sans-serif;
   line-height: 1.7;
+  /* A specular crown above the rim's own three tones: polished brass is
+     lightest where the light strikes it, and that extra range at the top is
+     most of what makes the letter read as raised rather than filled. */
   background: linear-gradient(
     180deg,
-    var(--gold-lit) 0%,
-    var(--gold-mid) 52%,
+    #fdf4dc 0%,
+    var(--gold-lit) 22%,
+    var(--gold-mid) 58%,
     var(--gold-deep) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 2px 12px rgba(242, 216, 154, 0.2));
+  /* The bevel. text-shadow is unusable here — it paints over a
+     background-clipped fill rather than behind it — so the relief is built
+     from chained drop-shadows, which work off the rendered alpha. Light sits
+     up and left, shade down and right, matching the single key light every
+     medallion is lit by. The last two lift the letter off the plate: a tight
+     dark contact shadow, then a wide warm bloom. */
+  filter: drop-shadow(-1px -1px 0 var(--gold-edge-lit))
+    drop-shadow(1px 1px 0 var(--gold-edge-dark)) drop-shadow(0 3px 5px rgba(3, 6, 14, 0.55))
+    drop-shadow(0 2px 16px rgba(242, 216, 154, 0.16));
 }
 
 ::selection {
