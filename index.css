@@ -13,6 +13,13 @@ button:not(:disabled),
   --gold-text: #d4b06a;
   --gold-hairline: rgba(212, 176, 106, 0.32);
   --gold-hairline-soft: rgba(212, 176, 106, 0.16);
+  /* The medallion rim's brass, lit → shade. Mirrors GOLD_LIT/MID/DEEP in
+     components/ornament/RosetteMedallion.tsx so display type and the
+     scalloped rim it sits above are struck from the same metal. Keep the
+     two in step if either moves. */
+  --gold-lit: #f2d89a;
+  --gold-mid: #c09a52;
+  --gold-deep: #8c6b2f;
   --graphite-1: rgba(24, 32, 48, 0.78);
   --graphite-2: rgba(13, 18, 32, 0.88);
 }
@@ -70,15 +77,25 @@ body {
   line-height: 1.7;
 }
 
-/* Display heading: kufi + engraved gold gradient */
+/* Display heading: kufi struck in the medallion rim's brass.
+   The stops run lit → shade down the glyph, the way the scalloped rim
+   catches light on its upper edge and falls to bronze underneath. The
+   deepest tone is held to the very bottom of the letterform: at 3.6:1 on
+   the graphite ground it clears the 3:1 large-text floor, but only this
+   class's 3xl-and-up sizes qualify as large, so it must not spread. */
 .heading-display {
   font-family: 'Reem Kufi', 'Amiri', sans-serif;
   line-height: 1.7;
-  background: linear-gradient(180deg, #fde68a 0%, #fbbf24 45%, #d97706 100%);
+  background: linear-gradient(
+    180deg,
+    var(--gold-lit) 0%,
+    var(--gold-mid) 52%,
+    var(--gold-deep) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 2px 12px rgba(251, 191, 36, 0.22));
+  filter: drop-shadow(0 2px 12px rgba(242, 216, 154, 0.2));
 }
 
 ::selection {
@@ -158,14 +175,6 @@ body::before {
 #root {
   position: relative;
   z-index: 1;
-}
-
-/* Gradient headline treatment for the hub title */
-.text-gradient-gold {
-  background: linear-gradient(180deg, #fde68a 0%, #fbbf24 45%, #d97706 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* Staggered entrance for hub content; delay set inline per element */
