@@ -296,194 +296,31 @@ body::before {
   animation: rs-pop 620ms cubic-bezier(0.34, 1.5, 0.64, 1) both;
 }
 
-/* The rim hairline writes itself around the circumference. pathLength="100"
-   renormalizes the dash, so this is exact with zero getTotalLength() JS —
-   the same normalization MathView already uses for its domain arc. */
-@keyframes rs-write {
+/* The hub title, revealed in the medallions' own vocabulary: each word
+   blooms off the plate with the same overshoot the petals use, rather than
+   sliding in like ordinary body content.
+
+   Word-level only. Arabic shapes each letter to its neighbours within a
+   word, so animating per character would need one box per glyph and would
+   strand every letter in its isolated form. Word boundaries already carry a
+   non-joining space, so cutting there costs nothing. */
+@keyframes rs-title {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.84);
+  }
   to {
-    stroke-dashoffset: 0;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
-.rs-write {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: rs-write 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* THE STABILIZER TURN — the ornament performing its own symmetry, forever.
-   Rotating the enamel ring by −360·p/n carries cabochon i onto position i+p,
-   and seq[i] === seq[i+p], so the ring lands on itself: the loop's last
-   keyframe is pixel-identical to its first, BY THEOREM, and there is no seam
-   to hide. The turn occupies 16% of the cycle and the ring is still for the
-   rest, so it reads as an event rather than a spinning disc. */
-@keyframes rs-turn {
-  0%,
-  62% {
-    transform: rotate(0deg);
-  }
-  78%,
-  100% {
-    transform: rotate(var(--turn, 0deg));
-  }
-}
-.rs-turn {
-  animation: rs-turn 13s cubic-bezier(0.5, 0, 0.2, 1) infinite both;
-  will-change: transform;
-}
-
-/* Circle 4, C₁: the same grammar with the opposite verdict. It reaches for a
-   turn, holds, and springs back — echoing the failing k=1 attempt MathView
-   already stages for this circle, so the hub card and the maths view tell one
-   consistent story. */
-@keyframes rs-turn-fail {
-  0%,
-  60% {
-    transform: rotate(0deg);
-  }
-  70%,
-  78% {
-    transform: rotate(var(--seek, 0deg));
-  }
-  92%,
-  100% {
-    transform: rotate(0deg);
-  }
-}
-.rs-turn-fail {
-  animation: rs-turn-fail 13s cubic-bezier(0.4, 0, 0.3, 1) infinite both;
-  will-change: transform;
-}
-
-@keyframes rs-breathe {
-  0%,
-  100% {
-    opacity: 0.16;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-.rs-breathe {
-  opacity: 0.16;
-  animation: rs-breathe 7.5s ease-in-out infinite;
-}
-
-/* Reduced motion, and ?frozen=1 for the puppeteer harnesses, must land on the
-   COMPLETE final frame. The blanket rule below sets animation-duration and
-   iteration-count but never resets animation-delay — measured: the hub's
-   existing delays survive it — so without these explicit rules a staggered
-   entrance would still snap in over ~1.4s. They are required, not
-   documentation. Both the JS-set .is-still class and the media query are
-   spelled out, so the frame is right even if one channel is missed. */
-.rs-fade.is-still,
-.rs-petal.is-still,
-.rs-ink.is-still,
-.rs-pop.is-still,
-.rs-enamel.is-still,
-.rs-turn.is-still,
-.rs-turn-fail.is-still,
-.rs-breathe.is-still {
-  animation: none !important;
-  opacity: 1;
-  transform: none;
-}
-.rs-breathe.is-still {
-  opacity: 0.3;
-}
-.rs-write.is-still {
-  animation: none !important;
-  stroke-dashoffset: 0;
-}
-.rs-turn.is-still,
-.rs-turn-fail.is-still {
-  will-change: auto;
-}
-
-/* ------------------------------------------------------------------ *
- * «الشمسة» — the hub's rosette medallions.
- *
- * Every beat is a CSS keyframe: no rAF, no React state, no re-render, and
- * nothing to tear down. Entrance delays ride one custom property, --d, set
- * inline in ms per element.
- * ------------------------------------------------------------------ */
-
-.rosette-plate,
-.rosette-live {
-  overflow: visible;
-}
-
-.rs-fade,
-.rs-petal,
-.rs-ink,
-.rs-pop,
-.rs-enamel,
-.rs-write {
+.rs-title {
+  /* A transform needs a box; inline-block keeps the words on the baseline. */
+  display: inline-block;
+  animation: rs-title 700ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
   animation-delay: calc(var(--d, 0) * 1ms);
 }
 
-@keyframes rs-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-.rs-fade {
-  animation: rs-fade 620ms ease-out both;
-}
-
-/* Petals grow outward from the medallion centre. Their RESTING ROTATION lives
-   on a wrapper <g transform> attribute, deliberately NOT in these keyframes:
-   a CSS transform completely overrides the SVG transform presentation
-   attribute, so a rotation placed here would have to be restated in every
-   keyframe and in every reduced-motion override. The wrapper costs n extra
-   <g> nodes per ring and removes that footgun permanently. */
-@keyframes rs-bloom {
-  from {
-    opacity: 0;
-    transform: scale(0.55);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.rs-petal {
-  animation: rs-bloom 760ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
-}
-
-@keyframes rs-ink {
-  from {
-    opacity: 0;
-    transform: scale(0.86);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.rs-ink {
-  animation: rs-ink 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes rs-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.rs-pop {
-  animation: rs-pop 700ms cubic-bezier(0.34, 1.5, 0.64, 1) both;
-}
-.rs-enamel {
-  animation: rs-pop 620ms cubic-bezier(0.34, 1.5, 0.64, 1) both;
-}
-
 /* The rim hairline writes itself around the circumference. pathLength="100"
    renormalizes the dash, so this is exact with zero getTotalLength() JS —
    the same normalization MathView already uses for its domain arc. */
@@ -585,32 +422,6 @@ body::before {
 .rs-turn.is-still,
 .rs-turn-fail.is-still {
   will-change: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rs-fade,
-  .rs-petal,
-  .rs-ink,
-  .rs-pop,
-  .rs-enamel,
-  .rs-turn,
-  .rs-turn-fail,
-  .rs-breathe {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
-  }
-  .rs-breathe {
-    opacity: 0.3;
-  }
-  .rs-write {
-    animation: none !important;
-    stroke-dashoffset: 0;
-  }
-  .rs-turn,
-  .rs-turn-fail {
-    will-change: auto;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

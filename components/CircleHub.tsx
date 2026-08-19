@@ -3,6 +3,7 @@ import { Circle } from '../types';
 import { ALL_CIRCLES } from '../constants';
 import OrnateCard from './OrnateCard';
 import OrnateDivider from './OrnateDivider';
+import TitleReveal from './TitleReveal';
 import MeterSearch from './MeterSearch';
 import InfoCard from './InfoCard';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -26,16 +27,29 @@ const CircleHub: React.FC<CircleHubProps> = ({
 
   return (
     <div className="w-full max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="text-center mb-12 animate-fade-up">
-        <h1 className="text-5xl md:text-7xl font-bold heading-display mb-4">
-          {t.hub.title}
-        </h1>
-        <OrnateDivider className="mb-4" />
-        <h2 className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2">
+      {/* Header. The wrapper no longer animates as a block: the title carries
+          its own per-word reveal, and a parent transform would compound with
+          the words' own and drag them off the baseline. Each line below
+          therefore rides its own delay. */}
+      <div className="text-center mb-12">
+        <TitleReveal
+          text={t.hub.title}
+          className="text-5xl md:text-7xl font-bold mb-4"
+          stagger={90}
+        />
+        <div className="animate-fade-up" style={{ animationDelay: '300ms' }}>
+          <OrnateDivider className="mb-4" />
+        </div>
+        <h2
+          className="text-2xl md:text-3xl text-gray-300 font-amiri mb-2 animate-fade-up"
+          style={{ animationDelay: '380ms' }}
+        >
           {t.hub.subtitle}
         </h2>
-        <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed font-amiri text-center">
+        <p
+          className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed font-amiri text-center animate-fade-up"
+          style={{ animationDelay: '450ms' }}
+        >
           {t.hub.intro}
         </p>
       </div>
@@ -48,7 +62,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
         {/* Top Row - 3 Ornate Cards */}
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
           {ALL_CIRCLES.slice(0, 3).map((circle, i) => (
-            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${120 + i * 110}ms` }}>
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${380 + i * 100}ms` }}>
               <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
             </div>
           ))}
@@ -57,7 +71,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
         {/* Bottom Row - 2 Ornate Cards */}
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 w-full items-center flex-wrap">
           {ALL_CIRCLES.slice(3).map((circle, i) => (
-            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${450 + i * 110}ms` }}>
+            <div key={circle.id} className="animate-fade-up w-full max-w-[280px] flex justify-center" style={{ animationDelay: `${680 + i * 100}ms` }}>
               <OrnateCard circle={circle} onCircleSelect={onCircleSelect} />
             </div>
           ))}
@@ -68,7 +82,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
       <MeterSearch onMeterSelect={onMeterSelect} />
 
       {/* Exploration tools */}
-      <div className="flex flex-wrap items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '740ms' }}>
+      <div className="flex flex-wrap items-center justify-center gap-3 -mt-4 mb-10 animate-fade-up" style={{ animationDelay: '940ms' }}>
         {(
           [
             { icon: '⇄', label: t.compare.entry, onClick: onCompare },
@@ -98,7 +112,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
       {/* Background reading. It sits after the medallions and the tools
           rather than above them: collapsed it is only a bar, but at the top
           of the page it pushed the circles themselves below the fold. */}
-      <div className="animate-fade-up" style={{ animationDelay: '820ms' }}>
+      <div className="animate-fade-up" style={{ animationDelay: '1020ms' }}>
         <InfoCard />
       </div>
 

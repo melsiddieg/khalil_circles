@@ -83,7 +83,7 @@ const MeterSearch: React.FC<MeterSearchProps> = ({ onMeterSelect }) => {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto mb-10 relative animate-fade-up" style={{ animationDelay: '660ms' }}>
+    <div className="w-full max-w-xl mx-auto mb-10 relative animate-fade-up" style={{ animationDelay: '860ms' }}>
       <div className="relative">
         <svg
           className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none ${dir === 'rtl' ? 'right-4' : 'left-4'}`}
