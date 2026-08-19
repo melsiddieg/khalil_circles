@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
+/* The medallion metal, lit → shade. Mirrors GOLD_LIT/MID/DEEP in
+   components/ornament/RosetteMedallion.tsx, so the ornament and the type
+   above it are struck from one palette; keep the two in step if either moves.
+
+   Declared as theme colours rather than plain custom properties so Tailwind
+   generates text-/border-/bg-/ring- utilities AND their variants from the
+   same values — `hover:text-brass` is why this cannot just be a hand-written
+   class like .label-gold. Named brass, not gold, because .border-gold
+   already exists and means the hairline rgba rather than a solid. */
+@theme {
+  --color-brass-lit: #f2d89a;
+  --color-brass: #e9c87e;
+  --color-brass-mid: #c09a52;
+  --color-brass-deep: #8c6b2f;
+}
+
 /* Tailwind v3 (CDN) preflight parity: keep buttons clickable-looking */
 button:not(:disabled),
 [role='button']:not([aria-disabled='true']) {
@@ -9,17 +25,15 @@ button:not(:disabled),
 :root {
   --pattern-color: rgba(255, 255, 255, 0.03);
   /* Engraved-medallion design language: graphite surfaces, gold hairlines */
-  --gold-bright: #e9c87e;
+  /* Aliases onto the brass scale above, so there is one source for the metal
+     and the older --gold-* names keep working. */
+  --gold-bright: var(--color-brass);
   --gold-text: #d4b06a;
   --gold-hairline: rgba(212, 176, 106, 0.32);
   --gold-hairline-soft: rgba(212, 176, 106, 0.16);
-  /* The medallion rim's brass, lit → shade. Mirrors GOLD_LIT/MID/DEEP in
-     components/ornament/RosetteMedallion.tsx so display type and the
-     scalloped rim it sits above are struck from the same metal. Keep the
-     two in step if either moves. */
-  --gold-lit: #f2d89a;
-  --gold-mid: #c09a52;
-  --gold-deep: #8c6b2f;
+  --gold-lit: var(--color-brass-lit);
+  --gold-mid: var(--color-brass-mid);
+  --gold-deep: var(--color-brass-deep);
   /* …and the bevel it is raised with (EDGE_LIGHT / EDGE_DARK there). */
   --gold-edge-lit: rgba(255, 250, 238, 0.5);
   --gold-edge-dark: rgba(58, 40, 18, 0.55);

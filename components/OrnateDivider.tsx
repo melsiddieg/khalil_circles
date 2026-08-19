@@ -7,9 +7,9 @@ import React from 'react';
  */
 const OrnateDivider: React.FC<{ className?: string }> = ({ className = 'mb-4' }) => (
   <div className={`flex items-center justify-center gap-3 ${className}`} aria-hidden="true">
-    <span className="h-px w-16 md:w-24 bg-gradient-to-l from-amber-500/60 to-transparent" />
-    <span className="text-amber-500/80 text-lg">✦</span>
-    <span className="h-px w-16 md:w-24 bg-gradient-to-r from-amber-500/60 to-transparent" />
+    <span className="h-px w-16 md:w-24 bg-gradient-to-l from-brass-mid/70 to-transparent" />
+    <span className="text-brass/80 text-lg">✦</span>
+    <span className="h-px w-16 md:w-24 bg-gradient-to-r from-brass-mid/70 to-transparent" />
   </div>
 );
 

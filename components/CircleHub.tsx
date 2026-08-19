@@ -100,8 +100,8 @@ const CircleHub: React.FC<CircleHubProps> = ({
             type="button"
             onClick={tool.onClick}
             className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-soft
-                       bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-amber-300
-                       hover:border-amber-500/50 transition-all duration-300"
+                       bg-gray-800/60 text-gray-300 font-amiri text-base hover:text-brass
+                       hover:border-brass/40 transition-all duration-300"
           >
             <span aria-hidden="true">{tool.icon}</span>
             {tool.label}
@@ -120,15 +120,15 @@ const CircleHub: React.FC<CircleHubProps> = ({
       <div className="text-center panel-engraved rounded-2xl p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statMetersValue}</div>
+            <div className="text-2xl font-bold text-brass font-amiri">{t.hub.statMetersValue}</div>
             <div className="text-gray-400 text-sm font-amiri">{t.hub.statMetersLabel}</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statCirclesValue}</div>
+            <div className="text-2xl font-bold text-brass font-amiri">{t.hub.statCirclesValue}</div>
             <div className="text-gray-400 text-sm font-amiri">{t.hub.statCirclesLabel}</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-400 font-amiri">{t.hub.statHeritageValue}</div>
+            <div className="text-2xl font-bold text-brass font-amiri">{t.hub.statHeritageValue}</div>
             <div className="text-gray-400 text-sm font-amiri">{t.hub.statHeritageLabel}</div>
           </div>
         </div>
@@ -144,7 +144,7 @@ const CircleHub: React.FC<CircleHubProps> = ({
       {/* Author Trademark Footer */}
       <div className="mt-6 text-center border-t border-gold-soft pt-6">
         <p className="text-gray-400 text-sm font-amiri">
-          {t.hub.attribution} <span className="text-amber-300 font-bold">{t.hub.author}</span>
+          {t.hub.attribution} <span className="text-brass font-bold">{t.hub.author}</span>
         </p>
         <p className="text-gray-500 text-xs mt-1 font-inter">
           {t.hub.tagline}

@@ -154,7 +154,7 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
         className="group cursor-pointer relative w-full aspect-square rounded-full
                    transition-all duration-500 ease-out hover:scale-105
                    shadow-2xl hover:shadow-[0_0_60px_-10px_var(--card-glow)]
-                   focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+                   focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
       >
         {/* «الشمسة» — the generated paper-cut rosette: n petals for n atomic
             units, enamel coloured by unitColor so the inlay carries exactly
@@ -231,9 +231,9 @@ const OrnateCard: React.FC<OrnateCardProps> = ({ circle, onCircleSelect }) => {
 
           {/* The app's ornate rule, echoing the medallion's epigraphic band */}
           <div className="flex items-center gap-2 w-full my-2" aria-hidden="true">
-            <span className="h-px flex-1 bg-gradient-to-l from-amber-500/45 to-transparent" />
-            <span className="text-amber-400/70 text-[9px]">✦</span>
-            <span className="h-px flex-1 bg-gradient-to-r from-amber-500/45 to-transparent" />
+            <span className="h-px flex-1 bg-gradient-to-l from-brass-mid/55 to-transparent" />
+            <span className="text-brass/70 text-[9px]">✦</span>
+            <span className="h-px flex-1 bg-gradient-to-r from-brass-mid/55 to-transparent" />
           </div>
 
           <span

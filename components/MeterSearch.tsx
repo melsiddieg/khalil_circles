@@ -106,7 +106,7 @@ const MeterSearch: React.FC<MeterSearchProps> = ({ onMeterSelect }) => {
           aria-controls="meter-search-results"
           className={`w-full bg-gray-800/70 backdrop-blur-md border border-gold-soft rounded-full py-3 text-gray-200
                       placeholder-gray-500 font-amiri text-lg outline-none transition-all duration-300
-                      focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20 focus:bg-gray-800
+                      focus:border-brass/50 focus:ring-2 focus:ring-brass/20 focus:bg-gray-800
                       ${dir === 'rtl' ? 'pr-12 pl-5' : 'pl-12 pr-5'}`}
         />
       </div>
