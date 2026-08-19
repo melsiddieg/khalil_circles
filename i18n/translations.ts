@@ -235,6 +235,26 @@ export const ar = {
     symIdentical: 'تطابُق!',
     symNoMatch: 'لا تطابُق',
     replayStar: 'أعد عرض الرسم',
+    mirrorTitle: 'اختبار المرآة: هل يُقرأ الوزن معكوساً؟',
+    mirrorIntro:
+      'الدوائر تسجّل الدوران وحده، وللقلادة تماثلٌ آخر: الانعكاس. وانعكاسُ دائرةِ إيقاعٍ هو عكسُ الزمن — أن تقرأ الوزن من آخره إلى أوله. أَدِر المرآة حول الحلقة وراقب كل حرف يقع على قرينه.',
+    mirrorRingLabel: 'حلقة حروف الدائرة مع محور المرآة',
+    mirrorAxis: 'المحور',
+    mirrorPrev: 'المحور السابق',
+    mirrorNext: 'المحور التالي',
+    mirrorAxesFound: (found: string, total: string) =>
+      `محاور المرآة: ${found} من ${total} وضعاً ممكناً`,
+    mirrorReveal: 'أَظهِر المحاور',
+    mirrorGroupLabel: 'زمرة التماثل الكاملة',
+    mirrorGroupAchiral: (rot: string, mir: string, all: string) =>
+      `${rot} دورات + ${mir} انعكاسات = ${all} عنصراً`,
+    mirrorGroupChiral: 'لا انعكاس يثبّت التسلسل، فالزمرة الكاملة هي زمرة الدوران نفسها',
+    mirrorChiralNote:
+      'لا محور البتة. دائرة المشتبه وحدها لا تُقرأ معكوسة — وهذا تمييزٌ ثانٍ لها بعد خلوّها من التماثل الدوراني.',
+    mirrorLesson:
+      'حيث تنطبق المرآة تثبت نقطتان على الحلقة؛ وهما ما يصير حدّاً لو طوينا الدائرة عند تماثلها. والملاحظة الأدق: التقليد يقسم على الدوران ولا يقسم على الانعكاس قط — فالعروض لا يعرف «الوزن مقلوباً»، والإيقاع يحتفظ بسهم الزمن.',
+    mirrorLessonChiral:
+      'ترتيب الوحدات في هذه الدائرة متماثلٌ بالمرآة فعلاً؛ التماثل ينكسر حين نفتح كل وحدة إلى حروفها، لأن الوتد المجموع معكوساً ليس وتداً. الوتد المفروق وحده يبقى على حاله. فالالتباس هنا أعمق من ترتيب الوحدات.',
     units: {
       '0/': 'سبب خفيف',
       '0//': 'وتد مجموع',
@@ -617,6 +637,27 @@ export const en: Translations = {
     symIdentical: 'Identical!',
     symNoMatch: 'No match',
     replayStar: 'Replay the drawing',
+    mirrorTitle: 'The mirror test: does the meter read the same backwards?',
+    mirrorIntro:
+      'The circles record rotation alone, but a necklace has a second symmetry: reflection. On a rhythm circle, reflection means reversing time — reading the meter from its end to its beginning. Turn the mirror around the ring and watch each letter fall onto its partner.',
+    mirrorRingLabel: 'Ring of the circle’s letters with the mirror axis',
+    mirrorAxis: 'axis',
+    mirrorPrev: 'Previous axis',
+    mirrorNext: 'Next axis',
+    mirrorAxesFound: (found: string, total: string) =>
+      `Mirror axes: ${found} of ${total} possible placements`,
+    mirrorReveal: 'Show the axes',
+    mirrorGroupLabel: 'Full symmetry group',
+    mirrorGroupAchiral: (rot: string, mir: string, all: string) =>
+      `${rot} rotations + ${mir} reflections = ${all} elements`,
+    mirrorGroupChiral:
+      'No reflection fixes the sequence, so the full group is just the rotations',
+    mirrorChiralNote:
+      'No axis at all. دائرة المشتبه is the only circle that does not read the same reversed — a second distinction, on top of having no rotational symmetry.',
+    mirrorLesson:
+      'Where the mirror lands it holds two points of the ring still, and those are what would become a boundary if the circle were folded at its symmetry. The sharper observation: the tradition quotients by rotation and never by reflection — ʿarūḍ has no notion of a meter played backwards, so rhythm keeps the arrow of time.',
+    mirrorLessonChiral:
+      'The arrangement of units in this circle really is mirror-symmetric; the symmetry breaks only when each unit is opened into its letters, because a watid majmūʿ reversed is not a watid. Only the split peg survives reversal intact. The confusability here runs deeper than the order of the units.',
     units: {
       '0/': 'light sabab',
       '0//': 'joined watid',

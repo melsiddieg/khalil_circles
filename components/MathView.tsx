@@ -6,6 +6,7 @@ import { ChevronLeftIcon } from './Icons';
 import OrnateDivider from './OrnateDivider';
 import OrbitStabEquation from './OrbitStabEquation';
 import GroupTheoryGloss from './GroupTheoryGloss';
+import MirrorTest from './MirrorTest';
 import { useDrawProgress } from '../utils/animation';
 import {
   easeOutBack,
@@ -710,6 +711,15 @@ const MathView: React.FC<MathViewProps> = ({ onBackToHub }) => {
             : t.math.noSymmetryNote}
         </p>
       </div>
+
+      {/* The other half of the symmetry group. It follows the binary lens
+          because it works on the same letter stream: reversal cuts across
+          unit boundaries, so the mirror can only be tested on the letters. */}
+      {/* Keyed on the circle: the axis index and the reveal are only
+          meaningful for the ring they were chosen on — carrying an axis of 23
+          onto a twenty-letter circle would label it "23 / 20" — and re-arming
+          the search each time is the better reading anyway. */}
+      <MirrorTest key={circle.id} circle={circle} rotationStabilizer={stabilizer} />
 
       {/* Rotation table */}
       <div className="panel-engraved rounded-2xl overflow-hidden mb-4">
